@@ -1,0 +1,53 @@
+# Keil MDK-ARM build outputs
+*.axf
+*.o
+*.obj
+*.lst
+*.bin
+*.hex
+*.iex
+*.htm
+*.crf
+*.dep
+*.d
+*.ar
+*.elf
+*.sct
+*.scvd
+*.uvguix.*
+JLinkLog.txt
+
+# MDK-ARM generated folders
+MDK-ARM/RTE/
+MDK-ARM/DebugConfig/
+MDK-ARM/FS-STM32U575-Total/
+MDK-ARM/Middlewares/
+
+# TouchGFX build outputs
+TouchGFX/build/
+
+# TouchGFX simulator build outputs
+TouchGFX/simulator/gcc/
+TouchGFX/simulator/msvs/
+
+# TouchGFX generated code (auto-generated)
+TouchGFX/generated/
+
+# Temporary files
+MXTmpFilesCore/
+rmtmp.bat
+_mq2_fix.py
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code local settings
+.claude/
+
+# OS
+Thumbs.db
+.DS_Store
+Desktop.ini

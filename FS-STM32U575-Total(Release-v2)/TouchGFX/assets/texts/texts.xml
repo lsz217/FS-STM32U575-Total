@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.21.2">
+  <Languages>
+    <Language Id="GB" />
+  </Languages>
+  <Texts>
+    <TextGroup Id="Group1">
+      <Text Id="systemClock" Alignment="Center" TypographyId="Clock_Time">
+        <Translation Language="GB">&lt;Hours&gt;:&lt;Minutes&gt;</Translation>
+      </Text>
+      <Text Id="ClockSecond" Alignment="Left" TypographyId="Clock_Second">
+        <Translation Language="GB">&lt;second&gt;</Translation>
+      </Text>
+      <Text Id="fiveKeyVal" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;.&lt;VAL&gt;V</Translation>
+      </Text>
+      <Text Id="EulerAngle" Alignment="Center" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;°</Translation>
+      </Text>
+      <Text Id="backLight" Alignment="Center" TypographyId="Chinese">
+        <Translation Language="GB">&lt;dutycycle&gt;%</Translation>
+      </Text>
+      <Text Id="systemYear" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;Year&gt;年</Translation>
+      </Text>
+      <Text Id="extVoltage" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;V</Translation>
+      </Text>
+      <Text Id="extHumidity" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;%</Translation>
+      </Text>
+      <Text Id="extTemp" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;°</Translation>
+      </Text>
+      <Text Id="extLight" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;lux</Translation>
+      </Text>
+      <Text Id="extCurrent" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;A</Translation>
+      </Text>
+      <Text Id="chipTemp" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;℃</Translation>
+      </Text>
+      <Text Id="chipVref" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;.&lt;VAL&gt;V</Translation>
+      </Text>
+      <Text Id="chipVbat" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;.&lt;VAL&gt;V</Translation>
+      </Text>
+      <Text Id="extPulse" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;bpm</Translation>
+      </Text>
+      <Text Id="extSPOZ" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;VAL&gt;%</Translation>
+      </Text>
+      <Text Id="textInfo1" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">点击START开始测量</Translation>
+      </Text>
+      <Text Id="textInfo2" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">健康信息获取中...</Translation>
+      </Text>
+      <Text Id="wifiLinkInfo" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">&lt;LinkInfo&gt;</Translation>
+      </Text>
+    </TextGroup>
+    <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_1AWP" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">New Text</Translation>
+      </Text>
+      <Text Id="__SingleUse_JR7L" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">New Text</Translation>
+      </Text>
+      <Text Id="__SingleUse_NDVJ" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">New Text</Translation>
+      </Text>
+      <Text Id="__SingleUse_RBVJ" Alignment="Center" TypographyId="Default">
+        <Translation Language="GB">New Text1</Translation>
+      </Text>
+      <Text Id="TEXT_NFC" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">请刷NFC</Translation>
+      </Text>
+      <Text Id="TEXT_SUCCESS" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">识别成功</Translation>
+      </Text>
+      <Text Id="__SingleUse_57H3" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">SSID:HQYJ-YF WPA:STM32G070 </Translation>
+      </Text>
+      <Text Id="__SingleUse_DJZG" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">100</Translation>
+      </Text>
+      <Text Id="__SingleUse_XI1E" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">100</Translation>
+      </Text>
+      <Text Id="__SingleUse_8KMQ" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">16</Translation>
+      </Text>
+      <Text Id="__SingleUse_NKAO" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">3</Translation>
+      </Text>
+      <Text Id="__SingleUse_71NJ" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">25</Translation>
+      </Text>
+      <Text Id="__SingleUse_7TKU" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">1</Translation>
+      </Text>
+      <Text Id="__SingleUse_H89Z" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">38</Translation>
+      </Text>
+      <Text Id="__SingleUse_JHQ3" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">12000</Translation>
+      </Text>
+      <Text Id="__SingleUse_QQSX" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">30.6</Translation>
+      </Text>
+      <Text Id="__SingleUse_8OBD" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">66.3</Translation>
+      </Text>
+      <Text Id="__SingleUse_GCSD" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">0.001</Translation>
+      </Text>
+      <Text Id="__SingleUse_IBLE" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">1</Translation>
+      </Text>
+      <Text Id="__SingleUse_7EKT" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">W:&lt;WeekDay&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_DIBA" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">01</Translation>
+      </Text>
+      <Text Id="__SingleUse_469A" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">01</Translation>
+      </Text>
+      <Text Id="__SingleUse_X915" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">&lt;Month&gt;月&lt;Date&gt;日</Translation>
+      </Text>
+      <Text Id="__SingleUse_BGCO" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">2023</Translation>
+      </Text>
+      <Text Id="__SingleUse_M1OD" Alignment="Left" TypographyId="Chinese">
+        <Translation Language="GB">50</Translation>
+      </Text>
+      <Text Id="__SingleUse_BLZX" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">+180.0</Translation>
+      </Text>
+      <Text Id="__SingleUse_25AA" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">+180.0</Translation>
+      </Text>
+      <Text Id="__SingleUse_LSCF" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">+180.0</Translation>
+      </Text>
+      <Text Id="__SingleUse_KXPN" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">0000</Translation>
+      </Text>
+      <Text Id="__SingleUse_IOJ7" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">0</Translation>
+      </Text>
+      <Text Id="__SingleUse_ADBO" Alignment="Left" TypographyId="Large">
+        <Translation Language="GB">00</Translation>
+      </Text>
+      <Text Id="__SingleUse_KDU8" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">12</Translation>
+      </Text>
+      <Text Id="__SingleUse_RWJA" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">12</Translation>
+      </Text>
+    </TextGroup>
+  </Texts>
+  <Typographies>
+    <Typography Id="Default" Font="simkai.ttf" Size="20" Bpp="4" Direction="LTR" WildcardCharacters="识别成功请刷NFC" WildcardCharacterRanges="!-~" />
+    <Typography Id="Large" Font="cambriaz.ttf" Size="40" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9,a-z,A-Z" />
+    <Typography Id="Small" Font="SIMYOU.TTF" Size="10" Bpp="4" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Chinese" Font="simkai.ttf" Size="20" Bpp="4" Direction="LTR" WildcardCharacters="0123456789+- :()=" WildcardCharacterRanges="0-9,A-Z,a-z" />
+    <Typography Id="Clock_Time" Font="consolaz.ttf" Size="40" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
+    <Typography Id="Clock_Second" Font="consolaz.ttf" Size="20" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
+    <Typography Id="ChineseWeek" Font="constanz.ttf" Size="20" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
+    <Typography Id="Clock_Date" Font="verdana.ttf" Size="16" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
+  </Typographies>
+</TextDatabase>
