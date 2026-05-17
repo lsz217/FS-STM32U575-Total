@@ -3,6 +3,7 @@
 
 #include <gui_generated/sensorpage_screen/SensorPageViewBase.hpp>
 #include <gui/sensorpage_screen/SensorPagePresenter.hpp>
+#include <touchgfx/widgets/Button.hpp>
 
 class SensorPageView : public SensorPageViewBase
 {
@@ -30,6 +31,16 @@ private:
     void hideAllModals();
     int8_t activeModal; // -1=none, 0=temp, 1=hum, 2=co2, 3=heart
 
+    // Close/exit buttons for each modal window
+    touchgfx::Button closeButton1;
+    touchgfx::Button closeButton2;
+    touchgfx::Button closeButton3;
+    touchgfx::Button closeButton4;
+
+    // Callback for close buttons
+    touchgfx::Callback<SensorPageView, const touchgfx::AbstractButton&> closeButtonCallback;
+    void closeButtonCallbackHandler(const touchgfx::AbstractButton& src);
+
     // Deadband tracking: only redraw when value changes meaningfully
     float    lastTemp;
     float    lastHum;
@@ -37,6 +48,9 @@ private:
     uint32_t lastHR;
     uint32_t lastSpO2;
     bool     sensorDataReady; // false until first measurement arrives
+
+    // 30s hold-over for HR/SpO2: count consecutive invalid frames
+    int32_t hrInvalidCount; // 0=receiving valid data, >0=consecutive invalid frames
 };
 
 #endif // SENSORPAGEVIEW_HPP

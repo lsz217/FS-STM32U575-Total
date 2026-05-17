@@ -13,17 +13,22 @@ public:
     virtual void tearDownScreen();
 		void handleTickEvent();
 		//更新日期和时间
-		virtual void updateDate(uint8_t newYear, uint8_t newMonth, uint8_t newDate, uint8_t newWeekDay); 
+		virtual void updateDate(uint8_t newYear, uint8_t newMonth, uint8_t newDate, uint8_t newWeekDay);
 		virtual void updateTime(uint8_t newHours, uint8_t newMinutes, uint8_t newSeconds);
 		//获取WiFi模组的RSSI值
-		virtual void updateWiFiRSSI(uint8_t (&pWiFiInfo)[40], uint16_t newRSSI);	
+		virtual void updateWiFiRSSI(uint8_t (&pWiFiInfo)[40], uint16_t newRSSI);
 		//文本与RSSI更新
     void TextAreaAddStr(uint8_t* str, uint32_t len, uint16_t newRSSI);
 		void ChangeScreen();
 		//连接WiFi
 		virtual void connectWiFi();
 protected:
-	  uint8_t textBuf[200];
+		  uint8_t textBuf[200];
+
+private:
+    // 将toggleButton4（扩按钮）的跳转目标从ApplicationPage改为SensorPage
+    touchgfx::Callback<HomePageView, const touchgfx::AbstractButton&> expandButtonCallback;
+    void expandButtonCallbackHandler(const touchgfx::AbstractButton& src);
 };
 
 #endif // HOMEPAGEVIEW_HPP

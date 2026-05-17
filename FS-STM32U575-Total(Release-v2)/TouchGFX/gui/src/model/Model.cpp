@@ -116,7 +116,9 @@ void Model::tick()
 			if(!(tickCount % 5))	//降低界面刷新负担
 				modelListener->updateAppPageInfo(gCurrentVal, gVoltageVal, gTemRH_Val.Hum, gTemRH_Val.Tem, gAP3216C_Val.ALS);
 			//SensorPage传感器数据转发
-			modelListener->updateSensorInfo(gTemRH_Val.Tem, gTemRH_Val.Hum, gSCD41_Val.CO2, (uint32_t)(n_heart_rate / 4), (uint32_t)n_sp02);
+			modelListener->updateSensorInfo(gTemRH_Val.Tem, gTemRH_Val.Hum, gSCD41_Val.CO2,
+					ch_hr_valid   ? (uint32_t)(n_heart_rate / 4) : 0xFFFFFFFF,
+					ch_spo2_valid ? (uint32_t)n_sp02             : 0xFFFFFFFF);
 		}
 		//健康监测信息上传
 		if(gTaskEnMark.UPDATE_HEART_RATE_EN)

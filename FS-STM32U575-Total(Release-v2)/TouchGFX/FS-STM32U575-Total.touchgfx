@@ -142,7 +142,7 @@
             "Name": "image1",
             "Width": 320,
             "Height": 240,
-            "RelativeFilename": "HomePage\\HomePage_background-240x320.png"
+            "RelativeFilename": "zhujiemian.png"
           },
           {
             "Type": "ToggleButton",
@@ -151,22 +151,15 @@
             "Y": 186,
             "Width": 54,
             "Height": 54,
+            "Visible": false,
             "Pressed": "Controls\\Setting-54x54_pressed.png",
             "Released": "Controls\\Setting-54x54.png"
           },
           {
-            "Type": "TiledImage",
-            "Name": "tiledImage1",
-            "X": 256,
-            "Width": 62,
-            "Height": 80,
-            "FileName": "HomePage\\spaceman-64x80.png"
-          },
-          {
             "Type": "TextArea",
             "Name": "textSystemClock",
-            "X": 6,
-            "Y": 77,
+            "X": 9,
+            "Y": 18,
             "Width": 110,
             "Height": 47,
             "TextId": "systemClock",
@@ -191,8 +184,8 @@
           {
             "Type": "TextArea",
             "Name": "textClockSecond",
-            "X": 119,
-            "Y": 99,
+            "X": 138,
+            "Y": 42,
             "Width": 22,
             "Height": 24,
             "TextId": "ClockSecond",
@@ -214,6 +207,7 @@
             "Y": 186,
             "Width": 54,
             "Height": 54,
+            "Visible": false,
             "Pressed": "Controls\\Buttons-54x54_pressed.png",
             "Released": "Controls\\Buttons-54x54.png"
           },
@@ -224,6 +218,7 @@
             "Y": 186,
             "Width": 54,
             "Height": 54,
+            "Visible": false,
             "Pressed": "Controls\\gyroscope-54x54_pressed.png",
             "Released": "Controls\\gyroscope-54x54.png"
           },
@@ -250,8 +245,7 @@
           {
             "Type": "TextArea",
             "Name": "textSystemYear",
-            "X": 9,
-            "Y": 17,
+            "X": 4,
             "Width": 60,
             "Height": 23,
             "TextId": "systemYear",
@@ -269,8 +263,7 @@
           {
             "Type": "TextArea",
             "Name": "textSystemDate",
-            "X": 71,
-            "Y": 17,
+            "X": 69,
             "Width": 80,
             "Height": 23,
             "TextId": "__SingleUse_X915",
@@ -293,8 +286,7 @@
           {
             "Type": "TextArea",
             "Name": "textWeekDay",
-            "X": 119,
-            "Y": 41,
+            "X": 166,
             "Width": 30,
             "Height": 23,
             "TextId": "__SingleUse_7EKT",

@@ -10,7 +10,6 @@
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/ToggleButton.hpp>
-#include <touchgfx/widgets/TiledImage.hpp>
 #include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 #include <touchgfx/widgets/Button.hpp>
 #include <touchgfx/containers/ModalWindow.hpp>
@@ -41,7 +40,6 @@ protected:
     touchgfx::Box __background;
     touchgfx::Image image1;
     touchgfx::ToggleButton toggleButton1;
-    touchgfx::TiledImage tiledImage1;
     touchgfx::TextAreaWithTwoWildcards textSystemClock;
     touchgfx::TextAreaWithOneWildcard textClockSecond;
     touchgfx::ToggleButton toggleButton2;

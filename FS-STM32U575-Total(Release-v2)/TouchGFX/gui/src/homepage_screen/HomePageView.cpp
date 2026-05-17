@@ -11,6 +11,7 @@ extern uint8_t KeyChangeScreen;
 #endif
 
 HomePageView::HomePageView()
+    : expandButtonCallback(this, &HomePageView::expandButtonCallbackHandler)
 {
 
 }
@@ -18,6 +19,9 @@ HomePageView::HomePageView()
 void HomePageView::setupScreen()
 {
     HomePageViewBase::setupScreen();
+
+    // 将toggleButton4（扩按钮）的跳转目标从ApplicationPage改为SensorPage
+    toggleButton4.setAction(expandButtonCallback);
 }
 
 void HomePageView::tearDownScreen()
@@ -27,14 +31,6 @@ void HomePageView::tearDownScreen()
 
 void HomePageView::handleTickEvent()
 {
-	static int timCnt=0;
-	timCnt++;
-	if(timCnt>=2)
-	{
-		timCnt=0;
-		tiledImage1.setOffset(0,tiledImage1.getYOffset()+1);
-		tiledImage1.invalidate();
-	}
 }
 
 void HomePageView::updateTime(uint8_t newHours, uint8_t newMinutes, uint8_t newSeconds)
@@ -43,15 +39,15 @@ void HomePageView::updateTime(uint8_t newHours, uint8_t newMinutes, uint8_t newS
 		Unicode::snprintf(textSystemClockBuffer1, TEXTSYSTEMCLOCKBUFFER1_SIZE, "%02d", newHours);
 		Unicode::snprintf(textSystemClockBuffer2, TEXTSYSTEMCLOCKBUFFER2_SIZE, "%02d", newMinutes);
 	  textSystemClock.invalidate();
-		
+
 		Unicode::snprintf(textClockSecondBuffer, TEXTCLOCKSECOND_SIZE, "%02d", newSeconds);
-    textClockSecond.invalidate();	
+    textClockSecond.invalidate();
 }
 //更新日期
 void HomePageView::updateDate(uint8_t newYear, uint8_t newMonth, uint8_t newDate, uint8_t newWeekDay)
 {
 		Unicode::snprintf(textSystemYearBuffer, TEXTSYSTEMYEAR_SIZE, "%04d", newYear + 2000);
-    textSystemYear.invalidate();	
+    textSystemYear.invalidate();
 		//
 		Unicode::snprintf(textSystemDateBuffer1, TEXTSYSTEMDATEBUFFER1_SIZE, "%02d", newMonth);
 		Unicode::snprintf(textSystemDateBuffer2, TEXTSYSTEMDATEBUFFER2_SIZE, "%02d", newDate);
@@ -89,19 +85,19 @@ void HomePageView::TextAreaAddStr(uint8_t* str, uint32_t len, uint16_t newRSSI)
     textWiFiLinkInfo.invalidate();
 		//根据RSSI值更新图标
 		if(newRSSI <= 40){
-			WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_4_SIGNAL_ID),touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));	
-		} 
+			WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_4_SIGNAL_ID),touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
+		}
 		else if(newRSSI > 40 && newRSSI <= 50){
-			WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_3_SIGNAL_ID),touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));	
+			WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_3_SIGNAL_ID),touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
 		}
 		else if(newRSSI > 50 && newRSSI <= 60){
-			WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_2_SIGNAL_ID),touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));	
+			WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_2_SIGNAL_ID),touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
 		}
 		else if(newRSSI > 70 && newRSSI <= 80){
-			WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_1_SIGNAL_ID),touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));	
+			WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_1_SIGNAL_ID),touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
 		}
 		else if(newRSSI > 80){
-			WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_NO_SIGNAL_ID),touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));	
+			WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_NO_SIGNAL_ID),touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
 		}
 		WirelessConnection.invalidate();	//显示
 }
@@ -110,4 +106,9 @@ void HomePageView::ChangeScreen()
 		#if defined LINK_HARDWARE
 		if(KeyChangeScreen==1){handleKeyEvent(1);}
 		#endif
+}
+
+void HomePageView::expandButtonCallbackHandler(const touchgfx::AbstractButton& src)
+{
+    application().gotoSensorPageScreenNoTransition();
 }

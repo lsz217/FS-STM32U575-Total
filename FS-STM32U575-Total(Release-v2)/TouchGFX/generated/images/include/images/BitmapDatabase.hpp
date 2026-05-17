@@ -108,6 +108,7 @@ const uint16_t BITMAP_WIFILINK_36X49_ID = 98;
 const uint16_t BITMAP_WIFILINK_36X49_PRESSED_ID = 99;
 const uint16_t BITMAP_WIFILINK_54X54_ID = 100;
 const uint16_t BITMAP_WIFILINK_PRESSED_54X54_ID = 101;
+const uint16_t BITMAP_ZHUJIEMIAN_ID = 102;
 
 namespace BitmapDatabase
 {
