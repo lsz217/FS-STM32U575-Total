@@ -7,8 +7,7 @@
 #include <texts/TextKeysAndLanguages.hpp>
 
 startuppageViewBase::startuppageViewBase() :
-    flexButtonCallback(this, &startuppageViewBase::flexButtonCallbackHandler),
-    buttonCallback(this, &startuppageViewBase::buttonCallbackHandler)
+    flexButtonCallback(this, &startuppageViewBase::flexButtonCallbackHandler)
 {
     __background.setPosition(0, 0, 320, 240);
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
@@ -25,16 +24,10 @@ startuppageViewBase::startuppageViewBase() :
     blackCover.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     add(blackCover);
 
-    box1.setPosition(0, 0, 320, 240);
-    box1.setColor(touchgfx::Color::getColorFromRGB(0, 117, 255));
-    add(box1);
-
-    buttonWithIcon1.setXY(105, 145);
-    buttonWithIcon1.setBitmaps(touchgfx::Bitmap(BITMAP_ALTERNATE_THEME_IMAGES_WIDGETS_BUTTON_REGULAR_HEIGHT_50_TINY_ROUND_INACTIVE_ID), touchgfx::Bitmap(BITMAP_ALTERNATE_THEME_IMAGES_WIDGETS_BUTTON_REGULAR_HEIGHT_50_TINY_ROUND_NORMAL_ID), touchgfx::Bitmap(BITMAP_ICON_THEME_IMAGES_ACTION_LOCK_OUTLINE_50_50_237691_SVG_ID), touchgfx::Bitmap(BITMAP_ICON_THEME_IMAGES_ACTION_DONE_50_50_E8F6FB_SVG_ID));
-    buttonWithIcon1.setIconXY(97, 0);
-    buttonWithIcon1.setVisible(false);
-    buttonWithIcon1.setAction(buttonCallback);
-    add(buttonWithIcon1);
+    scalableImage1.setBitmap(touchgfx::Bitmap(BITMAP_LOCKED2_ID));
+    scalableImage1.setPosition(0, 0, 320, 240);
+    scalableImage1.setScalingAlgorithm(touchgfx::ScalableImage::NEAREST_NEIGHBOR);
+    add(scalableImage1);
 
     modalWindow1.setBackground(touchgfx::BitmapId(BITMAP_ALTERNATE_THEME_IMAGES_BACKGROUNDS_320X240_PUZZLE_ID), 0, 0);
     modalWindow1.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
@@ -54,6 +47,13 @@ startuppageViewBase::startuppageViewBase() :
     modalWindow1.add(textArea2);
 
     add(modalWindow1);
+
+    flexButton2.setBoxWithBorderPosition(0, 0, 90, 90);
+    flexButton2.setBorderSize(5);
+    flexButton2.setBoxWithBorderColors(touchgfx::Color::getColorFromRGB(0, 102, 153), touchgfx::Color::getColorFromRGB(0, 153, 204), touchgfx::Color::getColorFromRGB(0, 51, 102), touchgfx::Color::getColorFromRGB(51, 102, 153));
+    flexButton2.setAlpha(0);
+    flexButton2.setPosition(115, 150, 90, 90);
+    add(flexButton2);
 }
 
 startuppageViewBase::~startuppageViewBase()
@@ -74,17 +74,5 @@ void startuppageViewBase::flexButtonCallbackHandler(const touchgfx::AbstractButt
         //When flexButton1 clicked call virtual function
         //Call function5
         function5();
-    }
-}
-
-void startuppageViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& src)
-{
-    if (&src == &buttonWithIcon1)
-    {
-        //Interaction2
-        //When buttonWithIcon1 clicked show modalWindow1
-        //Show modalWindow1
-        modalWindow1.setVisible(true);
-        modalWindow1.invalidate();
     }
 }

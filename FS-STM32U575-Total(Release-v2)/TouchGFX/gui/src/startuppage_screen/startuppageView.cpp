@@ -8,6 +8,8 @@ extern "C" {
 }
 
 startuppageView::startuppageView()
+    : bootDelayCounter(0), nfcSuccessDelay(0),
+      nfcButtonCallback(this, &startuppageView::nfcButtonCallbackHandler)
 {
 }
 void startuppageView::setupScreen()
@@ -16,30 +18,46 @@ void startuppageView::setupScreen()
 
     // 1. 【软件层】确保黑色遮罩是显示的
     blackCover.setVisible(true);
-    
+
     // 2. 【硬件层】确保背光是关闭的
-    // 直接调 Presenter -> Model -> 硬件
-    presenter->setBacklightValue(0); 
+    presenter->setBacklightValue(0);
+
+    // 3. 给 flexButton2（透明NFC按钮）绑定点击动作：弹出NFC提示弹窗
+    flexButton2.setAction(nfcButtonCallback);
 
     // 刷新一下
     blackCover.invalidate();
 }
 
-void startuppageView::function5()
-{    
-	   presenter->resetIdleTimer();
-    // 1. 【硬件层】把背光拉满 (100)
-    presenter->setBacklightValue(100); 
+void startuppageView::handleTickEvent()
+{
+    if (nfcSuccessDelay > 0)
+    {
+        nfcSuccessDelay--;
+        if (nfcSuccessDelay == 0)
+        {
+            // 1秒倒计时结束，跳转到HomePage
+            application().gotoHomePageScreenNoTransition();
+        }
+    }
+}
 
-    // 2. 【软件层】把黑色遮罩隐藏，露出后面的白色 Box 或 UI
+void startuppageView::function5()
+{
+    presenter->resetIdleTimer();
+    // 1. 【硬件层】把背光拉满 (100)
+    presenter->setBacklightValue(100);
+
+    // 2. 【软件层】把黑色遮罩隐藏，露出锁屏UI底图
     blackCover.setVisible(false);
-    
-    // 3. 【交互层】把全屏按钮也关掉，否则用户点不到后面的 UI
+
+    // 3. 【交互层】把全屏唤醒按钮隐藏
     flexButton1.setVisible(false);
 
-    // 这一步必须有，告诉绘图引擎重绘屏幕
-	   buttonWithIcon1.setVisible(true);
-    invalidate(); 
+    // 4. 显示透明NFC触摸按钮，让用户点击进入刷卡
+    flexButton2.setVisible(true);
+
+    invalidate();
 }
 void startuppageView::goToSleep()
 {
@@ -48,9 +66,10 @@ void startuppageView::goToSleep()
 
     // 2. 软件遮罩：把黑色 Box 显示出来
     blackCover.setVisible(true);
-    
-    // 3. 交互恢复：把全屏透明按钮显示出来，等待下次点击唤醒
+
+    // 3. 交互恢复：全屏唤醒按钮显示，NFC按钮隐藏
     flexButton1.setVisible(true);
+    flexButton2.setVisible(false);
 
     // 4. 刷新屏幕
     invalidate();
@@ -58,24 +77,22 @@ void startuppageView::goToSleep()
 
 void startuppageView::updateNfcStatus()
 {
-
-// 第 63 行改为：
-// 这一行代码的意思是：把字库里 ResourceId2 (识别成功) 的内容，写进 textArea1 的黑板里
-// 这行代码会把 ResourceId2 (识别成功) 的内容“搬”到 textArea1 里面
-// 1. 修改通配符缓冲区的内容
-// 注意：是 textArea1 (数字1)，不是 textAreal (字母L)
-	
-    // 1. 把“请刷NFC”藏起来
+    // 1. 把"请刷NFC"藏起来
     textArea1.setVisible(false);
     textArea1.invalidate();
 
-    // 2. 把“识别成功”显示出来
+    // 2. 把"识别成功"显示出来
     textArea2.setVisible(true);
     textArea2.invalidate();
 
+    // 3. 启动1秒倒计时（60帧 ≈ 1秒@60fps）
+    nfcSuccessDelay = 60;
+}
 
-// 第 66 行改为：
-textArea1.invalidate();
+void startuppageView::nfcButtonCallbackHandler(const touchgfx::AbstractButtonContainer& src)
+{
+    // 点击透明NFC按钮 → 弹出NFC提示弹窗
+    modalWindow1.show();
 }
 
 void startuppageView::tearDownScreen()

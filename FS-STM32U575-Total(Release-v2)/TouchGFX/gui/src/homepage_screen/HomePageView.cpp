@@ -13,7 +13,8 @@ extern uint8_t KeyChangeScreen;
 HomePageView::HomePageView()
     : expandButtonCallback(this, &HomePageView::expandButtonCallbackHandler)
 {
-
+    // Override generated action: toggleButton4 → SensorPage, not ApplicationPage
+    toggleButton4.setAction(expandButtonCallback);
 }
 
 void HomePageView::setupScreen()

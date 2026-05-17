@@ -18,7 +18,13 @@ public:
         model.tick();
         FrontendApplicationBase::handleTickEvent();
     }
+
+    // SensorPage transition — user code because Designer may not generate it
+    void gotoSensorPageScreenNoTransition();
+    void gotoSensorPageScreenNoTransitionImpl();
+
 private:
+    touchgfx::Callback<FrontendApplication> sensorPageTransitionCallback;
 };
 
 #endif // FRONTENDAPPLICATION_HPP

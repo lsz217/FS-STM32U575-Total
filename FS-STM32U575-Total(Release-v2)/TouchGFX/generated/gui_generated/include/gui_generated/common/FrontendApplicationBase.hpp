@@ -17,8 +17,11 @@ public:
 
     virtual void changeToStartScreen()
     {
-        gotoSensorPageScreenNoTransition();
+        gotostartuppageScreenNoTransition();
     }
+
+    // startuppage
+    void gotostartuppageScreenNoTransition();
 
     // HomePage
     void gotoHomePageScreenNoTransition();
@@ -35,13 +38,13 @@ public:
     // SettingPage
     void gotoSettingPageScreenNoTransition();
 
-    // SensorPage
-    void gotoSensorPageScreenNoTransition();
-
 protected:
     touchgfx::Callback<FrontendApplicationBase> transitionCallback;
     FrontendHeap& frontendHeap;
     Model& model;
+
+    // startuppage
+    void gotostartuppageScreenNoTransitionImpl();
 
     // HomePage
     void gotoHomePageScreenNoTransitionImpl();
@@ -57,9 +60,6 @@ protected:
 
     // SettingPage
     void gotoSettingPageScreenNoTransitionImpl();
-
-    // SensorPage
-    void gotoSensorPageScreenNoTransitionImpl();
 };
 
 #endif // FRONTENDAPPLICATIONBASE_HPP

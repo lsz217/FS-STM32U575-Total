@@ -1407,16 +1407,6 @@
               <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.cpp</FilePath>
             </File>
             <File>
-              <FileName>image_alternate_theme_images_widgets_button_regular_height_50_tiny_round_inactive.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_button_regular_height_50_tiny_round_inactive.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>image_alternate_theme_images_widgets_button_regular_height_50_tiny_round_normal.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_button_regular_height_50_tiny_round_normal.cpp</FilePath>
-            </File>
-            <File>
               <FileName>image_alternate_theme_images_widgets_radiobutton_radio_medium_rounded_off.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_radiobutton_radio_medium_rounded_off.cpp</FilePath>
@@ -1612,11 +1602,6 @@
               <FilePath>../touchgfx/generated/images/src/__generated/image_icon_theme_images_action_done_50_50_e8f6fb.svg.cpp</FilePath>
             </File>
             <File>
-              <FileName>image_icon_theme_images_action_lock_outline_50_50_237691.svg.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_icon_theme_images_action_lock_outline_50_50_237691.svg.cpp</FilePath>
-            </File>
-            <File>
               <FileName>image_image_menu_icon.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/controls/image_image_menu_icon.cpp</FilePath>
@@ -1630,6 +1615,16 @@
               <FileName>image_IMG_20260515_192616.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/applicationpage/image_img_20260515_192616.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_locked.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_locked.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_locked2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_locked2.cpp</FilePath>
             </File>
             <File>
               <FileName>image_menu_icon.cpp</FileName>
@@ -1890,6 +1885,11 @@
               <FileName>image_wifiLink_pressed-54x54.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/controls/image_wifilink_pressed-54x54.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_zhujiemian.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_zhujiemian.cpp</FilePath>
             </File>
             <File>
               <FileName>Kerning_cambriaz_40_4bpp.cpp</FileName>

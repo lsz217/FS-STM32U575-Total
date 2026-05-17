@@ -115,7 +115,7 @@ void (* g_OSTsakList[OS_TASKLISTCNT])(void);
 //系统时间初始化，编译时间																					 
 void System_Time_init(void)
 {
-	int32_t lYear = OS_YEAR ,lMonth = OS_MONTH,lDate =OS_DAY;
+	int32_t lYear = 2026, lMonth = 5, lDate = 17;
 	int32_t lweek = 0, weekBuff = 0;
 	//
 	uint32_t p_BKUPReadDRx = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0);
@@ -142,18 +142,18 @@ void System_Time_init(void)
 	{
 		/** Initialize RTC and set the Time and Date
 		*/
-		gSystemTime.Hours = OS_HOUR;
-		gSystemTime.Minutes = OS_MINUTE;
-		gSystemTime.Seconds = OS_SECOND;
+		gSystemTime.Hours = 17;
+		gSystemTime.Minutes = 0;
+		gSystemTime.Seconds = 0;
 		gSystemTime.SubSeconds = 0x0;
 		gSystemTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
 		gSystemTime.StoreOperation = RTC_STOREOPERATION_RESET;
 		if (HAL_RTC_SetTime(&hrtc, &gSystemTime, RTC_FORMAT_BIN) != HAL_OK)		{Error_Handler();}
 
 		gSystemDate.WeekDay = lweek;
-		gSystemDate.Month = OS_MONTH;
-		gSystemDate.Date = OS_DAY;
-		gSystemDate.Year = OS_YEAR - 2000;
+		gSystemDate.Month = 5;
+		gSystemDate.Date = 17;
+		gSystemDate.Year = 26;
 		if (HAL_RTC_SetDate(&hrtc, &gSystemDate, RTC_FORMAT_BIN) != HAL_OK)		{Error_Handler();}
 		//备份寄存器DR0用于存储时间是否设置
 		HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, (p_BKUPReadDRx & 0xFFFF0000) | RTC_BKP0RL_VAULE);

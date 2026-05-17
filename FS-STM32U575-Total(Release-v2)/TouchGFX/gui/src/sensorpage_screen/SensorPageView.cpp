@@ -1,4 +1,5 @@
 #include <gui/sensorpage_screen/SensorPageView.hpp>
+#include <touchgfx/Color.hpp>
 #include <images/BitmapDatabase.hpp>
 #include <texts/TextKeysAndLanguages.hpp>
 
@@ -6,7 +7,8 @@ SensorPageView::SensorPageView()
     : activeModal(-1),
       lastTemp(0), lastHum(0), lastCO2(0), lastHR(0), lastSpO2(0),
       sensorDataReady(false), hrInvalidCount(0),
-      closeButtonCallback(this, &SensorPageView::closeButtonCallbackHandler)
+      closeButtonCallback(this, &SensorPageView::closeButtonCallbackHandler),
+      flexButtonCallback(this, &SensorPageView::flexButtonCallbackHandler)
 {
 }
 
@@ -14,11 +16,36 @@ void SensorPageView::setupScreen()
 {
     SensorPageViewBase::setupScreen();
 
-    // Set explicit sizes — TypedText template is just "<>" so width auto-calcs to ~0
-    textArea1.setPosition(105, 136, 200, 30);
-    textArea2.setPosition(93, 109, 200, 30);
-    textArea3.setPosition(15, 175, 200, 30);
-    textArea4.setPosition(5, 186, 310, 30);
+    // Bind icon tap zones to modal toggle handlers
+    flexButton1.setAction(flexButtonCallback);
+    flexButton2.setAction(flexButtonCallback);
+    flexButton3.setAction(flexButtonCallback);
+    flexButton4.setAction(flexButtonCallback);
+
+    // Configure wildcard textAreas inside modals
+    textModal1.setPosition(105, 136, 200, 30);
+    textModal1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    textModal1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_RBVJ));
+    textModal1.setWildcard(textArea1Buffer);
+    modalWindow1.add(textModal1);
+
+    textModal2.setPosition(93, 109, 200, 30);
+    textModal2.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    textModal2.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NDVJ));
+    textModal2.setWildcard(textArea2Buffer);
+    modalWindow2.add(textModal2);
+
+    textModal3.setPosition(15, 175, 200, 30);
+    textModal3.setColor(touchgfx::Color::getColorFromRGB(254, 255, 255));
+    textModal3.setTypedText(touchgfx::TypedText(T___SINGLEUSE_JR7L));
+    textModal3.setWildcard(textArea3Buffer);
+    modalWindow3.add(textModal3);
+
+    textModal4.setPosition(5, 186, 310, 30);
+    textModal4.setColor(touchgfx::Color::getColorFromRGB(237, 237, 237));
+    textModal4.setTypedText(touchgfx::TypedText(T___SINGLEUSE_1AWP));
+    textModal4.setWildcard(textArea4Buffer);
+    modalWindow4.add(textModal4);
 
     // Show "measuring" placeholder until first data arrives
     Unicode::strncpy(textArea1Buffer, "Tem: -- C", TEXTAREA1_SIZE);
@@ -61,6 +88,15 @@ void SensorPageView::backToHome()
     application().gotoHomePageScreenNoTransition();
 }
 
+void SensorPageView::setIconsForModal(int modal)
+{
+    bool showAll = (modal < 0);
+    scalableImage1.setVisible(showAll);
+    scalableImage2.setVisible(showAll);
+    scalableImage3.setVisible(showAll);
+    scalableImage4.setVisible(showAll);
+}
+
 void SensorPageView::hideActiveModal()
 {
     if (activeModal == 0)
@@ -71,6 +107,7 @@ void SensorPageView::hideActiveModal()
         modalWindow3.hide();
     else if (activeModal == 3)
         modalWindow4.hide();
+    setIconsForModal(-1);
 }
 
 void SensorPageView::hideAllModals()
@@ -87,12 +124,25 @@ void SensorPageView::closeButtonCallbackHandler(const touchgfx::AbstractButton& 
     invalidate();
 }
 
+void SensorPageView::flexButtonCallbackHandler(const touchgfx::AbstractButtonContainer& src)
+{
+    if (&src == &flexButton1)
+        showHum();
+    else if (&src == &flexButton2)
+        showCO2();
+    else if (&src == &flexButton3)
+        showTemp();
+    else if (&src == &flexButton4)
+        showHeartRate();
+}
+
 void SensorPageView::showTemp()
 {
     if (activeModal == 0)
     {
         modalWindow1.hide();
         activeModal = -1;
+        setIconsForModal(-1);
     }
     else
     {
@@ -100,7 +150,8 @@ void SensorPageView::showTemp()
             hideActiveModal();
         modalWindow1.show();
         activeModal = 0;
-        textArea1.invalidate();
+        setIconsForModal(0);
+        textModal1.invalidate();
     }
     invalidate();
 }
@@ -111,6 +162,7 @@ void SensorPageView::showHum()
     {
         modalWindow2.hide();
         activeModal = -1;
+        setIconsForModal(-1);
     }
     else
     {
@@ -118,7 +170,8 @@ void SensorPageView::showHum()
             hideActiveModal();
         modalWindow2.show();
         activeModal = 1;
-        textArea2.invalidate();
+        setIconsForModal(1);
+        textModal2.invalidate();
     }
     invalidate();
 }
@@ -129,6 +182,7 @@ void SensorPageView::showCO2()
     {
         modalWindow3.hide();
         activeModal = -1;
+        setIconsForModal(-1);
     }
     else
     {
@@ -136,7 +190,8 @@ void SensorPageView::showCO2()
             hideActiveModal();
         modalWindow3.show();
         activeModal = 2;
-        textArea3.invalidate();
+        setIconsForModal(2);
+        textModal3.invalidate();
     }
     invalidate();
 }
@@ -147,14 +202,18 @@ void SensorPageView::showHeartRate()
     {
         modalWindow4.hide();
         activeModal = -1;
+        setIconsForModal(-1);
     }
     else
     {
         if (activeModal >= 0)
             hideActiveModal();
+        // Reset to placeholder — MAX30102 may report noise as valid
+        Unicode::strncpy(textArea4Buffer, "HR: -- bpm  SpO2: --", TEXTAREA4_SIZE);
         modalWindow4.show();
         activeModal = 3;
-        textArea4.invalidate();
+        setIconsForModal(3);
+        textModal4.invalidate();
     }
     invalidate();
 }
@@ -178,8 +237,8 @@ void SensorPageView::updateSensorInfo(float temperature, float humidity,
     if (!sensorDataReady || (temperature > lastTemp + TEMP_DELTA) || (temperature < lastTemp - TEMP_DELTA))
     {
         Unicode::snprintfFloat(textArea1Buffer, TEXTAREA1_SIZE, "Tem: %.1f C", temperature);
-        if (textArea1.isVisible())
-            textArea1.invalidate();
+        if (textModal1.isVisible())
+            textModal1.invalidate();
         lastTemp = temperature;
     }
 
@@ -195,8 +254,8 @@ void SensorPageView::updateSensorInfo(float temperature, float humidity,
             textArea2Buffer[len + 1] = '%';
             textArea2Buffer[len + 2] = '\0';
         }
-        if (textArea2.isVisible())
-            textArea2.invalidate();
+        if (textModal2.isVisible())
+            textModal2.invalidate();
         lastHum = humidity;
     }
 
@@ -204,8 +263,8 @@ void SensorPageView::updateSensorInfo(float temperature, float humidity,
     if (!sensorDataReady || (co2 > lastCO2 + CO2_DELTA) || (co2 < lastCO2 - CO2_DELTA))
     {
         Unicode::snprintf(textArea3Buffer, TEXTAREA3_SIZE, "CO2: %u ppm", co2);
-        if (textArea3.isVisible())
-            textArea3.invalidate();
+        if (textModal3.isVisible())
+            textModal3.invalidate();
         lastCO2 = co2;
     }
 
@@ -250,8 +309,8 @@ void SensorPageView::updateSensorInfo(float temperature, float humidity,
                     textArea4Buffer[len + 2] = '\0';
                 }
             }
-            if (textArea4.isVisible())
-                textArea4.invalidate();
+            if (textModal4.isVisible())
+                textModal4.invalidate();
         }
         lastHR   = hrValid   ? heartRate : SENTINEL;
         lastSpO2 = spo2Valid ? spo2      : SENTINEL;
@@ -263,8 +322,8 @@ void SensorPageView::updateSensorInfo(float temperature, float humidity,
         if (hrInvalidCount == 900) // ~15s at 60fps
         {
             Unicode::strncpy(textArea4Buffer, "HR: -- bpm  SpO2: --", TEXTAREA4_SIZE);
-            if (textArea4.isVisible())
-                textArea4.invalidate();
+            if (textModal4.isVisible())
+                textModal4.invalidate();
             lastHR   = SENTINEL;
             lastSpO2 = SENTINEL;
         }

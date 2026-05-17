@@ -9,7 +9,7 @@
 #include <gui/startuppage_screen/startuppagePresenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/containers/buttons/Buttons.hpp>
-#include <touchgfx/widgets/ButtonWithIcon.hpp>
+#include <touchgfx/widgets/ScalableImage.hpp>
 #include <touchgfx/containers/ModalWindow.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
 
@@ -39,11 +39,11 @@ protected:
     touchgfx::Box __background;
     touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton1;
     touchgfx::Box blackCover;
-    touchgfx::Box box1;
-    touchgfx::ButtonWithIcon buttonWithIcon1;
+    touchgfx::ScalableImage scalableImage1;
     touchgfx::ModalWindow modalWindow1;
     touchgfx::TextArea textArea1;
     touchgfx::TextArea textArea2;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton2;
 
 private:
 
@@ -51,13 +51,11 @@ private:
      * Callback Declarations
      */
     touchgfx::Callback<startuppageViewBase, const touchgfx::AbstractButtonContainer&> flexButtonCallback;
-    touchgfx::Callback<startuppageViewBase, const touchgfx::AbstractButton&> buttonCallback;
 
     /*
      * Callback Handler Declarations
      */
     void flexButtonCallbackHandler(const touchgfx::AbstractButtonContainer& src);
-    void buttonCallbackHandler(const touchgfx::AbstractButton& src);
 
 };
 

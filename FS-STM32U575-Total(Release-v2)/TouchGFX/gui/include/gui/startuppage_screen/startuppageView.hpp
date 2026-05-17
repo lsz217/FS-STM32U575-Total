@@ -11,15 +11,20 @@ public:
     virtual ~startuppageView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
+    virtual void handleTickEvent();
 
     virtual void function5();
-			void goToSleep();
-			
- void updateNfcStatus() ; // <--- 添加这一行声明
+    void goToSleep();
+    void updateNfcStatus();
+
 protected:
-    // 3. 定义一个计数器变量
     int bootDelayCounter;
-protected:
+    int nfcSuccessDelay;
+
+private:
+    // flexButton2 (透明NFC按钮) 的回调
+    touchgfx::Callback<startuppageView, const touchgfx::AbstractButtonContainer&> nfcButtonCallback;
+    void nfcButtonCallbackHandler(const touchgfx::AbstractButtonContainer& src);
 };
 
 #endif // STARTUPPAGEVIEW_HPP

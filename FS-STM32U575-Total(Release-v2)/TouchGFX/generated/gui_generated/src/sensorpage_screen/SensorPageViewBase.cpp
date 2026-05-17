@@ -7,12 +7,12 @@
 #include <texts/TextKeysAndLanguages.hpp>
 
 SensorPageViewBase::SensorPageViewBase() :
-    buttonCallback(this, &SensorPageViewBase::buttonCallbackHandler),
-    flexButtonCallback(this, &SensorPageViewBase::flexButtonCallbackHandler)
+    buttonCallback(this, &SensorPageViewBase::buttonCallbackHandler)
 {
     __background.setPosition(0, 0, 320, 240);
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     add(__background);
+
 
     backgroundImage.setXY(0, 0);
     backgroundImage.setBitmap(touchgfx::Bitmap(BITMAP_IMG_20260515_192616_ID));
@@ -22,6 +22,86 @@ SensorPageViewBase::SensorPageViewBase() :
     buttonBack.setBitmaps(touchgfx::Bitmap(BITMAP_IMAGE_MENU_ICON_ID), touchgfx::Bitmap(BITMAP_IMAGE_MENU_ICON_PRESSED_ID));
     buttonBack.setAction(buttonCallback);
     add(buttonBack);
+
+    flexButton1.setBoxWithBorderPosition(0, 0, 50, 50);
+    flexButton1.setBorderSize(5);
+    flexButton1.setBoxWithBorderColors(touchgfx::Color::getColorFromRGB(0, 102, 153), touchgfx::Color::getColorFromRGB(0, 153, 204), touchgfx::Color::getColorFromRGB(0, 51, 102), touchgfx::Color::getColorFromRGB(51, 102, 153));
+    flexButton1.setAlpha(0);
+    flexButton1.setPosition(5, 0, 50, 50);
+    add(flexButton1);
+
+    flexButton2.setBoxWithBorderPosition(0, 0, 50, 50);
+    flexButton2.setBorderSize(5);
+    flexButton2.setBoxWithBorderColors(touchgfx::Color::getColorFromRGB(0, 102, 153), touchgfx::Color::getColorFromRGB(0, 153, 204), touchgfx::Color::getColorFromRGB(0, 51, 102), touchgfx::Color::getColorFromRGB(51, 102, 153));
+    flexButton2.setAlpha(0);
+    flexButton2.setPosition(150, 5, 50, 50);
+    add(flexButton2);
+
+    flexButton3.setBoxWithBorderPosition(0, 0, 50, 50);
+    flexButton3.setBorderSize(5);
+    flexButton3.setBoxWithBorderColors(touchgfx::Color::getColorFromRGB(0, 102, 153), touchgfx::Color::getColorFromRGB(0, 153, 204), touchgfx::Color::getColorFromRGB(0, 51, 102), touchgfx::Color::getColorFromRGB(51, 102, 153));
+    flexButton3.setAlpha(0);
+    flexButton3.setPosition(263, 5, 50, 50);
+    add(flexButton3);
+
+    flexButton4.setBoxWithBorderPosition(0, 0, 50, 50);
+    flexButton4.setBorderSize(5);
+    flexButton4.setBoxWithBorderColors(touchgfx::Color::getColorFromRGB(0, 102, 153), touchgfx::Color::getColorFromRGB(0, 153, 204), touchgfx::Color::getColorFromRGB(0, 51, 102), touchgfx::Color::getColorFromRGB(51, 102, 153));
+    flexButton4.setAlpha(0);
+    flexButton4.setPosition(151, 125, 50, 50);
+    add(flexButton4);
+
+    modalWindow1.setBackground(touchgfx::BitmapId(BITMAP_MODAL_TEMP_BG_ID), 0, 0);
+    modalWindow1.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    modalWindow1.setShadeAlpha(150);
+    modalWindow1.hide();
+    add(modalWindow1);
+
+    modalWindow2.setBackground(touchgfx::BitmapId(BITMAP_MODAL_HUM_BG_ID), 0, 0);
+    modalWindow2.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    modalWindow2.setShadeAlpha(150);
+    modalWindow2.hide();
+    add(modalWindow2);
+
+    modalWindow3.setBackground(touchgfx::BitmapId(BITMAP_MODAL_CO2_BG_ID), 0, 0);
+    modalWindow3.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    modalWindow3.setShadeAlpha(150);
+    modalWindow3.hide();
+    add(modalWindow3);
+
+    modalWindow4.setBackground(touchgfx::BitmapId(BITMAP_MODAL_HEART_BG_ID), 0, 0);
+    modalWindow4.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    modalWindow4.setShadeAlpha(150);
+    modalWindow4.hide();
+    add(modalWindow4);
+
+    textArea1.setXY(105, 136);
+    textArea1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    textArea1.setLinespacing(0);
+    textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_RBVJ));
+    textArea1.setVisible(false);
+    add(textArea1);
+
+    textArea2.setXY(93, 109);
+    textArea2.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    textArea2.setLinespacing(0);
+    textArea2.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NDVJ));
+    textArea2.setVisible(false);
+    add(textArea2);
+
+    textArea3.setXY(15, 175);
+    textArea3.setColor(touchgfx::Color::getColorFromRGB(254, 255, 255));
+    textArea3.setLinespacing(0);
+    textArea3.setTypedText(touchgfx::TypedText(T___SINGLEUSE_JR7L));
+    textArea3.setVisible(false);
+    add(textArea3);
+
+    textArea4.setXY(5, 186);
+    textArea4.setColor(touchgfx::Color::getColorFromRGB(237, 237, 237));
+    textArea4.setLinespacing(0);
+    textArea4.setTypedText(touchgfx::TypedText(T___SINGLEUSE_1AWP));
+    textArea4.setVisible(false);
+    add(textArea4);
 
     scalableImage1.setBitmap(touchgfx::Bitmap(BITMAP_HUMIDITY_1_ID));
     scalableImage1.setPosition(0, 0, 55, 55);
@@ -42,82 +122,11 @@ SensorPageViewBase::SensorPageViewBase() :
     scalableImage4.setPosition(146, 120, 55, 55);
     scalableImage4.setScalingAlgorithm(touchgfx::ScalableImage::NEAREST_NEIGHBOR);
     add(scalableImage4);
-
-    flexButton1.setBoxWithBorderPosition(0, 0, 0, 0);
-    flexButton1.setAlpha(255);
-    flexButton1.setPosition(5, 0, 50, 50);
-    flexButton1.setAction(flexButtonCallback);
-    add(flexButton1);
-
-    flexButton2.setBoxWithBorderPosition(0, 0, 0, 0);
-    flexButton2.setAlpha(255);
-    flexButton2.setPosition(150, 5, 50, 50);
-    flexButton2.setAction(flexButtonCallback);
-    add(flexButton2);
-
-    flexButton3.setBoxWithBorderPosition(0, 0, 0, 0);
-    flexButton3.setAlpha(255);
-    flexButton3.setPosition(263, 5, 50, 50);
-    flexButton3.setAction(flexButtonCallback);
-    add(flexButton3);
-
-    flexButton4.setBoxWithBorderPosition(0, 0, 0, 0);
-    flexButton4.setAlpha(255);
-    flexButton4.setPosition(151, 125, 50, 50);
-    flexButton4.setAction(flexButtonCallback);
-    add(flexButton4);
-
-    modalWindow1.setBackground(touchgfx::BitmapId(BITMAP_MODAL_TEMP_BG_ID), 0, 0);
-    modalWindow1.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow1.setShadeAlpha(150);
-    modalWindow1.hide();
-    textArea1.setXY(105, 136);
-    textArea1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    textArea1.setLinespacing(0);
-    textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_RBVJ));
-    textArea1.setWildcard(textArea1Buffer);
-    modalWindow1.add(textArea1);
-    add(modalWindow1);
-
-    modalWindow2.setBackground(touchgfx::BitmapId(BITMAP_MODAL_HUM_BG_ID), 0, 0);
-    modalWindow2.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow2.setShadeAlpha(150);
-    modalWindow2.hide();
-    textArea2.setXY(93, 109);
-    textArea2.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    textArea2.setLinespacing(0);
-    textArea2.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NDVJ));
-    textArea2.setWildcard(textArea2Buffer);
-    modalWindow2.add(textArea2);
-    add(modalWindow2);
-
-    modalWindow3.setBackground(touchgfx::BitmapId(BITMAP_MODAL_CO2_BG_ID), 0, 0);
-    modalWindow3.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow3.setShadeAlpha(150);
-    modalWindow3.hide();
-    textArea3.setXY(15, 175);
-    textArea3.setColor(touchgfx::Color::getColorFromRGB(254, 255, 255));
-    textArea3.setLinespacing(0);
-    textArea3.setTypedText(touchgfx::TypedText(T___SINGLEUSE_JR7L));
-    textArea3.setWildcard(textArea3Buffer);
-    modalWindow3.add(textArea3);
-    add(modalWindow3);
-
-    modalWindow4.setBackground(touchgfx::BitmapId(BITMAP_MODAL_HEART_BG_ID), 0, 0);
-    modalWindow4.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow4.setShadeAlpha(150);
-    modalWindow4.hide();
-    textArea4.setXY(5, 186);
-    textArea4.setColor(touchgfx::Color::getColorFromRGB(237, 237, 237));
-    textArea4.setLinespacing(0);
-    textArea4.setTypedText(touchgfx::TypedText(T___SINGLEUSE_1AWP));
-    textArea4.setWildcard(textArea4Buffer);
-    modalWindow4.add(textArea4);
-    add(modalWindow4);
 }
 
 SensorPageViewBase::~SensorPageViewBase()
 {
+
 }
 
 void SensorPageViewBase::setupScreen()
@@ -129,26 +138,9 @@ void SensorPageViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& s
 {
     if (&src == &buttonBack)
     {
+        //backToHome
+        //When buttonBack clicked call virtual function
+        //Call backToHome
         backToHome();
-    }
-}
-
-void SensorPageViewBase::flexButtonCallbackHandler(const touchgfx::AbstractButtonContainer& src)
-{
-    if (&src == &flexButton1)
-    {
-        showHum();
-    }
-    else if (&src == &flexButton2)
-    {
-        showCO2();
-    }
-    else if (&src == &flexButton3)
-    {
-        showTemp();
-    }
-    else if (&src == &flexButton4)
-    {
-        showHeartRate();
     }
 }

@@ -10,10 +10,10 @@
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/Button.hpp>
-#include <touchgfx/widgets/ScalableImage.hpp>
-#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 #include <touchgfx/containers/buttons/Buttons.hpp>
 #include <touchgfx/containers/ModalWindow.hpp>
+#include <touchgfx/widgets/TextArea.hpp>
+#include <touchgfx/widgets/ScalableImage.hpp>
 
 class SensorPageViewBase : public touchgfx::View<SensorPagePresenter>
 {
@@ -30,26 +30,6 @@ public:
         // Override and implement this function in SensorPage
     }
 
-    virtual void showTemp()
-    {
-        // Override and implement this function in SensorPage
-    }
-
-    virtual void showHum()
-    {
-        // Override and implement this function in SensorPage
-    }
-
-    virtual void showCO2()
-    {
-        // Override and implement this function in SensorPage
-    }
-
-    virtual void showHeartRate()
-    {
-        // Override and implement this function in SensorPage
-    }
-
 protected:
     FrontendApplication& application() {
         return *static_cast<FrontendApplication*>(touchgfx::Application::getInstance());
@@ -61,10 +41,6 @@ protected:
     touchgfx::Box __background;
     touchgfx::Image backgroundImage;
     touchgfx::Button buttonBack;
-    touchgfx::ScalableImage scalableImage1;
-    touchgfx::ScalableImage scalableImage2;
-    touchgfx::ScalableImage scalableImage3;
-    touchgfx::ScalableImage scalableImage4;
     touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton1;
     touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton2;
     touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton3;
@@ -73,22 +49,14 @@ protected:
     touchgfx::ModalWindow modalWindow2;
     touchgfx::ModalWindow modalWindow3;
     touchgfx::ModalWindow modalWindow4;
-    touchgfx::TextAreaWithOneWildcard textArea1;
-    touchgfx::TextAreaWithOneWildcard textArea2;
-    touchgfx::TextAreaWithOneWildcard textArea3;
-    touchgfx::TextAreaWithOneWildcard textArea4;
-
-    /*
-     * Wildcard Buffers
-     */
-    static const uint32_t TEXTAREA1_SIZE = 30;
-    touchgfx::Unicode::UnicodeChar textArea1Buffer[TEXTAREA1_SIZE];
-    static const uint32_t TEXTAREA2_SIZE = 30;
-    touchgfx::Unicode::UnicodeChar textArea2Buffer[TEXTAREA2_SIZE];
-    static const uint32_t TEXTAREA3_SIZE = 30;
-    touchgfx::Unicode::UnicodeChar textArea3Buffer[TEXTAREA3_SIZE];
-    static const uint32_t TEXTAREA4_SIZE = 40;
-    touchgfx::Unicode::UnicodeChar textArea4Buffer[TEXTAREA4_SIZE];
+    touchgfx::TextArea textArea1;
+    touchgfx::TextArea textArea2;
+    touchgfx::TextArea textArea3;
+    touchgfx::TextArea textArea4;
+    touchgfx::ScalableImage scalableImage1;
+    touchgfx::ScalableImage scalableImage2;
+    touchgfx::ScalableImage scalableImage3;
+    touchgfx::ScalableImage scalableImage4;
 
 private:
 
@@ -96,13 +64,11 @@ private:
      * Callback Declarations
      */
     touchgfx::Callback<SensorPageViewBase, const touchgfx::AbstractButton&> buttonCallback;
-    touchgfx::Callback<SensorPageViewBase, const touchgfx::AbstractButtonContainer&> flexButtonCallback;
 
     /*
      * Callback Handler Declarations
      */
     void buttonCallbackHandler(const touchgfx::AbstractButton& src);
-    void flexButtonCallbackHandler(const touchgfx::AbstractButtonContainer& src);
 
 };
 

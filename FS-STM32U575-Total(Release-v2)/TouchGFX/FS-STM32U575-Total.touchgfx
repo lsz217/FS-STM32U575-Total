@@ -46,30 +46,12 @@
             "Height": 240
           },
           {
-            "Type": "Box",
-            "Name": "box1",
+            "Type": "ScalableImage",
+            "Name": "scalableImage1",
             "Width": 320,
             "Height": 240,
-            "Color": {
-              "Green": 117,
-              "Blue": 255
-            }
-          },
-          {
-            "Type": "ButtonWithIcon",
-            "Name": "buttonWithIcon1",
-            "X": 105,
-            "Y": 145,
-            "Width": 110,
-            "Height": 50,
-            "Visible": false,
-            "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_tiny_round_normal.png",
-            "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_50_tiny_round_inactive.png",
-            "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
-            "IconReleased": "__generated\\icon_theme_images_action_lock_outline_50_50_237691.svg.png",
-            "IconX": 97,
-            "IconHeight": 50,
-            "IconWidth": 50
+            "Filename": "locked2.png",
+            "ScalingAlgorithm": "Nearest-neighbor"
           },
           {
             "Type": "ModalWindow",
@@ -106,6 +88,44 @@
                 "AutoSize": true
               }
             ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton2",
+            "X": 115,
+            "Y": 150,
+            "Width": 90,
+            "Height": 90,
+            "Alpha": 0,
+            "ButtonTrigger": {
+              "Type": "ClickButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 90,
+                "Height": 90,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Green": 102,
+                  "Blue": 153
+                },
+                "ColorPressed": {
+                  "Green": 153,
+                  "Blue": 204
+                },
+                "ColorBorderReleased": {
+                  "Green": 51,
+                  "Blue": 102
+                },
+                "ColorBorderPressed": {
+                  "Red": 51,
+                  "Green": 102,
+                  "Blue": 153
+                }
+              }
+            ]
           }
         ],
         "Interactions": [
@@ -124,8 +144,7 @@
             "InteractionName": "Interaction2",
             "HasCompletedTrigger": true,
             "Trigger": {
-              "Type": "TriggerClicked",
-              "TriggerComponent": "buttonWithIcon1"
+              "Type": "TriggerClicked"
             },
             "Action": {
               "Type": "ActionShow",
@@ -1703,7 +1722,7 @@
       "Height": 240
     },
     "SelectedColorDepth": 16,
-    "StartupScreenName": "SensorPage",
+    "StartupScreenName": "startuppage",
     "SelectedStartupLanguage": "GB",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
     "UIPath": ".",
