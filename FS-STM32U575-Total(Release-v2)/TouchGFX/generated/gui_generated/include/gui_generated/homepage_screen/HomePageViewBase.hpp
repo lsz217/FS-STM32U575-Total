@@ -8,11 +8,13 @@
 #include <mvp/View.hpp>
 #include <gui/homepage_screen/HomePagePresenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
+#include <touchgfx/containers/ModalWindow.hpp>
+#include <touchgfx/widgets/Button.hpp>
+#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
+#include <touchgfx/containers/SwipeContainer.hpp>
+#include <touchgfx/containers/Container.hpp>
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/ToggleButton.hpp>
-#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
-#include <touchgfx/widgets/Button.hpp>
-#include <touchgfx/containers/ModalWindow.hpp>
 
 class HomePageViewBase : public touchgfx::View<HomePagePresenter>
 {
@@ -38,25 +40,33 @@ protected:
      * Member Declarations
      */
     touchgfx::Box __background;
-    touchgfx::Image image1;
-    touchgfx::ToggleButton toggleButton1;
-    touchgfx::TextAreaWithTwoWildcards textSystemClock;
-    touchgfx::TextAreaWithOneWildcard textClockSecond;
-    touchgfx::ToggleButton toggleButton2;
-    touchgfx::ToggleButton toggleButton3;
-    touchgfx::ToggleButton toggleButton4;
-    touchgfx::Button WirelessConnection;
-    touchgfx::TextAreaWithOneWildcard textSystemYear;
-    touchgfx::TextAreaWithTwoWildcards textSystemDate;
-    touchgfx::TextAreaWithOneWildcard textWeekDay;
     touchgfx::ModalWindow WiFiModalLink;
     touchgfx::Button ConnectWiFi;
     touchgfx::Button CloseWiFiModal;
     touchgfx::TextAreaWithOneWildcard textWiFiLinkInfo;
+    touchgfx::SwipeContainer swipeContainer1;
+    touchgfx::Container swipeContainer1Page1;
+    touchgfx::TextAreaWithOneWildcard textWeekDay_1;
+    touchgfx::Image image1;
+    touchgfx::TextAreaWithTwoWildcards textSystemClock;
+    touchgfx::TextAreaWithOneWildcard textClockSecond;
+    touchgfx::TextAreaWithOneWildcard textSystemYear;
+    touchgfx::TextAreaWithTwoWildcards textSystemDate;
+    touchgfx::TextAreaWithOneWildcard textWeekDay;
+    touchgfx::Container swipeContainer1Page2;
+    touchgfx::Image image1_1;
+    touchgfx::Container swipeContainer1Pe3;
+    touchgfx::ToggleButton toggleButton1;
+    touchgfx::ToggleButton toggleButton4;
+    touchgfx::Button WirelessConnection;
 
     /*
      * Wildcard Buffers
      */
+    static const uint16_t TEXTWIFILINKINFO_SIZE = 200;
+    touchgfx::Unicode::UnicodeChar textWiFiLinkInfoBuffer[TEXTWIFILINKINFO_SIZE];
+    static const uint16_t TEXTWEEKDAY_1_SIZE = 2;
+    touchgfx::Unicode::UnicodeChar textWeekDay_1Buffer[TEXTWEEKDAY_1_SIZE];
     static const uint16_t TEXTSYSTEMCLOCKBUFFER1_SIZE = 3;
     touchgfx::Unicode::UnicodeChar textSystemClockBuffer1[TEXTSYSTEMCLOCKBUFFER1_SIZE];
     static const uint16_t TEXTSYSTEMCLOCKBUFFER2_SIZE = 3;
@@ -71,8 +81,6 @@ protected:
     touchgfx::Unicode::UnicodeChar textSystemDateBuffer2[TEXTSYSTEMDATEBUFFER2_SIZE];
     static const uint16_t TEXTWEEKDAY_SIZE = 2;
     touchgfx::Unicode::UnicodeChar textWeekDayBuffer[TEXTWEEKDAY_SIZE];
-    static const uint16_t TEXTWIFILINKINFO_SIZE = 200;
-    touchgfx::Unicode::UnicodeChar textWiFiLinkInfoBuffer[TEXTWIFILINKINFO_SIZE];
 
 private:
 

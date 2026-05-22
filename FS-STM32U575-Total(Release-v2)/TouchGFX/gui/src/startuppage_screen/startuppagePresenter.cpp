@@ -42,3 +42,8 @@ void startuppagePresenter::nfcTriggered()
 {
     view.updateNfcStatus(); // 调用 View 的方法去改界面
 }
+
+void startuppagePresenter::navigateToHome()
+{
+    view.navigateToHomePage();
+}

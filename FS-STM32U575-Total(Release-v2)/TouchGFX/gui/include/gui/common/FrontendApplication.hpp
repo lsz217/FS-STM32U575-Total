@@ -19,12 +19,12 @@ public:
         FrontendApplicationBase::handleTickEvent();
     }
 
-    // SensorPage transition — user code because Designer may not generate it
+    // SensorPage transition — permanent in user code (Designer may drop from base)
     void gotoSensorPageScreenNoTransition();
-    void gotoSensorPageScreenNoTransitionImpl();
 
 private:
     touchgfx::Callback<FrontendApplication> sensorPageTransitionCallback;
+    void gotoSensorPageScreenNoTransitionImpl();
 };
 
 #endif // FRONTENDAPPLICATION_HPP

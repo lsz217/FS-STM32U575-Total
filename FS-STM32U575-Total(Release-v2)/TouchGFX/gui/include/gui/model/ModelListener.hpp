@@ -20,6 +20,7 @@ public:
         model = m;
     }
 			 virtual void nfcTriggered() {};
+				virtual void navigateToHome() {};
 			virtual void toggleShape(){};
 			virtual void ChangeScreen(){};
 			virtual void ChangeScreen1(){};

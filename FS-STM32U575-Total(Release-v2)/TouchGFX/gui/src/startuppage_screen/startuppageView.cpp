@@ -99,3 +99,8 @@ void startuppageView::tearDownScreen()
 {
     startuppageViewBase::tearDownScreen();
 }
+
+void startuppageView::navigateToHomePage()
+{
+    application().gotoHomePageScreenNoTransition();
+}

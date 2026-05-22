@@ -121,6 +121,8 @@
 "fs-stm32u575-total\image_alternate_theme_images_widgets_slider_horizontal_thin_filler_small.o"
 "fs-stm32u575-total\image_alternate_theme_images_widgets_slider_horizontal_thin_rounded_light.o"
 "fs-stm32u575-total\image_alternate_theme_images_widgets_slider_horizontal_thin_track_small.o"
+"fs-stm32u575-total\image_alternate_theme_images_widgets_swipecontainer_medium_off_normal.o"
+"fs-stm32u575-total\image_alternate_theme_images_widgets_swipecontainer_medium_on_active.o"
 "fs-stm32u575-total\image_application-54x54.o"
 "fs-stm32u575-total\image_application_pressed-54x54.o"
 "fs-stm32u575-total\image_applicationpage_background-240x320.o"

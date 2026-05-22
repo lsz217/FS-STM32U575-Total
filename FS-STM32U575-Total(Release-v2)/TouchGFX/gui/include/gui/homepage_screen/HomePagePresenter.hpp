@@ -26,16 +26,19 @@ public:
     virtual void deactivate();
 
     virtual ~HomePagePresenter() {};
-		//更新日期和时间
-		virtual void updateDate(uint8_t newYear, uint8_t newMonth, uint8_t newDate, uint8_t newWeekDay); 
-		virtual void updateTime(uint8_t newHours, uint8_t newMinutes, uint8_t newSeconds);
-		//HomePagePresenter的状态
-		void HomePagePresenterState(bool enable);
-		virtual void ChangeScreen();
-		//获取WiFi模组的RSSI值
-		virtual void updateWiFiRSSI(uint8_t (&pWiFiInfo)[40], uint16_t newRSSI);	
-		//HomePageView界面的WiFiModalLink的任务的状态
-		void HomePageViewWiFiModalLinkTask(bool enable);	
+    // 更新日期和时间
+    virtual void updateDate(uint8_t newYear, uint8_t newMonth, uint8_t newDate, uint8_t newWeekDay);
+    virtual void updateTime(uint8_t newHours, uint8_t newMinutes, uint8_t newSeconds);
+    // HomePagePresenter 的状态
+    void HomePagePresenterState(bool enable);
+    virtual void ChangeScreen();
+    // 获取 WiFi 模组的 RSSI 值
+    virtual void updateWiFiRSSI(uint8_t (&pWiFiInfo)[40], uint16_t newRSSI);
+    // HomePageView 界面的 WiFiModalLink 的任务的状态
+    void HomePageViewWiFiModalLinkTask(bool enable);
+    // 背光控制
+    void setBacklightValue(uint8_t value);
+
 private:
     HomePagePresenter();
 

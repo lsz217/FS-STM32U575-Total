@@ -16,6 +16,7 @@ public:
     virtual void function5();
     void goToSleep();
     void updateNfcStatus();
+    void navigateToHomePage();
 
 protected:
     int bootDelayCounter;

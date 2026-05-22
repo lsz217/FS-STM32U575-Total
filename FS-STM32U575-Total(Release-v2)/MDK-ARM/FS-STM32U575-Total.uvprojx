@@ -1442,6 +1442,16 @@
               <FilePath>../touchgfx/generated/images/src/settingpage/image_alternate_theme_images_widgets_slider_horizontal_thin_track_small.cpp</FilePath>
             </File>
             <File>
+              <FileName>image_alternate_theme_images_widgets_swipecontainer_medium_off_normal.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_medium_off_normal.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_alternate_theme_images_widgets_swipecontainer_medium_on_active.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_medium_on_active.cpp</FilePath>
+            </File>
+            <File>
               <FileName>image_Application-54x54.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/controls/image_application-54x54.cpp</FilePath>

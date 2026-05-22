@@ -50,7 +50,7 @@
 	#endif
 
 /**********************************TouchGFX与底层间的访问**********************************/
-Model::Model() : modelListener(0), idleTimer(0), isSleeping(false), hapticCounter(0)
+Model::Model() : modelListener(0), idleTimer(0), isSleeping(false), hapticCounter(0), nfcNavCountdown(0)
 {
 #if defined LINK_HARDWARE
 	printf("[Model] Constructor OK\r\n");
@@ -158,6 +158,7 @@ void Model::tick()
 	    if (g_nfc_unlock_flag == 1)
 	    {
 	        g_nfc_unlock_flag = 0; // 记得清空标志位，防止重复触发
+	        nfcNavCountdown = 60; // 启动 1 秒倒计时
 
 	        // 通知通知 Presenter（也就是对应的页面）
 	        if (modelListener != 0)
@@ -165,6 +166,15 @@ void Model::tick()
 	            modelListener->nfcTriggered(); // 这里的函数名要和 ModelListener.hpp 里对应
 	        }
 	   }
+	    // NFC 识别成功后倒计时 → 跳转 HomePage
+	    if (nfcNavCountdown > 0)
+	    {
+	        nfcNavCountdown--;
+	        if (nfcNavCountdown == 0 && modelListener != 0)
+	        {
+	            modelListener->navigateToHome();
+	        }
+	    }
 			}
 	//直流风扇操作
 	void Model::setDCFanStatus(bool state)

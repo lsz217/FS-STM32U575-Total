@@ -5,17 +5,17 @@
 #include <touchgfx/transitions/NoTransition.hpp>
 
 FrontendApplication::FrontendApplication(Model& m, FrontendHeap& heap)
-    : FrontendApplicationBase(m, heap),
-      sensorPageTransitionCallback(this, &FrontendApplication::gotoSensorPageScreenNoTransitionImpl)
+    : FrontendApplicationBase(m, heap)
 {
 }
 
 void FrontendApplication::gotoSensorPageScreenNoTransition()
 {
+    sensorPageTransitionCallback = touchgfx::Callback<FrontendApplication>(this, &FrontendApplication::gotoSensorPageScreenNoTransitionImpl);
     pendingScreenTransitionCallback = &sensorPageTransitionCallback;
 }
 
 void FrontendApplication::gotoSensorPageScreenNoTransitionImpl()
 {
-    touchgfx::makeTransition<SensorPageView, SensorPagePresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
+    touchgfx::makeTransition<SensorPageView, SensorPagePresenter, touchgfx::NoTransition, Model>(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
 }

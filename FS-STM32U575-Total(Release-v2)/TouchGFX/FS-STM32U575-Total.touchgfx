@@ -157,171 +157,6 @@
         "Name": "HomePage",
         "Components": [
           {
-            "Type": "Image",
-            "Name": "image1",
-            "Width": 320,
-            "Height": 240,
-            "RelativeFilename": "zhujiemian.png"
-          },
-          {
-            "Type": "ToggleButton",
-            "Name": "toggleButton1",
-            "X": 261,
-            "Y": 186,
-            "Width": 54,
-            "Height": 54,
-            "Visible": false,
-            "Pressed": "Controls\\Setting-54x54_pressed.png",
-            "Released": "Controls\\Setting-54x54.png"
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textSystemClock",
-            "X": 9,
-            "Y": 18,
-            "Width": 110,
-            "Height": 47,
-            "TextId": "systemClock",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 255,
-              "Green": 255,
-              "Blue": 255
-            },
-            "AutoSize": true,
-            "Wildcard1": {
-              "TextId": "__SingleUse_RWJA",
-              "UseBuffer": true,
-              "BufferSize": 3
-            },
-            "Wildcard2": {
-              "TextId": "__SingleUse_KDU8",
-              "UseBuffer": true,
-              "BufferSize": 3
-            }
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textClockSecond",
-            "X": 138,
-            "Y": 42,
-            "Width": 22,
-            "Height": 24,
-            "TextId": "ClockSecond",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 247
-            },
-            "AutoSize": true,
-            "Wildcard1": {
-              "TextId": "__SingleUse_ADBO",
-              "UseBuffer": true,
-              "BufferSize": 3
-            }
-          },
-          {
-            "Type": "ToggleButton",
-            "Name": "toggleButton2",
-            "X": 197,
-            "Y": 186,
-            "Width": 54,
-            "Height": 54,
-            "Visible": false,
-            "Pressed": "Controls\\Buttons-54x54_pressed.png",
-            "Released": "Controls\\Buttons-54x54.png"
-          },
-          {
-            "Type": "ToggleButton",
-            "Name": "toggleButton3",
-            "X": 133,
-            "Y": 186,
-            "Width": 54,
-            "Height": 54,
-            "Visible": false,
-            "Pressed": "Controls\\gyroscope-54x54_pressed.png",
-            "Released": "Controls\\gyroscope-54x54.png"
-          },
-          {
-            "Type": "ToggleButton",
-            "Name": "toggleButton4",
-            "X": 69,
-            "Y": 186,
-            "Width": 54,
-            "Height": 54,
-            "Pressed": "Controls\\Application_pressed-54x54.png",
-            "Released": "Controls\\Application-54x54.png"
-          },
-          {
-            "Type": "Button",
-            "Name": "WirelessConnection",
-            "X": 6,
-            "Y": 186,
-            "Width": 54,
-            "Height": 54,
-            "Pressed": "Controls\\wifiLink_pressed-54x54.png",
-            "Released": "Controls\\wifiLink-54x54.png"
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textSystemYear",
-            "X": 4,
-            "Width": 60,
-            "Height": 23,
-            "TextId": "systemYear",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 255
-            },
-            "AutoSize": true,
-            "Wildcard1": {
-              "TextId": "__SingleUse_BGCO",
-              "UseBuffer": true,
-              "BufferSize": 5
-            }
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textSystemDate",
-            "X": 69,
-            "Width": 80,
-            "Height": 23,
-            "TextId": "__SingleUse_X915",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 255
-            },
-            "AutoSize": true,
-            "Wildcard1": {
-              "TextId": "__SingleUse_469A",
-              "UseBuffer": true,
-              "BufferSize": 3
-            },
-            "Wildcard2": {
-              "TextId": "__SingleUse_DIBA",
-              "UseBuffer": true,
-              "BufferSize": 3
-            }
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textWeekDay",
-            "X": 166,
-            "Width": 30,
-            "Height": 23,
-            "TextId": "__SingleUse_7EKT",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 255,
-              "Green": 110
-            },
-            "AutoSize": true,
-            "Wildcard1": {
-              "TextId": "__SingleUse_IBLE",
-              "UseBuffer": true,
-              "BufferSize": 2
-            }
-          },
-          {
             "Type": "ModalWindow",
             "Name": "WiFiModalLink",
             "Width": 320,
@@ -375,6 +210,215 @@
                 }
               }
             ]
+          },
+          {
+            "Type": "SwipeContainer",
+            "Name": "swipeContainer1",
+            "Width": 320,
+            "Height": 238,
+            "SwipeCutoff": 30,
+            "ShowPageIndicator": true,
+            "PageIndicatorX": 130,
+            "PageIndicatorY": 218,
+            "CenteredX": true,
+            "IndicatorImageNormal": "__generated\\alternate_theme_images_widgets_swipecontainer_medium_off_normal.png",
+            "IndicatorImageHighlight": "__generated\\alternate_theme_images_widgets_swipecontainer_medium_on_active.png",
+            "EndSwipeElasticWidth": 50,
+            "SelectedPage": "swipeContainer1Page1",
+            "Preset": "alternate_theme\\presets\\swipecontainer\\medium_active.json",
+            "Components": [
+              {
+                "Type": "Container",
+                "Name": "swipeContainer1Page1",
+                "Width": 320,
+                "Height": 238,
+                "Components": [
+                  {
+                    "Type": "TextArea",
+                    "Name": "textWeekDay_1",
+                    "X": 166,
+                    "Width": 30,
+                    "Height": 23,
+                    "TextId": "__SingleUse_SW08",
+                    "TextRotation": "0",
+                    "Color": {
+                      "Red": 255,
+                      "Green": 110
+                    },
+                    "AutoSize": true,
+                    "Wildcard1": {
+                      "TextId": "__SingleUse_BXE8",
+                      "UseBuffer": true,
+                      "BufferSize": 2
+                    }
+                  },
+                  {
+                    "Type": "Image",
+                    "Name": "image1",
+                    "Width": 320,
+                    "Height": 240,
+                    "RelativeFilename": "zhujiemian.png"
+                  },
+                  {
+                    "Type": "TextArea",
+                    "Name": "textSystemClock",
+                    "X": 9,
+                    "Y": 18,
+                    "Width": 110,
+                    "Height": 47,
+                    "TextId": "systemClock",
+                    "TextRotation": "0",
+                    "Color": {
+                      "Red": 255,
+                      "Green": 255,
+                      "Blue": 255
+                    },
+                    "AutoSize": true,
+                    "Wildcard1": {
+                      "TextId": "__SingleUse_RWJA",
+                      "UseBuffer": true,
+                      "BufferSize": 3
+                    },
+                    "Wildcard2": {
+                      "TextId": "__SingleUse_KDU8",
+                      "UseBuffer": true,
+                      "BufferSize": 3
+                    }
+                  },
+                  {
+                    "Type": "TextArea",
+                    "Name": "textClockSecond",
+                    "X": 138,
+                    "Y": 42,
+                    "Width": 22,
+                    "Height": 24,
+                    "TextId": "ClockSecond",
+                    "TextRotation": "0",
+                    "Color": {
+                      "Red": 247
+                    },
+                    "AutoSize": true,
+                    "Wildcard1": {
+                      "TextId": "__SingleUse_ADBO",
+                      "UseBuffer": true,
+                      "BufferSize": 3
+                    }
+                  },
+                  {
+                    "Type": "TextArea",
+                    "Name": "textSystemYear",
+                    "X": 4,
+                    "Width": 60,
+                    "Height": 23,
+                    "TextId": "systemYear",
+                    "TextRotation": "0",
+                    "Color": {
+                      "Red": 255
+                    },
+                    "AutoSize": true,
+                    "Wildcard1": {
+                      "TextId": "__SingleUse_BGCO",
+                      "UseBuffer": true,
+                      "BufferSize": 5
+                    }
+                  },
+                  {
+                    "Type": "TextArea",
+                    "Name": "textSystemDate",
+                    "X": 69,
+                    "Width": 80,
+                    "Height": 23,
+                    "TextId": "__SingleUse_X915",
+                    "TextRotation": "0",
+                    "Color": {
+                      "Red": 255
+                    },
+                    "AutoSize": true,
+                    "Wildcard1": {
+                      "TextId": "__SingleUse_469A",
+                      "UseBuffer": true,
+                      "BufferSize": 3
+                    },
+                    "Wildcard2": {
+                      "TextId": "__SingleUse_DIBA",
+                      "UseBuffer": true,
+                      "BufferSize": 3
+                    }
+                  },
+                  {
+                    "Type": "TextArea",
+                    "Name": "textWeekDay",
+                    "X": 166,
+                    "Width": 30,
+                    "Height": 23,
+                    "TextId": "__SingleUse_7EKT",
+                    "TextRotation": "0",
+                    "Color": {
+                      "Red": 255,
+                      "Green": 110
+                    },
+                    "AutoSize": true,
+                    "Wildcard1": {
+                      "TextId": "__SingleUse_IBLE",
+                      "UseBuffer": true,
+                      "BufferSize": 2
+                    }
+                  }
+                ]
+              },
+              {
+                "Type": "Container",
+                "Name": "swipeContainer1Page2",
+                "Width": 320,
+                "Height": 238,
+                "Components": [
+                  {
+                    "Type": "Image",
+                    "Name": "image1_1",
+                    "Width": 320,
+                    "Height": 240,
+                    "RelativeFilename": "zhujiemian.png"
+                  }
+                ]
+              },
+              {
+                "Type": "Container",
+                "Name": "swipeContainer1Pe3",
+                "Width": 320,
+                "Height": 238,
+                "Components": []
+              }
+            ]
+          },
+          {
+            "Type": "ToggleButton",
+            "Name": "toggleButton1",
+            "X": 266,
+            "Y": 184,
+            "Width": 54,
+            "Height": 54,
+            "Pressed": "Controls\\Setting-54x54_pressed.png",
+            "Released": "Controls\\Setting-54x54.png"
+          },
+          {
+            "Type": "ToggleButton",
+            "Name": "toggleButton4",
+            "X": 69,
+            "Y": 186,
+            "Width": 54,
+            "Height": 54,
+            "Pressed": "Controls\\Application_pressed-54x54.png",
+            "Released": "Controls\\Application-54x54.png"
+          },
+          {
+            "Type": "Button",
+            "Name": "WirelessConnection",
+            "X": 6,
+            "Y": 186,
+            "Width": 54,
+            "Height": 54,
+            "Pressed": "Controls\\wifiLink_pressed-54x54.png",
+            "Released": "Controls\\wifiLink-54x54.png"
           }
         ],
         "Interactions": [
@@ -393,8 +437,7 @@
           {
             "InteractionName": "Interaction2",
             "Trigger": {
-              "Type": "TriggerClicked",
-              "TriggerComponent": "toggleButton2"
+              "Type": "TriggerClicked"
             },
             "Action": {
               "Type": "ActionGotoScreen",
@@ -405,8 +448,7 @@
           {
             "InteractionName": "Interaction3",
             "Trigger": {
-              "Type": "TriggerClicked",
-              "TriggerComponent": "toggleButton3"
+              "Type": "TriggerClicked"
             },
             "Action": {
               "Type": "ActionGotoScreen",
@@ -712,7 +754,7 @@
             "Name": "textVoltage",
             "X": 89,
             "Y": 52,
-            "Width": 60,
+            "Width": 10,
             "Height": 23,
             "TextId": "extVoltage",
             "TextRotation": "0",
@@ -1722,7 +1764,7 @@
       "Height": 240
     },
     "SelectedColorDepth": 16,
-    "StartupScreenName": "startuppage",
+    "StartupScreenName": "HomePage",
     "SelectedStartupLanguage": "GB",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
     "UIPath": ".",

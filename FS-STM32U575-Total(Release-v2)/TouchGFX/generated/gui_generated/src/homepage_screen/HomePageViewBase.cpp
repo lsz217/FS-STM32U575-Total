@@ -13,87 +13,6 @@ HomePageViewBase::HomePageViewBase() :
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     add(__background);
 
-    image1.setXY(0, 0);
-    image1.setBitmap(touchgfx::Bitmap(BITMAP_ZHUJIEMIAN_ID));
-    add(image1);
-
-    toggleButton1.setXY(261, 186);
-    toggleButton1.setBitmaps(touchgfx::Bitmap(BITMAP_SETTING_54X54_ID), touchgfx::Bitmap(BITMAP_SETTING_54X54_PRESSED_ID));
-    toggleButton1.setVisible(false);
-    toggleButton1.setAction(buttonCallback);
-    add(toggleButton1);
-
-    textSystemClock.setXY(9, 18);
-    textSystemClock.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
-    textSystemClock.setLinespacing(0);
-    touchgfx::Unicode::snprintf(textSystemClockBuffer1, TEXTSYSTEMCLOCKBUFFER1_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_RWJA).getText());
-    textSystemClock.setWildcard1(textSystemClockBuffer1);
-    touchgfx::Unicode::snprintf(textSystemClockBuffer2, TEXTSYSTEMCLOCKBUFFER2_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_KDU8).getText());
-    textSystemClock.setWildcard2(textSystemClockBuffer2);
-    textSystemClock.resizeToCurrentText();
-    textSystemClock.setTypedText(touchgfx::TypedText(T_SYSTEMCLOCK));
-    add(textSystemClock);
-
-    textClockSecond.setXY(138, 42);
-    textClockSecond.setColor(touchgfx::Color::getColorFromRGB(247, 0, 0));
-    textClockSecond.setLinespacing(0);
-    Unicode::snprintf(textClockSecondBuffer, TEXTCLOCKSECOND_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_ADBO).getText());
-    textClockSecond.setWildcard(textClockSecondBuffer);
-    textClockSecond.resizeToCurrentText();
-    textClockSecond.setTypedText(touchgfx::TypedText(T_CLOCKSECOND));
-    add(textClockSecond);
-
-    toggleButton2.setXY(197, 186);
-    toggleButton2.setBitmaps(touchgfx::Bitmap(BITMAP_BUTTONS_54X54_ID), touchgfx::Bitmap(BITMAP_BUTTONS_54X54_PRESSED_ID));
-    toggleButton2.setVisible(false);
-    toggleButton2.setAction(buttonCallback);
-    add(toggleButton2);
-
-    toggleButton3.setXY(133, 186);
-    toggleButton3.setBitmaps(touchgfx::Bitmap(BITMAP_GYROSCOPE_54X54_ID), touchgfx::Bitmap(BITMAP_GYROSCOPE_54X54_PRESSED_ID));
-    toggleButton3.setVisible(false);
-    toggleButton3.setAction(buttonCallback);
-    add(toggleButton3);
-
-    toggleButton4.setXY(69, 186);
-    toggleButton4.setBitmaps(touchgfx::Bitmap(BITMAP_APPLICATION_54X54_ID), touchgfx::Bitmap(BITMAP_APPLICATION_PRESSED_54X54_ID));
-    toggleButton4.setAction(buttonCallback);
-    add(toggleButton4);
-
-    WirelessConnection.setXY(6, 186);
-    WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFILINK_54X54_ID), touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
-    WirelessConnection.setAction(buttonCallback);
-    add(WirelessConnection);
-
-    textSystemYear.setXY(4, 0);
-    textSystemYear.setColor(touchgfx::Color::getColorFromRGB(255, 0, 0));
-    textSystemYear.setLinespacing(0);
-    Unicode::snprintf(textSystemYearBuffer, TEXTSYSTEMYEAR_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_BGCO).getText());
-    textSystemYear.setWildcard(textSystemYearBuffer);
-    textSystemYear.resizeToCurrentText();
-    textSystemYear.setTypedText(touchgfx::TypedText(T_SYSTEMYEAR));
-    add(textSystemYear);
-
-    textSystemDate.setXY(69, 0);
-    textSystemDate.setColor(touchgfx::Color::getColorFromRGB(255, 0, 0));
-    textSystemDate.setLinespacing(0);
-    touchgfx::Unicode::snprintf(textSystemDateBuffer1, TEXTSYSTEMDATEBUFFER1_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_469A).getText());
-    textSystemDate.setWildcard1(textSystemDateBuffer1);
-    touchgfx::Unicode::snprintf(textSystemDateBuffer2, TEXTSYSTEMDATEBUFFER2_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_DIBA).getText());
-    textSystemDate.setWildcard2(textSystemDateBuffer2);
-    textSystemDate.resizeToCurrentText();
-    textSystemDate.setTypedText(touchgfx::TypedText(T___SINGLEUSE_X915));
-    add(textSystemDate);
-
-    textWeekDay.setXY(166, 0);
-    textWeekDay.setColor(touchgfx::Color::getColorFromRGB(255, 110, 0));
-    textWeekDay.setLinespacing(0);
-    Unicode::snprintf(textWeekDayBuffer, TEXTWEEKDAY_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_IBLE).getText());
-    textWeekDay.setWildcard(textWeekDayBuffer);
-    textWeekDay.resizeToCurrentText();
-    textWeekDay.setTypedText(touchgfx::TypedText(T___SINGLEUSE_7EKT));
-    add(textWeekDay);
-
     WiFiModalLink.setBackground(touchgfx::BitmapId(BITMAP_MODALWIFI_BACKGROUND_ID), 19, 20);
     WiFiModalLink.setShadeColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     WiFiModalLink.setShadeAlpha(150);
@@ -115,6 +34,110 @@ HomePageViewBase::HomePageViewBase() :
     textWiFiLinkInfo.setWildcard(textWiFiLinkInfoBuffer);
     textWiFiLinkInfo.setTypedText(touchgfx::TypedText(T_WIFILINKINFO));
     WiFiModalLink.add(textWiFiLinkInfo);
+
+    swipeContainer1.setXY(0, 0);
+    swipeContainer1.setWidth(320);
+    swipeContainer1.setHeight(240);
+    swipeContainer1.setPageIndicatorBitmaps(touchgfx::Bitmap(BITMAP_ALTERNATE_THEME_IMAGES_WIDGETS_SWIPECONTAINER_MEDIUM_OFF_NORMAL_ID), touchgfx::Bitmap(BITMAP_ALTERNATE_THEME_IMAGES_WIDGETS_SWIPECONTAINER_MEDIUM_ON_ACTIVE_ID));
+    swipeContainer1.setPageIndicatorXY(130, 218);
+    swipeContainer1.setSwipeCutoff(30);
+    swipeContainer1.setEndSwipeElasticWidth(50);
+
+    swipeContainer1Page1.setWidth(320);
+    swipeContainer1Page1.setHeight(238);
+    textWeekDay_1.setXY(166, 0);
+    textWeekDay_1.setColor(touchgfx::Color::getColorFromRGB(255, 110, 0));
+    textWeekDay_1.setLinespacing(0);
+    Unicode::snprintf(textWeekDay_1Buffer, TEXTWEEKDAY_1_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_BXE8).getText());
+    textWeekDay_1.setWildcard(textWeekDay_1Buffer);
+    textWeekDay_1.resizeToCurrentText();
+    textWeekDay_1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_SW08));
+    swipeContainer1Page1.add(textWeekDay_1);
+
+    image1.setXY(0, 0);
+    image1.setBitmap(touchgfx::Bitmap(BITMAP_ZHUJIEMIAN_ID));
+    swipeContainer1Page1.add(image1);
+
+    textSystemClock.setXY(9, 18);
+    textSystemClock.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    textSystemClock.setLinespacing(0);
+    touchgfx::Unicode::snprintf(textSystemClockBuffer1, TEXTSYSTEMCLOCKBUFFER1_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_RWJA).getText());
+    textSystemClock.setWildcard1(textSystemClockBuffer1);
+    touchgfx::Unicode::snprintf(textSystemClockBuffer2, TEXTSYSTEMCLOCKBUFFER2_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_KDU8).getText());
+    textSystemClock.setWildcard2(textSystemClockBuffer2);
+    textSystemClock.resizeToCurrentText();
+    textSystemClock.setTypedText(touchgfx::TypedText(T_SYSTEMCLOCK));
+    swipeContainer1Page1.add(textSystemClock);
+
+    textClockSecond.setXY(138, 42);
+    textClockSecond.setColor(touchgfx::Color::getColorFromRGB(247, 0, 0));
+    textClockSecond.setLinespacing(0);
+    Unicode::snprintf(textClockSecondBuffer, TEXTCLOCKSECOND_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_ADBO).getText());
+    textClockSecond.setWildcard(textClockSecondBuffer);
+    textClockSecond.resizeToCurrentText();
+    textClockSecond.setTypedText(touchgfx::TypedText(T_CLOCKSECOND));
+    swipeContainer1Page1.add(textClockSecond);
+
+    textSystemYear.setXY(4, 0);
+    textSystemYear.setColor(touchgfx::Color::getColorFromRGB(255, 0, 0));
+    textSystemYear.setLinespacing(0);
+    Unicode::snprintf(textSystemYearBuffer, TEXTSYSTEMYEAR_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_BGCO).getText());
+    textSystemYear.setWildcard(textSystemYearBuffer);
+    textSystemYear.resizeToCurrentText();
+    textSystemYear.setTypedText(touchgfx::TypedText(T_SYSTEMYEAR));
+    swipeContainer1Page1.add(textSystemYear);
+
+    textSystemDate.setXY(69, 0);
+    textSystemDate.setColor(touchgfx::Color::getColorFromRGB(255, 0, 0));
+    textSystemDate.setLinespacing(0);
+    touchgfx::Unicode::snprintf(textSystemDateBuffer1, TEXTSYSTEMDATEBUFFER1_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_469A).getText());
+    textSystemDate.setWildcard1(textSystemDateBuffer1);
+    touchgfx::Unicode::snprintf(textSystemDateBuffer2, TEXTSYSTEMDATEBUFFER2_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_DIBA).getText());
+    textSystemDate.setWildcard2(textSystemDateBuffer2);
+    textSystemDate.resizeToCurrentText();
+    textSystemDate.setTypedText(touchgfx::TypedText(T___SINGLEUSE_X915));
+    swipeContainer1Page1.add(textSystemDate);
+
+    textWeekDay.setXY(166, 0);
+    textWeekDay.setColor(touchgfx::Color::getColorFromRGB(255, 110, 0));
+    textWeekDay.setLinespacing(0);
+    Unicode::snprintf(textWeekDayBuffer, TEXTWEEKDAY_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_IBLE).getText());
+    textWeekDay.setWildcard(textWeekDayBuffer);
+    textWeekDay.resizeToCurrentText();
+    textWeekDay.setTypedText(touchgfx::TypedText(T___SINGLEUSE_7EKT));
+    swipeContainer1Page1.add(textWeekDay);
+
+    swipeContainer1.add(swipeContainer1Page1);
+
+    swipeContainer1Page2.setWidth(320);
+    swipeContainer1Page2.setHeight(238);
+    image1_1.setXY(0, 0);
+    image1_1.setBitmap(touchgfx::Bitmap(BITMAP_ZHUJIEMIAN_ID));
+    swipeContainer1Page2.add(image1_1);
+
+    swipeContainer1.add(swipeContainer1Page2);
+
+    swipeContainer1Pe3.setWidth(320);
+    swipeContainer1Pe3.setHeight(238);
+    swipeContainer1.add(swipeContainer1Pe3);
+
+    swipeContainer1.setSelectedPage(0);
+    add(swipeContainer1);
+
+    toggleButton1.setXY(266, 184);
+    toggleButton1.setBitmaps(touchgfx::Bitmap(BITMAP_SETTING_54X54_ID), touchgfx::Bitmap(BITMAP_SETTING_54X54_PRESSED_ID));
+    toggleButton1.setAction(buttonCallback);
+    add(toggleButton1);
+
+    toggleButton4.setXY(69, 186);
+    toggleButton4.setBitmaps(touchgfx::Bitmap(BITMAP_APPLICATION_54X54_ID), touchgfx::Bitmap(BITMAP_APPLICATION_PRESSED_54X54_ID));
+    toggleButton4.setAction(buttonCallback);
+    add(toggleButton4);
+
+    WirelessConnection.setXY(6, 186);
+    WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFILINK_54X54_ID), touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
+    WirelessConnection.setAction(buttonCallback);
+    add(WirelessConnection);
 
     add(WiFiModalLink);
 }
@@ -138,26 +161,12 @@ void HomePageViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& src
         //Go to SettingPage with no screen transition
         application().gotoSettingPageScreenNoTransition();
     }
-    if (&src == &toggleButton2)
-    {
-        //Interaction2
-        //When toggleButton2 clicked change screen to FiveKeyPage
-        //Go to FiveKeyPage with no screen transition
-        application().gotoFiveKeyPageScreenNoTransition();
-    }
-    if (&src == &toggleButton3)
-    {
-        //Interaction3
-        //When toggleButton3 clicked change screen to SixAxisPage
-        //Go to SixAxisPage with no screen transition
-        application().gotoSixAxisPageScreenNoTransition();
-    }
     if (&src == &toggleButton4)
     {
         //Interaction4
-        //When toggleButton4 clicked change screen to ApplicationPage
-        //Go to ApplicationPage with no screen transition
-        application().gotoApplicationPageScreenNoTransition();
+        //When toggleButton4 clicked change screen to SensorPage
+        //Go to SensorPage with no screen transition
+        application().gotoSensorPageScreenNoTransition();
     }
     if (&src == &WirelessConnection)
     {

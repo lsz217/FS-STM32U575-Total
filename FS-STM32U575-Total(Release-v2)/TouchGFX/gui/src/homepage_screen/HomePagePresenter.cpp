@@ -53,5 +53,10 @@ void HomePagePresenter::updateWiFiRSSI(uint8_t (&pWiFiInfo)[40], uint16_t newRSS
 }
 void HomePagePresenter::ChangeScreen()
 {
-		view.ChangeScreen();
+    view.ChangeScreen();
+}
+
+void HomePagePresenter::setBacklightValue(uint8_t value)
+{
+    model->setBacklightValue(value);
 }

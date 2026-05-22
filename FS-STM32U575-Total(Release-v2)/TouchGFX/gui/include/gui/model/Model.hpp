@@ -50,6 +50,7 @@ protected:
     int idleTimer;      // 计时器计数
     bool isSleeping;    // 当前是否处于休眠状态
     uint8_t hapticCounter; // 马达震动剩余 tick 数
+    uint8_t nfcNavCountdown; // NFC 识别成功后跳转倒计时
 //		FrontendApplication& application() {
 //        return *static_cast<FrontendApplication*>(touchgfx::Application::getInstance());
 //    }

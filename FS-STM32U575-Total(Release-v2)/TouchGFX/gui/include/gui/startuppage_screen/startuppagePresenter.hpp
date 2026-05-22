@@ -34,6 +34,7 @@ public:
 virtual void notifySleep() override;
     void resetIdleTimer();
 			virtual void nfcTriggered() override;
+	virtual void navigateToHome() override;
 
 private:
     startuppagePresenter();

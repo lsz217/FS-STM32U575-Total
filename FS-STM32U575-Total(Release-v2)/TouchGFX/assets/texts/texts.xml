@@ -64,17 +64,23 @@
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_BXE8" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">1</Translation>
+      </Text>
+      <Text Id="__SingleUse_SW08" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">W:&lt;WeekDay&gt;</Translation>
+      </Text>
       <Text Id="__SingleUse_1AWP" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">New Text</Translation>
+        <Translation Language="GB">&lt;Heart&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_JR7L" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">New Text</Translation>
+        <Translation Language="GB">&lt;CO2&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_NDVJ" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">New Text</Translation>
+        <Translation Language="GB">&lt;Hum&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_RBVJ" Alignment="Center" TypographyId="Default">
-        <Translation Language="GB">New Text1</Translation>
+        <Translation Language="GB">&lt;Temp&gt;</Translation>
       </Text>
       <Text Id="TEXT_NFC" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">请刷NFC</Translation>
