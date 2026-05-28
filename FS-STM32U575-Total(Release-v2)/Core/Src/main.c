@@ -62,6 +62,7 @@
 
 /* USER CODE BEGIN PV */
 uint8_t gChatCount = 10;  //全局按键按压计数
+volatile uint8_t gBuzzerModalActive = 0; // TouchGFX蜂鸣器弹窗占用标志，1=占用中，main循环不重置
 uint8_t KeyChangeScreen=0;
 static uint8_t gTaskIndex = 0x00;  //系统任务索引变量
 ADC_ValTypeDef gStruADC={0,0,0,0,0,0}; //A/D通道实时采集的数据
@@ -212,7 +213,7 @@ int main(void)
   //NOR Flash初始化
   OSPI_W25Qxx_Init();	//初始化W25Q128
   OSPI_W25Qxx_mmap();	//设置为内存映射模式
-	
+
 		//=== 传感器初始化 ===
 		BSP_MQ2_Init();
 		BSP_MQ3_Init();
@@ -225,11 +226,11 @@ int main(void)
 
 	// 插入 NFC 初始化
 NFC_Init(&nfc, &huart4, &huart1, nfc_rx_pool, NFC_BUF_SIZE);
-	
+
 	void Force_PC13_To_Input();
-		
-	
-	
+
+
+
 	  // 1. 启动 PWM 输出
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
 
@@ -241,10 +242,10 @@ __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
   gBacklightVal = 90;
   Update_Backlight(90);
 
-	
-  ILI9341_Init();	//显示屏初始化	
-  FT6336_init();	//触摸屏初始化	
-	mpu_init_dmp();	//mpu6050 dmp初始化	
+
+  ILI9341_Init();	//显示屏初始化
+  FT6336_init();	//触摸屏初始化
+	mpu_init_dmp();	//mpu6050 dmp初始化
 	ap3216c_init();	//环境光传感器初始化
 		SCD41_Init();		//SCD41 CO2传感器初始化
 		printf("[INIT] SCD41_Init done\r\n");
@@ -266,6 +267,8 @@ __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
     Error_Handler();
   }
   printf("[INIT] ADC Calibration done\r\n");
+  /* USER CODE END 2 */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   HAL_TIM_Base_Start_IT(&htim16);//开启定时器16开启,系统任务调度开始
@@ -280,6 +283,7 @@ __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
   while (1)
   {
     /* USER CODE END WHILE */
+
   MX_TouchGFX_Process();
     /* USER CODE BEGIN 3 */
 		for(gTaskIndex = 0;gTaskIndex < OS_TASKLISTCNT;gTaskIndex++)
@@ -397,7 +401,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			{
 				HAL_GPIO_WritePin(RUN_BEEP_GPIO_Port, RUN_BEEP_Pin, GPIO_PIN_SET);
 			}
-			else	
+			else if (!gBuzzerModalActive)
 			{
 				HAL_GPIO_WritePin(RUN_BEEP_GPIO_Port, RUN_BEEP_Pin, GPIO_PIN_RESET);	//释放高电平，关闭蜂鸣器
 			}

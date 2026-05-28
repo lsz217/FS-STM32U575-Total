@@ -24,7 +24,27 @@ void SensorPagePresenter::updateSensorInfo(float temperature, float humidity,
     view.updateSensorInfo(temperature, humidity, co2, heartRate, spo2);
 }
 
+void SensorPagePresenter::updateBuzzerStatus(bool alarmOn)
+{
+    view.updateBuzzerStatus(alarmOn);
+}
+
+void SensorPagePresenter::updateSmokeStatus(bool alarmOn)
+{
+    view.updateSmokeStatus(alarmOn);
+}
+
+void SensorPagePresenter::updateAlcoholStatus(bool alarmOn)
+{
+    view.updateAlcoholStatus(alarmOn);
+}
+
 void SensorPagePresenter::setMotorState(bool on)
 {
     model->setMotorOn(on);
+}
+
+void SensorPagePresenter::setBuzzerState(bool on)
+{
+    model->setBuzzerOn(on);
 }

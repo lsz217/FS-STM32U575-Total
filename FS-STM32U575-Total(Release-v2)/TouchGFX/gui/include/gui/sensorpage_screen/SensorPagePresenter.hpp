@@ -21,9 +21,13 @@ public:
     // Called by Model when sensor data is updated
     virtual void updateSensorInfo(float temperature, float humidity,
                                    uint16_t co2, uint32_t heartRate, uint32_t spo2);
+    virtual void updateBuzzerStatus(bool alarmOn);
+    virtual void updateSmokeStatus(bool alarmOn);
+    virtual void updateAlcoholStatus(bool alarmOn);
 
     // Motor control from View
     void setMotorState(bool on);
+    void setBuzzerState(bool on);
 
 private:
     SensorPagePresenter();

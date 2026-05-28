@@ -1563,8 +1563,121 @@
           {
             "Type": "FlexButton",
             "Name": "flexButton4",
-            "X": 151,
-            "Y": 125,
+            "X": 150,
+            "Y": 92,
+            "Width": 50,
+            "Height": 50,
+            "Alpha": 0,
+            "ButtonTrigger": {
+              "Type": "ClickButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 50,
+                "Height": 50,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Green": 102,
+                  "Blue": 153
+                },
+                "ColorPressed": {
+                  "Green": 153,
+                  "Blue": 204
+                },
+                "ColorBorderReleased": {
+                  "Green": 51,
+                  "Blue": 102
+                },
+                "ColorBorderPressed": {
+                  "Red": 51,
+                  "Green": 102,
+                  "Blue": 153
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton5",
+            "X": 256,
+            "Y": 99,
+            "Width": 50,
+            "Height": 50,
+            "Alpha": 0,
+            "ButtonTrigger": {
+              "Type": "ClickButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 50,
+                "Height": 50,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Green": 102,
+                  "Blue": 153
+                },
+                "ColorPressed": {
+                  "Green": 153,
+                  "Blue": 204
+                },
+                "ColorBorderReleased": {
+                  "Green": 51,
+                  "Blue": 102
+                },
+                "ColorBorderPressed": {
+                  "Red": 51,
+                  "Green": 102,
+                  "Blue": 153
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton6",
+            "Y": 96,
+            "Width": 50,
+            "Height": 50,
+            "Alpha": 0,
+            "ButtonTrigger": {
+              "Type": "ClickButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 50,
+                "Height": 50,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Green": 102,
+                  "Blue": 153
+                },
+                "ColorPressed": {
+                  "Green": 153,
+                  "Blue": 204
+                },
+                "ColorBorderReleased": {
+                  "Green": 51,
+                  "Blue": 102
+                },
+                "ColorBorderPressed": {
+                  "Red": 51,
+                  "Green": 102,
+                  "Blue": 153
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton7",
+            "X": 155,
+            "Y": 178,
             "Width": 50,
             "Height": 50,
             "Alpha": 0,
@@ -1608,7 +1721,19 @@
             "ModalWidth": 320,
             "ModalHeight": 240,
             "Alpha": 150,
-            "Components": []
+            "Components": [
+              {
+                "Type": "TextArea",
+                "Name": "textArea1",
+                "X": 105,
+                "Y": 136,
+                "Height": 23,
+                "Visible": false,
+                "TextId": "__SingleUse_RBVJ",
+                "TextRotation": "0",
+                "AutoSize": true
+              }
+            ]
           },
           {
             "Type": "ModalWindow",
@@ -1620,7 +1745,19 @@
             "ModalWidth": 320,
             "ModalHeight": 240,
             "Alpha": 150,
-            "Components": []
+            "Components": [
+              {
+                "Type": "TextArea",
+                "Name": "textArea2",
+                "X": 93,
+                "Y": 109,
+                "Height": 23,
+                "Visible": false,
+                "TextId": "__SingleUse_NDVJ",
+                "TextRotation": "0",
+                "AutoSize": true
+              }
+            ]
           },
           {
             "Type": "ModalWindow",
@@ -1632,7 +1769,24 @@
             "ModalWidth": 320,
             "ModalHeight": 240,
             "Alpha": 150,
-            "Components": []
+            "Components": [
+              {
+                "Type": "TextArea",
+                "Name": "textArea3",
+                "X": 15,
+                "Y": 175,
+                "Height": 23,
+                "Visible": false,
+                "TextId": "__SingleUse_JR7L",
+                "TextRotation": "0",
+                "Color": {
+                  "Red": 254,
+                  "Green": 255,
+                  "Blue": 255
+                },
+                "AutoSize": true
+              }
+            ]
           },
           {
             "Type": "ModalWindow",
@@ -1644,65 +1798,105 @@
             "ModalWidth": 320,
             "ModalHeight": 240,
             "Alpha": 150,
-            "Components": []
+            "Components": [
+              {
+                "Type": "TextArea",
+                "Name": "textArea4",
+                "X": 5,
+                "Y": 186,
+                "Height": 23,
+                "Visible": false,
+                "TextId": "__SingleUse_1AWP",
+                "TextRotation": "0",
+                "Color": {
+                  "Red": 237,
+                  "Green": 237,
+                  "Blue": 237
+                },
+                "AutoSize": true
+              }
+            ]
           },
           {
-            "Type": "TextArea",
-            "Name": "textArea1",
-            "X": 105,
-            "Y": 136,
-            "Width": 90,
-            "Height": 23,
+            "Type": "ModalWindow",
+            "Name": "modalWindow5",
+            "Width": 320,
+            "Height": 240,
             "Visible": false,
-            "TextId": "__SingleUse_RBVJ",
-            "TextRotation": "0",
-            "AutoSize": true
+            "FileName": "jinggao.png",
+            "ModalWidth": 320,
+            "ModalHeight": 240,
+            "Alpha": 150,
+            "Components": [
+              {
+                "Type": "TextArea",
+                "Name": "textArea5",
+                "X": 150,
+                "Y": 175,
+                "Width": 80,
+                "Height": 23,
+                "TextId": "__SingleUse_Y1DA",
+                "TextRotation": "0",
+                "AutoSize": true
+              }
+            ]
           },
           {
-            "Type": "TextArea",
-            "Name": "textArea2",
-            "X": 93,
-            "Y": 109,
-            "Width": 80,
-            "Height": 23,
+            "Type": "ModalWindow",
+            "Name": "modalWindow6",
+            "Width": 320,
+            "Height": 240,
             "Visible": false,
-            "TextId": "__SingleUse_NDVJ",
-            "TextRotation": "0",
-            "AutoSize": true
+            "FileName": "jiujing3.png",
+            "ModalWidth": 320,
+            "ModalHeight": 240,
+            "Alpha": 150,
+            "Components": [
+              {
+                "Type": "TextArea",
+                "Name": "textArea6",
+                "X": 10,
+                "Y": 186,
+                "Height": 23,
+                "TextId": "__SingleUse_NUXQ",
+                "TextRotation": "0",
+                "Color": {
+                  "Red": 255,
+                  "Green": 255,
+                  "Blue": 255
+                },
+                "AutoSize": true
+              }
+            ]
           },
           {
-            "Type": "TextArea",
-            "Name": "textArea3",
-            "X": 15,
-            "Y": 175,
-            "Width": 80,
-            "Height": 23,
+            "Type": "ModalWindow",
+            "Name": "modalWindow7",
+            "Width": 320,
+            "Height": 240,
             "Visible": false,
-            "TextId": "__SingleUse_JR7L",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 254,
-              "Green": 255,
-              "Blue": 255
-            },
-            "AutoSize": true
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textArea4",
-            "X": 5,
-            "Y": 186,
-            "Width": 80,
-            "Height": 23,
-            "Visible": false,
-            "TextId": "__SingleUse_1AWP",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 237,
-              "Green": 237,
-              "Blue": 237
-            },
-            "AutoSize": true
+            "FileName": "yanwu2.png",
+            "ModalWidth": 320,
+            "ModalHeight": 240,
+            "Alpha": 150,
+            "Components": [
+              {
+                "Type": "TextArea",
+                "Name": "textArea7",
+                "X": 15,
+                "Y": 175,
+                "Width": 80,
+                "Height": 23,
+                "TextId": "__SingleUse_XG6P",
+                "TextRotation": "0",
+                "Color": {
+                  "Red": 255,
+                  "Green": 255,
+                  "Blue": 255
+                },
+                "AutoSize": true
+              }
+            ]
           },
           {
             "Type": "ScalableImage",
@@ -1734,11 +1928,41 @@
           {
             "Type": "ScalableImage",
             "Name": "scalableImage4",
-            "X": 146,
-            "Y": 120,
+            "X": 145,
+            "Y": 94,
             "Width": 55,
             "Height": 55,
             "Filename": "heart_rate_2.png",
+            "ScalingAlgorithm": "Nearest-neighbor"
+          },
+          {
+            "Type": "ScalableImage",
+            "Name": "scalableImage5",
+            "X": 155,
+            "Y": 173,
+            "Width": 55,
+            "Height": 55,
+            "Filename": "baojingqi.png",
+            "ScalingAlgorithm": "Nearest-neighbor"
+          },
+          {
+            "Type": "ScalableImage",
+            "Name": "scalableImage6",
+            "X": 2,
+            "Y": 89,
+            "Width": 56,
+            "Height": 62,
+            "Filename": "yanwu.png",
+            "ScalingAlgorithm": "Nearest-neighbor"
+          },
+          {
+            "Type": "ScalableImage",
+            "Name": "scalableImage7",
+            "X": 250,
+            "Y": 92,
+            "Width": 63,
+            "Height": 59,
+            "Filename": "yinjiu.png",
             "ScalingAlgorithm": "Nearest-neighbor"
           }
         ],
@@ -1764,7 +1988,7 @@
       "Height": 240
     },
     "SelectedColorDepth": 16,
-    "StartupScreenName": "HomePage",
+    "StartupScreenName": "SensorPage",
     "SelectedStartupLanguage": "GB",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
     "UIPath": ".",
@@ -1788,7 +2012,13 @@
     "FrameworkFeatures": {
       "LCD16bpp": {
         "Id": "LCD16bpp",
-        "IsEnabled": true
+        "IsEnabled": true,
+        "Features": [
+          {
+            "Id": "TextureMapperImageFormats",
+            "IsEnabled": true
+          }
+        ]
       }
     },
     "GenerateAssetsCommand": "make -f simulator/gcc/Makefile assets -j8",
@@ -1810,5 +2040,5 @@
     "OptionalComponents": [],
     "AdditionalFeatures": []
   },
-  "Version": "4.21.2"
+  "Version": "4.26.0"
 }

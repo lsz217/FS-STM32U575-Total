@@ -449,6 +449,11 @@
               <FilePath>..\Core\Src\bsp_esp8266.c</FilePath>
             </File>
             <File>
+              <FileName>bsp_scd41.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\bsp_scd41.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>
@@ -670,11 +675,6 @@
               <FileName>stm32u5xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32u5xx_hal_msp.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_scd41.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\bsp_scd41.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1382,6 +1382,11 @@
               <FilePath>../touchgfx/generated/gui_generated/src/homepage_screen/homepageviewbase.cpp</FilePath>
             </File>
             <File>
+              <FileName>image_1.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_1.cpp</FilePath>
+            </File>
+            <File>
               <FileName>image_add_36x36.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/applicationpage/image_add_36x36.cpp</FilePath>
@@ -1390,6 +1395,16 @@
               <FileName>image_add_pressed_36x36.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/applicationpage/image_add_pressed_36x36.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_alarm.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_alarm.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_alarm_buzzer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_alarm_buzzer.cpp</FilePath>
             </File>
             <File>
               <FileName>image_alternate_theme_images_backgrounds_320x240_puzzle.cpp</FileName>
@@ -1465,6 +1480,11 @@
               <FileName>image_ApplicationPage_background-240x320.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/applicationpage/image_applicationpage_background-240x320.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_baojingqi.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_baojingqi.cpp</FilePath>
             </File>
             <File>
               <FileName>image_Buttons-54x54.cpp</FileName>
@@ -1625,6 +1645,21 @@
               <FileName>image_IMG_20260515_192616.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/applicationpage/image_img_20260515_192616.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_jinggao.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_jinggao.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_jiujing3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_jiujing3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_jiujingbaojing.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_jiujingbaojing.cpp</FilePath>
             </File>
             <File>
               <FileName>image_locked.cpp</FileName>
@@ -1827,6 +1862,11 @@
               <FilePath>../touchgfx/generated/images/src/sixaxispage/image_sixaxispage_background-240x320.cpp</FilePath>
             </File>
             <File>
+              <FileName>image_smoke_alarm.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_smoke_alarm.cpp</FilePath>
+            </File>
+            <File>
               <FileName>image_spaceman-64x80.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/homepage/image_spaceman-64x80.cpp</FilePath>
@@ -1895,6 +1935,21 @@
               <FileName>image_wifiLink_pressed-54x54.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/controls/image_wifilink_pressed-54x54.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_yanwu.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_yanwu.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_yanwu2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_yanwu2.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_yinjiu.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/image_yinjiu.cpp</FilePath>
             </File>
             <File>
               <FileName>image_zhujiemian.cpp</FileName>

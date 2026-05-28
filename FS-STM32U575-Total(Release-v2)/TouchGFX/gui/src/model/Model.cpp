@@ -7,6 +7,8 @@
 	{
 	#include "user_app.h"
 	#include "bsp_motor.h"
+	#include "bsp_mq2.h"
+	#include "bsp_mq3.h"
 		extern TIM_HandleTypeDef htim2;
 		extern volatile uint8_t gBacklightVal;
 	extern volatile uint8_t g_nfc_unlock_flag; // 声明来自 main.c 的全局标志位
@@ -40,6 +42,7 @@
 		extern int8_t ch_spo2_valid;   //indicator to show if the SP02 calculation is valid
 		extern int8_t  ch_hr_valid;    //indicator to show if the heart rate calculation is valid
 		extern int8_t KeyChangeScreen;
+		extern volatile uint8_t gBuzzerModalActive; // main.c: TouchGFX蜂鸣器占用标志
 	#else //Designer仿真
 		#include <ctime>
 		#ifndef _MSC_VER
@@ -64,6 +67,27 @@ void Model::tick()
 #if defined LINK_HARDWARE
 		if (tickCount == 1)
 			printf("[Model] First tick OK\r\n");
+		// MQ-2/MQ-3 调试：读GPIO寄存器，每60 tick打印一次
+		{
+			static uint16_t mqDbgCnt = 0;
+			if (++mqDbgCnt >= 60) {
+				mqDbgCnt = 0;
+				// 读取PB8/PB9的MODER配置 (bits 19:18=PB9, 17:16=PB8)
+				uint32_t moder = GPIOB->MODER;
+				uint32_t pb9_mode  = (moder >> 18) & 3;
+				uint32_t pb8_mode  = (moder >> 16) & 3;
+				uint32_t pupdr = GPIOB->PUPDR;
+				uint32_t pb9_pupd  = (pupdr >> 18) & 3;
+				uint32_t pb8_pupd  = (pupdr >> 16) & 3;
+				uint8_t s_bsp = BSP_MQ2_Read();
+				uint8_t a_bsp = BSP_MQ3_Read();
+				uint8_t s_hal = (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_8) == GPIO_PIN_RESET) ? 0 : 1;
+				uint8_t a_hal = (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_9) == GPIO_PIN_RESET) ? 0 : 1;
+				printf("[MQ-DBG] PB8 mod=%lu pupd=%lu val=%d  PB9 mod=%lu pupd=%lu val=%d\r\n",
+					pb8_mode, pb8_pupd, s_hal,
+					pb9_mode, pb9_pupd, a_hal);
+			}
+		}
 		// 马达震动计时：每 tick 减少计数，到 0 时关闭马达
 		if (hapticCounter > 0)
 		{
@@ -119,6 +143,29 @@ void Model::tick()
 			modelListener->updateSensorInfo(gTemRH_Val.Tem, gTemRH_Val.Hum, gSCD41_Val.CO2,
 					ch_hr_valid   ? (uint32_t)(n_heart_rate / 4) : 0xFFFFFFFF,
 					ch_spo2_valid ? (uint32_t)n_sp02             : 0xFFFFFFFF);
+			//MQ-2烟雾传感器 & MQ-3酒精传感器
+			{
+				static uint8_t lastSmoke = 1;
+				static uint16_t mqPrintCnt = 0;
+				uint8_t smokeVal = BSP_MQ2_Read();
+				if (smokeVal != lastSmoke) {
+					modelListener->updateSmokeStatus(smokeVal == 0);
+					lastSmoke = smokeVal;
+				}
+				static uint8_t lastAlcohol = 1;
+				uint8_t alcoholVal = BSP_MQ3_Read();
+				if (alcoholVal != lastAlcohol) {
+					modelListener->updateAlcoholStatus(alcoholVal == 0);
+					lastAlcohol = alcoholVal;
+				}
+				// 串口调试：每秒打印MQ-2/MQ-3状态
+				if (++mqPrintCnt >= 60) {
+					mqPrintCnt = 0;
+					printf("[MQ] Smoke(PB8)=%s  Alcohol(PB9)=%s\r\n",
+						smokeVal ? "HIGH(Normal)" : "LOW(Alarm!)",
+						alcoholVal ? "HIGH(Normal)" : "LOW(Alarm!)");
+				}
+			}
 		}
 		//健康监测信息上传
 		if(gTaskEnMark.UPDATE_HEART_RATE_EN)
@@ -356,6 +403,18 @@ void Model::tick()
 			BSP_MOTOR_On();
 		else
 			BSP_MOTOR_Off();
+	#endif
+	}
+
+	//蜂鸣器开/关控制
+	void Model::setBuzzerOn(bool on)
+	{
+	#if defined LINK_HARDWARE
+		gBuzzerModalActive = on ? 1 : 0;
+		if (on)
+			BEEP_ENABLE();
+		else
+			BEEP_DISABLE();
 	#endif
 	}
 

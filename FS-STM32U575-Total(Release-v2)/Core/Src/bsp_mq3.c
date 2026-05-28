@@ -23,6 +23,10 @@ void BSP_MQ3_Init(void)
     g.Mode = GPIO_MODE_INPUT;
     g.Pull = GPIO_PULLUP;
     HAL_GPIO_Init(MQ3_GPIO_PORT, &g);
+    printf("[MQ3] Init done: PB9 MODE=%lu PUPD=%lu IDR=0x%08lX\r\n",
+           (uint32_t)(MQ3_GPIO_PORT->MODER >> 18) & 3,
+           (uint32_t)(MQ3_GPIO_PORT->PUPDR >> 18) & 3,
+           MQ3_GPIO_PORT->IDR);
 }
 
 /*

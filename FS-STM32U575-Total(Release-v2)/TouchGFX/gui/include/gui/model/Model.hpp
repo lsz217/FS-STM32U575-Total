@@ -44,6 +44,7 @@ public:
 			void SensorPageViewTask(bool enable);
 			void triggerHapticPulse(); // 触摸震动：短暂马达脉冲
 			void setMotorOn(bool on);   // 马达持续开/关控制
+		void setBuzzerOn(bool on);  // 蜂鸣器开/关控制
 			void resetTimer(); // 提供给外部（View/Presenter）重置计时的接口
 protected:
     ModelListener* modelListener;

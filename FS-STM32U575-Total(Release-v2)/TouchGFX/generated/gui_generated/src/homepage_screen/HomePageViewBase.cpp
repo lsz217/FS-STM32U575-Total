@@ -35,9 +35,9 @@ HomePageViewBase::HomePageViewBase() :
     textWiFiLinkInfo.setTypedText(touchgfx::TypedText(T_WIFILINKINFO));
     WiFiModalLink.add(textWiFiLinkInfo);
 
+    add(WiFiModalLink);
+
     swipeContainer1.setXY(0, 0);
-    swipeContainer1.setWidth(320);
-    swipeContainer1.setHeight(240);
     swipeContainer1.setPageIndicatorBitmaps(touchgfx::Bitmap(BITMAP_ALTERNATE_THEME_IMAGES_WIDGETS_SWIPECONTAINER_MEDIUM_OFF_NORMAL_ID), touchgfx::Bitmap(BITMAP_ALTERNATE_THEME_IMAGES_WIDGETS_SWIPECONTAINER_MEDIUM_ON_ACTIVE_ID));
     swipeContainer1.setPageIndicatorXY(130, 218);
     swipeContainer1.setSwipeCutoff(30);
@@ -138,8 +138,6 @@ HomePageViewBase::HomePageViewBase() :
     WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFILINK_54X54_ID), touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
     WirelessConnection.setAction(buttonCallback);
     add(WirelessConnection);
-
-    add(WiFiModalLink);
 }
 
 HomePageViewBase::~HomePageViewBase()
@@ -164,9 +162,9 @@ void HomePageViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& src
     if (&src == &toggleButton4)
     {
         //Interaction4
-        //When toggleButton4 clicked change screen to SensorPage
-        //Go to SensorPage with no screen transition
-        application().gotoSensorPageScreenNoTransition();
+        //When toggleButton4 clicked change screen to ApplicationPage
+        //Go to ApplicationPage with no screen transition
+        application().gotoApplicationPageScreenNoTransition();
     }
     if (&src == &WirelessConnection)
     {

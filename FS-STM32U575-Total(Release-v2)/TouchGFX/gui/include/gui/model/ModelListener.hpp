@@ -44,6 +44,10 @@ public:
 			virtual void updateAppPageInfo(uint16_t CurrentVal, uint16_t VoltageVal, float newHum, float newTem, uint16_t newALS) {}
 			//更新传感器数据到SensorPage
 			virtual void updateSensorInfo(float temperature, float humidity, uint16_t co2, uint32_t heartRate, uint32_t spo2) {}
+			//更新蜂鸣器/烟雾/酒精传感器
+			virtual void updateBuzzerStatus(bool alarmOn) {}
+			virtual void updateSmokeStatus(bool alarmOn) {}
+			virtual void updateAlcoholStatus(bool alarmOn) {}
 	protected:
 	    Model* model;
 };

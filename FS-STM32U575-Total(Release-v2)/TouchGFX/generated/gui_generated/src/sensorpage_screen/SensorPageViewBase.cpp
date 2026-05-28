@@ -13,6 +13,9 @@ SensorPageViewBase::SensorPageViewBase() :
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     add(__background);
 
+    __background.setPosition(0, 0, 320, 240);
+    __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    add(__background);
 
     backgroundImage.setXY(0, 0);
     backgroundImage.setBitmap(touchgfx::Bitmap(BITMAP_IMG_20260515_192616_ID));
@@ -48,60 +51,117 @@ SensorPageViewBase::SensorPageViewBase() :
     flexButton4.setBorderSize(5);
     flexButton4.setBoxWithBorderColors(touchgfx::Color::getColorFromRGB(0, 102, 153), touchgfx::Color::getColorFromRGB(0, 153, 204), touchgfx::Color::getColorFromRGB(0, 51, 102), touchgfx::Color::getColorFromRGB(51, 102, 153));
     flexButton4.setAlpha(0);
-    flexButton4.setPosition(151, 125, 50, 50);
+    flexButton4.setPosition(150, 92, 50, 50);
     add(flexButton4);
+
+    flexButton5.setBoxWithBorderPosition(0, 0, 50, 50);
+    flexButton5.setBorderSize(5);
+    flexButton5.setBoxWithBorderColors(touchgfx::Color::getColorFromRGB(0, 102, 153), touchgfx::Color::getColorFromRGB(0, 153, 204), touchgfx::Color::getColorFromRGB(0, 51, 102), touchgfx::Color::getColorFromRGB(51, 102, 153));
+    flexButton5.setAlpha(0);
+    flexButton5.setPosition(256, 99, 50, 50);
+    add(flexButton5);
+
+    flexButton6.setBoxWithBorderPosition(0, 0, 50, 50);
+    flexButton6.setBorderSize(5);
+    flexButton6.setBoxWithBorderColors(touchgfx::Color::getColorFromRGB(0, 102, 153), touchgfx::Color::getColorFromRGB(0, 153, 204), touchgfx::Color::getColorFromRGB(0, 51, 102), touchgfx::Color::getColorFromRGB(51, 102, 153));
+    flexButton6.setAlpha(0);
+    flexButton6.setPosition(0, 96, 50, 50);
+    add(flexButton6);
+
+    flexButton7.setBoxWithBorderPosition(0, 0, 50, 50);
+    flexButton7.setBorderSize(5);
+    flexButton7.setBoxWithBorderColors(touchgfx::Color::getColorFromRGB(0, 102, 153), touchgfx::Color::getColorFromRGB(0, 153, 204), touchgfx::Color::getColorFromRGB(0, 51, 102), touchgfx::Color::getColorFromRGB(51, 102, 153));
+    flexButton7.setAlpha(0);
+    flexButton7.setPosition(155, 178, 50, 50);
+    add(flexButton7);
 
     modalWindow1.setBackground(touchgfx::BitmapId(BITMAP_MODAL_TEMP_BG_ID), 0, 0);
     modalWindow1.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     modalWindow1.setShadeAlpha(150);
     modalWindow1.hide();
+    textArea1.setXY(105, 136);
+    textArea1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    textArea1.setLinespacing(0);
+    textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_RBVJ));
+    textArea1.setVisible(false);
+    modalWindow1.add(textArea1);
+
     add(modalWindow1);
 
     modalWindow2.setBackground(touchgfx::BitmapId(BITMAP_MODAL_HUM_BG_ID), 0, 0);
     modalWindow2.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     modalWindow2.setShadeAlpha(150);
     modalWindow2.hide();
+    textArea2.setXY(93, 109);
+    textArea2.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    textArea2.setLinespacing(0);
+    textArea2.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NDVJ));
+    textArea2.setVisible(false);
+    modalWindow2.add(textArea2);
+
     add(modalWindow2);
 
     modalWindow3.setBackground(touchgfx::BitmapId(BITMAP_MODAL_CO2_BG_ID), 0, 0);
     modalWindow3.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     modalWindow3.setShadeAlpha(150);
     modalWindow3.hide();
+    textArea3.setXY(15, 175);
+    textArea3.setColor(touchgfx::Color::getColorFromRGB(254, 255, 255));
+    textArea3.setLinespacing(0);
+    textArea3.setTypedText(touchgfx::TypedText(T___SINGLEUSE_JR7L));
+    textArea3.setVisible(false);
+    modalWindow3.add(textArea3);
+
     add(modalWindow3);
 
     modalWindow4.setBackground(touchgfx::BitmapId(BITMAP_MODAL_HEART_BG_ID), 0, 0);
     modalWindow4.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     modalWindow4.setShadeAlpha(150);
     modalWindow4.hide();
-    add(modalWindow4);
-
-    textArea1.setXY(105, 136);
-    textArea1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    textArea1.setLinespacing(0);
-    textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_RBVJ));
-    textArea1.setVisible(false);
-    add(textArea1);
-
-    textArea2.setXY(93, 109);
-    textArea2.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    textArea2.setLinespacing(0);
-    textArea2.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NDVJ));
-    textArea2.setVisible(false);
-    add(textArea2);
-
-    textArea3.setXY(15, 175);
-    textArea3.setColor(touchgfx::Color::getColorFromRGB(254, 255, 255));
-    textArea3.setLinespacing(0);
-    textArea3.setTypedText(touchgfx::TypedText(T___SINGLEUSE_JR7L));
-    textArea3.setVisible(false);
-    add(textArea3);
-
     textArea4.setXY(5, 186);
     textArea4.setColor(touchgfx::Color::getColorFromRGB(237, 237, 237));
     textArea4.setLinespacing(0);
     textArea4.setTypedText(touchgfx::TypedText(T___SINGLEUSE_1AWP));
     textArea4.setVisible(false);
-    add(textArea4);
+    modalWindow4.add(textArea4);
+
+    add(modalWindow4);
+
+    modalWindow5.setBackground(touchgfx::BitmapId(BITMAP_JINGGAO_ID), 0, 0);
+    modalWindow5.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    modalWindow5.setShadeAlpha(150);
+    modalWindow5.hide();
+    textArea5.setXY(150, 175);
+    textArea5.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    textArea5.setLinespacing(0);
+    textArea5.setTypedText(touchgfx::TypedText(T___SINGLEUSE_Y1DA));
+    modalWindow5.add(textArea5);
+
+    add(modalWindow5);
+
+    modalWindow6.setBackground(touchgfx::BitmapId(BITMAP_JIUJING3_ID), 0, 0);
+    modalWindow6.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    modalWindow6.setShadeAlpha(150);
+    modalWindow6.hide();
+    textArea6.setXY(10, 186);
+    textArea6.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    textArea6.setLinespacing(0);
+    textArea6.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NUXQ));
+    modalWindow6.add(textArea6);
+
+    add(modalWindow6);
+
+    modalWindow7.setBackground(touchgfx::BitmapId(BITMAP_YANWU2_ID), 0, 0);
+    modalWindow7.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    modalWindow7.setShadeAlpha(150);
+    modalWindow7.hide();
+    textArea7.setXY(15, 175);
+    textArea7.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    textArea7.setLinespacing(0);
+    textArea7.setTypedText(touchgfx::TypedText(T___SINGLEUSE_XG6P));
+    modalWindow7.add(textArea7);
+
+    add(modalWindow7);
 
     scalableImage1.setBitmap(touchgfx::Bitmap(BITMAP_HUMIDITY_1_ID));
     scalableImage1.setPosition(0, 0, 55, 55);
@@ -119,9 +179,24 @@ SensorPageViewBase::SensorPageViewBase() :
     add(scalableImage3);
 
     scalableImage4.setBitmap(touchgfx::Bitmap(BITMAP_HEART_RATE_2_ID));
-    scalableImage4.setPosition(146, 120, 55, 55);
+    scalableImage4.setPosition(145, 94, 55, 55);
     scalableImage4.setScalingAlgorithm(touchgfx::ScalableImage::NEAREST_NEIGHBOR);
     add(scalableImage4);
+
+    scalableImage5.setBitmap(touchgfx::Bitmap(BITMAP_BAOJINGQI_ID));
+    scalableImage5.setPosition(155, 173, 55, 55);
+    scalableImage5.setScalingAlgorithm(touchgfx::ScalableImage::NEAREST_NEIGHBOR);
+    add(scalableImage5);
+
+    scalableImage6.setBitmap(touchgfx::Bitmap(BITMAP_YANWU_ID));
+    scalableImage6.setPosition(2, 89, 56, 62);
+    scalableImage6.setScalingAlgorithm(touchgfx::ScalableImage::NEAREST_NEIGHBOR);
+    add(scalableImage6);
+
+    scalableImage7.setBitmap(touchgfx::Bitmap(BITMAP_YINJIU_ID));
+    scalableImage7.setPosition(250, 92, 63, 59);
+    scalableImage7.setScalingAlgorithm(touchgfx::ScalableImage::NEAREST_NEIGHBOR);
+    add(scalableImage7);
 }
 
 SensorPageViewBase::~SensorPageViewBase()

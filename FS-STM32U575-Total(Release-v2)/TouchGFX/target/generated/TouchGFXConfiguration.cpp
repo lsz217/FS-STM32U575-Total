@@ -26,8 +26,6 @@
 #include <TouchGFXHAL.hpp>
 #include <STM32TouchController.hpp>
 #include <stm32u5xx_hal.h>
-#include <touchgfx/widgets/canvas/CWRVectorRenderer.hpp>
-#include <touchgfx/widgets/canvas/PainterRGB565.hpp>
 
 extern "C" void touchgfx_init();
 extern "C" void touchgfx_taskEntry();
@@ -71,21 +69,10 @@ void touchgfx_taskEntry()
      *
      * Note This function returns immediately if there is no VSYNC signal.
      */
-     static uint32_t entryCnt = 0;
-     entryCnt++;
      if (OSWrappers::isVSyncAvailable())
      {
          hal.backPorchExited();
      }
-}
-
-namespace touchgfx
-{
-    VectorRenderer* VectorRenderer::getInstance()
-    {
-        static CWRVectorRendererRGB565 renderer;
-        return &renderer;
-    }
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

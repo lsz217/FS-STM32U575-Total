@@ -45,18 +45,30 @@ protected:
     touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton2;
     touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton3;
     touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton4;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton5;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton6;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton7;
     touchgfx::ModalWindow modalWindow1;
-    touchgfx::ModalWindow modalWindow2;
-    touchgfx::ModalWindow modalWindow3;
-    touchgfx::ModalWindow modalWindow4;
     touchgfx::TextArea textArea1;
+    touchgfx::ModalWindow modalWindow2;
     touchgfx::TextArea textArea2;
+    touchgfx::ModalWindow modalWindow3;
     touchgfx::TextArea textArea3;
+    touchgfx::ModalWindow modalWindow4;
     touchgfx::TextArea textArea4;
+    touchgfx::ModalWindow modalWindow5;
+    touchgfx::TextArea textArea5;
+    touchgfx::ModalWindow modalWindow6;
+    touchgfx::TextArea textArea6;
+    touchgfx::ModalWindow modalWindow7;
+    touchgfx::TextArea textArea7;
     touchgfx::ScalableImage scalableImage1;
     touchgfx::ScalableImage scalableImage2;
     touchgfx::ScalableImage scalableImage3;
     touchgfx::ScalableImage scalableImage4;
+    touchgfx::ScalableImage scalableImage5;
+    touchgfx::ScalableImage scalableImage6;
+    touchgfx::ScalableImage scalableImage7;
 
 private:
 

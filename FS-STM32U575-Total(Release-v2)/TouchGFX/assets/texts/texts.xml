@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.21.2">
+<TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.26.0">
   <Languages>
     <Language Id="GB" />
   </Languages>
@@ -64,6 +64,15 @@
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_XG6P" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">&lt;Hum&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_NUXQ" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">&lt;Hum&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_Y1DA" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">&lt;Hum&gt;</Translation>
+      </Text>
       <Text Id="__SingleUse_BXE8" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">1</Translation>
       </Text>
@@ -71,10 +80,10 @@
         <Translation Language="GB">W:&lt;WeekDay&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_1AWP" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">&lt;Heart&gt;</Translation>
+        <Translation Language="GB">&lt;Hum&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_JR7L" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">&lt;CO2&gt;</Translation>
+        <Translation Language="GB">&lt;Hum&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_NDVJ" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">&lt;Hum&gt;</Translation>
@@ -172,7 +181,7 @@
     </TextGroup>
   </Texts>
   <Typographies>
-    <Typography Id="Default" Font="simkai.ttf" Size="20" Bpp="4" Direction="LTR" WildcardCharacters="识别成功请刷NFC" WildcardCharacterRanges="!-~" />
+    <Typography Id="Default" Font="simkai.ttf" Size="20" Bpp="4" Direction="LTR" IsVector="no" WildcardCharacters="识别成功请刷NFC" WildcardCharacterRanges="!-~" />
     <Typography Id="Large" Font="cambriaz.ttf" Size="40" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9,a-z,A-Z" />
     <Typography Id="Small" Font="SIMYOU.TTF" Size="10" Bpp="4" Direction="LTR" FallbackCharacter="?" />
     <Typography Id="Chinese" Font="simkai.ttf" Size="20" Bpp="4" Direction="LTR" WildcardCharacters="0123456789+- :()=" WildcardCharacterRanges="0-9,A-Z,a-z" />

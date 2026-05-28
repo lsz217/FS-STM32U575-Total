@@ -21,6 +21,9 @@ void SensorPageView::setupScreen()
     flexButton2.setAction(flexButtonCallback);
     flexButton3.setAction(flexButtonCallback);
     flexButton4.setAction(flexButtonCallback);
+    flexButton5.setAction(flexButtonCallback);
+    flexButton6.setAction(flexButtonCallback);
+    flexButton7.setAction(flexButtonCallback);
 
     // Configure wildcard textAreas inside modals
     textModal1.setPosition(105, 136, 200, 30);
@@ -47,11 +50,35 @@ void SensorPageView::setupScreen()
     textModal4.setWildcard(textArea4Buffer);
     modalWindow4.add(textModal4);
 
+    // Buzzer alarm (modal5)
+    textModal5.setPosition(150, 175, 200, 30);
+    textModal5.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    textModal5.setTypedText(touchgfx::TypedText(T___SINGLEUSE_Y1DA));
+    textModal5.setWildcard(textArea5Buffer);
+    modalWindow5.add(textModal5);
+
+    // Alcohol (modal6)
+    textModal6.setPosition(10, 186, 200, 30);
+    textModal6.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    textModal6.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NUXQ));
+    textModal6.setWildcard(textArea6Buffer);
+    modalWindow6.add(textModal6);
+
+    // Smoke (modal7)
+    textModal7.setPosition(15, 175, 200, 30);
+    textModal7.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    textModal7.setTypedText(touchgfx::TypedText(T___SINGLEUSE_XG6P));
+    textModal7.setWildcard(textArea7Buffer);
+    modalWindow7.add(textModal7);
+
     // Show "measuring" placeholder until first data arrives
     Unicode::strncpy(textArea1Buffer, "Tem: -- C", TEXTAREA1_SIZE);
     Unicode::strncpy(textArea2Buffer, "Hum: -- %", TEXTAREA2_SIZE);
     Unicode::strncpy(textArea3Buffer, "CO2: -- ppm", TEXTAREA3_SIZE);
     Unicode::strncpy(textArea4Buffer, "HR: -- bpm  SpO2: --", TEXTAREA4_SIZE);
+    Unicode::strncpy(textArea5Buffer, "Alarm: OFF", TEXTAREA5_SIZE);
+    Unicode::strncpy(textArea6Buffer, "Alcohol: Normal", TEXTAREA6_SIZE);
+    Unicode::strncpy(textArea7Buffer, "Smoke: Normal", TEXTAREA7_SIZE);
 
     sensorDataReady = false;
 
@@ -75,6 +102,21 @@ void SensorPageView::setupScreen()
     closeButton4.setBitmaps(touchgfx::Bitmap(BITMAP_IMAGE_MENU_ICON_ID), touchgfx::Bitmap(BITMAP_IMAGE_MENU_ICON_PRESSED_ID));
     closeButton4.setAction(closeButtonCallback);
     modalWindow4.add(closeButton4);
+
+    closeButton5.setXY(261, 186);
+    closeButton5.setBitmaps(touchgfx::Bitmap(BITMAP_IMAGE_MENU_ICON_ID), touchgfx::Bitmap(BITMAP_IMAGE_MENU_ICON_PRESSED_ID));
+    closeButton5.setAction(closeButtonCallback);
+    modalWindow5.add(closeButton5);
+
+    closeButton6.setXY(261, 186);
+    closeButton6.setBitmaps(touchgfx::Bitmap(BITMAP_IMAGE_MENU_ICON_ID), touchgfx::Bitmap(BITMAP_IMAGE_MENU_ICON_PRESSED_ID));
+    closeButton6.setAction(closeButtonCallback);
+    modalWindow6.add(closeButton6);
+
+    closeButton7.setXY(261, 186);
+    closeButton7.setBitmaps(touchgfx::Bitmap(BITMAP_IMAGE_MENU_ICON_ID), touchgfx::Bitmap(BITMAP_IMAGE_MENU_ICON_PRESSED_ID));
+    closeButton7.setAction(closeButtonCallback);
+    modalWindow7.add(closeButton7);
 }
 
 void SensorPageView::tearDownScreen()
@@ -95,6 +137,9 @@ void SensorPageView::setIconsForModal(int modal)
     scalableImage2.setVisible(showAll);
     scalableImage3.setVisible(showAll);
     scalableImage4.setVisible(showAll);
+    scalableImage5.setVisible(showAll);
+    scalableImage6.setVisible(showAll);
+    scalableImage7.setVisible(showAll);
 }
 
 void SensorPageView::hideActiveModal()
@@ -107,6 +152,16 @@ void SensorPageView::hideActiveModal()
         modalWindow3.hide();
     else if (activeModal == 3)
         modalWindow4.hide();
+    else if (activeModal == 4)
+    {
+        modalWindow5.hide();
+        presenter->setMotorState(false);
+        presenter->setBuzzerState(false);
+    }
+    else if (activeModal == 5)
+        modalWindow6.hide();
+    else if (activeModal == 6)
+        modalWindow7.hide();
     setIconsForModal(-1);
 }
 
@@ -134,6 +189,12 @@ void SensorPageView::flexButtonCallbackHandler(const touchgfx::AbstractButtonCon
         showTemp();
     else if (&src == &flexButton4)
         showHeartRate();
+    else if (&src == &flexButton5)
+        showAlcohol();
+    else if (&src == &flexButton6)
+        showSmoke();
+    else if (&src == &flexButton7)
+        showBuzzer();
 }
 
 void SensorPageView::showTemp()
@@ -214,6 +275,70 @@ void SensorPageView::showHeartRate()
         activeModal = 3;
         setIconsForModal(3);
         textModal4.invalidate();
+    }
+    invalidate();
+}
+
+void SensorPageView::showBuzzer()
+{
+    if (activeModal == 4)
+    {
+        modalWindow5.hide();
+        activeModal = -1;
+        setIconsForModal(-1);
+        presenter->setMotorState(false);
+        presenter->setBuzzerState(false);
+    }
+    else
+    {
+        if (activeModal >= 0)
+            hideActiveModal();
+        modalWindow5.show();
+        activeModal = 4;
+        setIconsForModal(4);
+        textModal5.invalidate();
+        presenter->setMotorState(true);
+        presenter->setBuzzerState(true);
+    }
+    invalidate();
+}
+
+void SensorPageView::showSmoke()
+{
+    if (activeModal == 6)
+    {
+        modalWindow7.hide();
+        activeModal = -1;
+        setIconsForModal(-1);
+    }
+    else
+    {
+        if (activeModal >= 0)
+            hideActiveModal();
+        modalWindow7.show();
+        activeModal = 6;
+        setIconsForModal(6);
+        textModal7.invalidate();
+    }
+    invalidate();
+}
+
+void SensorPageView::showAlcohol()
+{
+    if (activeModal == 5)
+    {
+        modalWindow6.hide();
+        activeModal = -1;
+        setIconsForModal(-1);
+    }
+    else
+    {
+        if (activeModal >= 0)
+            hideActiveModal();
+        modalWindow6.show();
+        activeModal = 5;
+        setIconsForModal(5);
+        textModal6.invalidate();
     }
     invalidate();
 }
@@ -331,4 +456,25 @@ void SensorPageView::updateSensorInfo(float temperature, float humidity,
     }
 
     sensorDataReady = true;
+}
+
+void SensorPageView::updateBuzzerStatus(bool alarmOn)
+{
+    Unicode::strncpy(textArea5Buffer, alarmOn ? "Alarm: ON" : "Alarm: OFF", TEXTAREA5_SIZE);
+    if (textModal5.isVisible())
+        textModal5.invalidate();
+}
+
+void SensorPageView::updateSmokeStatus(bool alarmOn)
+{
+    Unicode::strncpy(textArea7Buffer, alarmOn ? "Smoke: Over limit!" : "Smoke: Normal", TEXTAREA7_SIZE);
+    if (textModal7.isVisible())
+        textModal7.invalidate();
+}
+
+void SensorPageView::updateAlcoholStatus(bool alarmOn)
+{
+    Unicode::strncpy(textArea6Buffer, alarmOn ? "Alcohol: Over limit!" : "Alcohol: Normal", TEXTAREA6_SIZE);
+    if (textModal6.isVisible())
+        textModal6.invalidate();
 }
