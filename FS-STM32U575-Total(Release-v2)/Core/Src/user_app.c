@@ -9,6 +9,7 @@
 #include "math.h"
 //
 #include "user_app.h"
+#include "bsp_max30102.h"  // MAX30102 BSP header
 /***************************心率血氧传感器***************************/
 #define MAX30102_ENABLE
 #define MAX30102_BUFF_LENGTH 200	//Defined in the "algorithm.h",MAX30102_BUFF_LENGTH = BUFFER_SIZE
@@ -717,87 +718,234 @@ void Update_AppPageInfo(void)
 	SCD41_GetData();
 }
 #ifdef MAX30102_ENABLE
-/*
-**********************************************************************
-* @fun     :mpu_get_max30102_data 
-* @brief   :读取max30102数据进行处理计算，得到心率与血氧数据
-* @param   :None
-* @return  :None 
-**********************************************************************
-*/
-static void mpu_get_max30102_data(void)
+// ── Heart rate state machine (non-blocking, chunked reads) ──
+
+#define FINGER_PRESENT_THRESHOLD  50000
+#define FINGER_CHECK_SAMPLES      3
+#define FIFO_WAIT_TIMEOUT_MS      100
+#define HR_CHUNK_SIZE             2
+
+static uint32_t g_last_valid_hr_time = 0;
+static uint8_t  g_sensor_inited = 0;
+
+#define HR_STATE_FINGER_CHECK   0
+#define HR_STATE_INIT_SENSOR    1
+#define HR_STATE_COLLECT_200    2
+#define HR_STATE_CALCULATE      3
+#define HR_STATE_ROLLING_SHIFT  4
+#define HR_STATE_ROLLING_READ   5
+#define HR_STATE_RESET_FIFO     6
+#define HR_STATE_DONE           7
+
+static uint8_t  hr_state = HR_STATE_FINGER_CHECK;
+static uint16_t hr_sample_idx = 0;
+static uint8_t  hr_first_measurement = 1;
+uint8_t g_hr_continue_flag = 0;
+
+static uint8_t max30102_check_finger(void)
 {
-  int16_t i;
-	uch_dummy = 0x00;  
-	//dumping the first 100 sets of samples in the memory and shift the last 400 sets of samples to the top
-	for(i=100;i<MAX30102_BUFF_LENGTH;i++)
-	{
-		aun_red_buffer[i-100]=aun_red_buffer[i];
-		aun_ir_buffer[i-100]=aun_ir_buffer[i];  
-	}       
-	//take 100 sets of samples before calculating the heart rate.
-	for(i=100;i<MAX30102_BUFF_LENGTH;i++)
-	{
-		while((uch_dummy&0xC0) == 0x00) maxim_max30102_read_reg(REG_INTR_STATUS_1,&uch_dummy); 
-		maxim_max30102_read_fifo((aun_red_buffer+i), (aun_ir_buffer+i));
-		uch_dummy= 0x00;   
-		#ifdef DEBUG_MODE	
-			//send samples and calculation result to terminal program through UART
-			printf("%i,%i\n\r", aun_red_buffer[i],aun_ir_buffer[i]);	
-		#endif // DEBUG	
-	}
-	maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length, aun_red_buffer, &n_sp02, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid); 	
-	// Read the _chip_ temperature in degrees Celsius
-  int8_t integer_temperature;
-  uint8_t fractional_temperature;
-	
-  maxim_max30102_read_temperature(&integer_temperature, &fractional_temperature);
-  float n_temperature = integer_temperature + ((float)fractional_temperature)/16.0;
-	#ifdef DEBUG_MODE	
-	//send samples and calculation result to terminal program through UART
-	if(ch_hr_valid || ch_spo2_valid)
-	{
-		printf("Temp=");
-		printf("%f", n_temperature);
-		printf(", HR=%i, ", n_heart_rate/4); //采样率100sps,max30102设置4点求平均
-		printf("SpO2=%i\n\r", n_sp02);
-	}
-	#endif // DEBUG
-}	
-/*
-**********************************************************************
-* @fun     :Update_HeartRateInfo
-* @brief   :更新脉搏、血氧饱和度、人体温度
-* @remark  :心率传感器的I2C总线与触摸共用同一个总线，读取心率数据的时
-*           阻塞了整个main循环，因此不进行连续采集，仅上传一次。获取的
-*						心率数据可以通过printf打印至PC端，在PC上进行基线漂移的处理
-*						与心率波形显示处理。
-**********************************************************************
-*/
+    uint32_t ir_sum = 0;
+    uint32_t red, ir;
+    uint8_t  sample_count = 0;
+
+    uint8_t dummy = 0;
+    maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
+    maxim_max30102_read_reg(REG_INTR_STATUS_2, &dummy);
+
+    for (int i = 0; i < FINGER_CHECK_SAMPLES; i++)
+    {
+        dummy = 0;
+        uint32_t t_start = HAL_GetTick();
+        while (((dummy & 0xC0) == 0x00) && (HAL_GetTick() - t_start < FIFO_WAIT_TIMEOUT_MS))
+        {
+            maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
+        }
+        if (HAL_GetTick() - t_start >= FIFO_WAIT_TIMEOUT_MS)
+            break;
+
+        maxim_max30102_read_fifo(&red, &ir);
+        ir_sum += ir;
+        sample_count++;
+    }
+
+    if (sample_count < 3)
+        return 0;
+
+    uint32_t ir_avg = ir_sum / sample_count;
+    printf("[FINGER] samples=%d, avg_IR=%u, threshold=%u\r\n",
+        sample_count, ir_avg, (uint32_t)FINGER_PRESENT_THRESHOLD);
+    return (ir_avg > FINGER_PRESENT_THRESHOLD) ? 1 : 0;
+}
+
 void Update_HeartRateInfo(void)
 {
-	uint16_t pVariableX = 0;
-	maxim_max30102_init();  //initializes the MAX30102
-	
-	n_ir_buffer_length=MAX30102_BUFF_LENGTH; //buffer length of 100 stores 2 seconds of samples running at 100sps
-			
-	//read the first 200 samples, and determine the signal range
-	for(pVariableX=0;pVariableX<n_ir_buffer_length;pVariableX++)
-	{	
-		while((uch_dummy&0xC0) == 0x00) maxim_max30102_read_reg(REG_INTR_STATUS_1,&uch_dummy); 
-		maxim_max30102_read_fifo((aun_red_buffer+pVariableX), (aun_ir_buffer+pVariableX));  //read from MAX30102 FIFO
-		uch_dummy= 0x00;
-		#ifdef DEBUG_MODE	
-			printf("%i,%i\n\r", aun_red_buffer[pVariableX],aun_ir_buffer[pVariableX]);
-		#endif				
-	}
-	//calculate heart rate and SpO2 after first 200 samples (first 2 seconds of samples)
-	maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length, aun_red_buffer, &n_sp02, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);
-	//Continuously taking samples from MAX30102.  Heart rate and SpO2 are calculated every 1 second
-	mpu_get_max30102_data();
-	//Reset the MAX30102
-	maxim_max30102_reset();
-	//测量完成
-	gTaskStateBit.Max30102 =1;
+    uint32_t t_start;
+    uint8_t dummy;
+    uint16_t end_idx;
+    uint16_t i;
+
+    switch (hr_state) {
+
+    case HR_STATE_FINGER_CHECK:
+        if (!max30102_check_finger())
+        {
+            ch_hr_valid   = 0;
+            ch_spo2_valid = 0;
+            n_heart_rate  = 0;
+            n_sp02        = 0;
+
+            if (g_last_valid_hr_time != 0
+                && (HAL_GetTick() - g_last_valid_hr_time) > 10000)
+            {
+                ch_hr_valid   = 1;
+                ch_spo2_valid = 1;
+                g_last_valid_hr_time = HAL_GetTick();
+                printf("[HR] 10s timeout, force UI update\r\n");
+            }
+            hr_state = HR_STATE_DONE;
+        }
+        else
+        {
+            hr_state = HR_STATE_INIT_SENSOR;
+        }
+        g_hr_continue_flag = 1;
+        break;
+
+    case HR_STATE_INIT_SENSOR:
+        if (!g_sensor_inited)
+        {
+            maxim_max30102_init();
+            g_sensor_inited = 1;
+        }
+        n_ir_buffer_length = MAX30102_BUFF_LENGTH;
+        hr_sample_idx = 0;
+        hr_state = HR_STATE_COLLECT_200;
+        g_hr_continue_flag = 1;
+        break;
+
+    case HR_STATE_COLLECT_200:
+        end_idx = hr_sample_idx + HR_CHUNK_SIZE;
+        if (end_idx > (uint16_t)MAX30102_BUFF_LENGTH)
+            end_idx = MAX30102_BUFF_LENGTH;
+
+        for (i = hr_sample_idx; i < end_idx; i++)
+        {
+            dummy = 0;
+            t_start = HAL_GetTick();
+            while (((dummy & 0xC0) == 0x00) && (HAL_GetTick() - t_start < FIFO_WAIT_TIMEOUT_MS))
+            {
+                maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
+            }
+            if (HAL_GetTick() - t_start >= FIFO_WAIT_TIMEOUT_MS)
+            {
+                printf("[HR] FIFO timeout at init sample %d\r\n", i);
+                break;
+            }
+            maxim_max30102_read_fifo((aun_red_buffer + i), (aun_ir_buffer + i));
+#ifdef DEBUG_MODE
+            printf("%i,%i\n\r", aun_red_buffer[i], aun_ir_buffer[i]);
+#endif
+        }
+
+        hr_sample_idx = end_idx;
+        if (hr_sample_idx >= MAX30102_BUFF_LENGTH)
+            hr_state = HR_STATE_CALCULATE;
+        g_hr_continue_flag = 1;
+        break;
+
+    case HR_STATE_CALCULATE:
+        maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length,
+            aun_red_buffer, &n_sp02, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);
+
+        {
+            int8_t  integer_temperature;
+            uint8_t fractional_temperature;
+            maxim_max30102_read_temperature(&integer_temperature, &fractional_temperature);
+            n_temperature = integer_temperature + ((float)fractional_temperature) / 16.0f;
+        }
+
+        if (!ch_hr_valid || !ch_spo2_valid)
+        {
+            n_heart_rate = 0;
+            n_sp02 = 0;
+        }
+
+        printf("[HR] Calculated: HR=%d, SpO2=%d, valid=%d/%d\r\n",
+            n_heart_rate / 4, n_sp02, ch_hr_valid, ch_spo2_valid);
+
+        if (ch_hr_valid || ch_spo2_valid)
+            g_last_valid_hr_time = HAL_GetTick();
+
+        if (hr_first_measurement)
+        {
+            hr_first_measurement = 0;
+            printf("[HR] First measurement, skip rolling read\r\n");
+            hr_state = HR_STATE_RESET_FIFO;
+        }
+        else
+        {
+            printf("[HR] Starting rolling read...\r\n");
+            hr_state = HR_STATE_ROLLING_SHIFT;
+        }
+        g_hr_continue_flag = 1;
+        break;
+
+    case HR_STATE_ROLLING_SHIFT:
+        for (i = 100; i < MAX30102_BUFF_LENGTH; i++)
+        {
+            aun_red_buffer[i - 100] = aun_red_buffer[i];
+            aun_ir_buffer[i - 100] = aun_ir_buffer[i];
+        }
+        hr_sample_idx = 100;
+        hr_state = HR_STATE_ROLLING_READ;
+        g_hr_continue_flag = 1;
+        break;
+
+    case HR_STATE_ROLLING_READ:
+        end_idx = hr_sample_idx + HR_CHUNK_SIZE;
+        if (end_idx > (uint16_t)MAX30102_BUFF_LENGTH)
+            end_idx = MAX30102_BUFF_LENGTH;
+
+        for (i = hr_sample_idx; i < end_idx; i++)
+        {
+            dummy = 0;
+            t_start = HAL_GetTick();
+            while (((dummy & 0xC0) == 0x00) && (HAL_GetTick() - t_start < FIFO_WAIT_TIMEOUT_MS))
+            {
+                maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
+            }
+            if (HAL_GetTick() - t_start >= FIFO_WAIT_TIMEOUT_MS)
+            {
+                printf("[HR] Roll FIFO timeout at sample %d\r\n", i);
+                break;
+            }
+            maxim_max30102_read_fifo((aun_red_buffer + i), (aun_ir_buffer + i));
+#ifdef DEBUG_MODE
+            printf("%i,%i\n\r", aun_red_buffer[i], aun_ir_buffer[i]);
+#endif
+        }
+
+        hr_sample_idx = end_idx;
+        if (hr_sample_idx >= MAX30102_BUFF_LENGTH)
+        {
+            printf("[HR] Rolling read done\r\n");
+            hr_state = HR_STATE_RESET_FIFO;
+        }
+        g_hr_continue_flag = 1;
+        break;
+
+    case HR_STATE_RESET_FIFO:
+        maxim_max30102_write_reg(REG_FIFO_WR_PTR, 0x00);
+        maxim_max30102_write_reg(REG_FIFO_RD_PTR, 0x00);
+        maxim_max30102_write_reg(REG_OVF_COUNTER, 0x00);
+        hr_state = HR_STATE_DONE;
+        // fall through to DONE
+
+    case HR_STATE_DONE:
+        gTaskStateBit.Max30102 = 1;
+        hr_state = HR_STATE_FINGER_CHECK;
+        g_hr_continue_flag = 0;
+        break;
+    }
 }
 #endif

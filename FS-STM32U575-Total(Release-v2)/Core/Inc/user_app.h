@@ -170,5 +170,6 @@ void Update_NixieDisplay(void);
 //定义的系统任务数量
 #define OS_TASKLISTCNT	8  
 extern void (* g_OSTsakList[OS_TASKLISTCNT])(void);
+extern uint8_t g_hr_continue_flag;
 #endif /* __USER_APP_H__ */
 

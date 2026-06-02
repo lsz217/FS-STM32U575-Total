@@ -10,6 +10,8 @@
 #include "gpio.h"
 //
 volatile uint32_t ft6336_on_touch_count = 0;
+volatile uint32_t g_touch_irq_cnt = 0;
+volatile uint32_t g_sample_touch_calls = 0;
 
 //event_notify_cb touch_notify;
 FT6336_TouchPointType tp;
@@ -35,6 +37,24 @@ uint8_t FT6336_readByte(uint8_t addr)
 }
 /*
 **********************************************************************
+* @fun     :FT6336_readBytes
+* @brief   :批量读取从机连续寄存器，一次I2C事务完成，减少I2C开销
+* @param   :addr:起始寄存器地址, data:数据缓冲区, len:读取字节数
+* @return  :true=成功
+**********************************************************************
+*/
+bool FT6336_readBytes(uint8_t addr, uint8_t *data, uint8_t len)
+{
+    // 兼容性更好的方式：Transmit寄存器地址 + Receive数据（不用重复START）
+    if (HAL_I2C_Master_Transmit(&hi2c1, FT6336_ADDR_WRITE, &addr, 1, 100) != HAL_OK)
+        return false;
+    if (HAL_I2C_Master_Receive(&hi2c1, FT6336_ADDR_READ, data, len, 100) != HAL_OK)
+        return false;
+    return true;
+}
+
+/*
+**********************************************************************
 * @fun     :FT6336_writeByte 
 * @brief   :对从机写数据
 * @param   :addr:寄存器地址，data:写入的数据
@@ -56,6 +76,7 @@ void FT6336_writeByte(uint8_t addr, uint8_t data)
 void FT6336_irq_fuc(void)
 {
     ft6336_on_touch_count = 1;
+    g_touch_irq_cnt++;
 }
 /*
 **********************************************************************

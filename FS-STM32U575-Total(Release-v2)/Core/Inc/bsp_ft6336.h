@@ -7,6 +7,7 @@
   */
 #ifndef __BSP_FT6336_H__
 #define __BSP_FT6336_H__
+#include <stdbool.h>
 //
 #include "main.h"
 //
@@ -166,9 +167,15 @@ uint8_t FT6336_read_focaltech_id(void);
 uint8_t FT6336_read_release_code_id(void);
 uint8_t FT6336_read_state(void);
 
+// 批量读取：从addr开始连续读取len字节到data，一次I2C事务完成
+bool FT6336_readBytes(uint8_t addr, uint8_t *data, uint8_t len);
+
 // Scan Function
 FT6336_TouchPointType FT6336_scan(void);
 //
 void FT6336_irq_fuc(void);
-void FT6336_scan_task(void);	
+void FT6336_scan_task(void);
+// 调试计数器
+extern volatile uint32_t g_touch_irq_cnt;       // ISR触发次数
+extern volatile uint32_t g_sample_touch_calls;   // sampleTouch调用次数
 #endif

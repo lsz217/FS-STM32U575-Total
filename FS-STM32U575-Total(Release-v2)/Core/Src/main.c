@@ -200,6 +200,7 @@ int main(void)
   MX_TIM16_Init();
   MX_TIM17_Init();
   MX_USART1_UART_Init();
+	  printf("[INIT] === UART OK ===\r\n");  // test: UART output right after init
   MX_RTC_Init();
   MX_ADC1_Init();
   MX_SPI2_Init();
@@ -218,6 +219,13 @@ int main(void)
 		BSP_MQ2_Init();
 		BSP_MQ3_Init();
 		BSP_MOTOR_Init();
+		// BSP_MAX30102_Init();  // MAX30102 心率血氧传感器初始化  ← 注释掉，init已在状态机INIT_SENSOR中完成
+		// printf("[INIT] BSP_MAX30102_Init done\r\n");
+
+		// 默认使能心率测量任务
+		gTaskEnMark.UPDATE_HEART_RATE_EN = 1;
+		printf("[INIT] HeartRate Task Enabled\r\n");
+
 		//=== 初始化完成 ===
 		// 测试调用（二选一，阻塞运行）：
 		// BSP_MQ2_Test();  // MQ-2烟雾传感器测试
@@ -252,6 +260,12 @@ __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
 	//ESP8266初始化，HAL库使用USART3
 	ESP8266_Init(&huart5,(uint8_t *)gRX3_BufF,115200);
 		printf("[INIT] ESP8266_Init done\r\n");
+
+	// ==== OneNet MQTT 非阻塞模式 ====
+	printf("[TEST] Starting OneNet Non-blocking...\r\n");
+	OneNet_Init_Start();  // 启动 OneNet 连接（非阻塞）
+	// ==========================
+
 	//ESP8266_STA_TCPClient_Test();//TCP测试，进入子函数While(1)
 	//ESP8266_STA_MQTTClient_Test();//MQTT测试，进入子函数While(1)
 	//系统时间初始化
@@ -284,18 +298,43 @@ __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
   {
     /* USER CODE END WHILE */
 
+		// printf("[Main] Before TouchGFX_Process...\r\n");
   MX_TouchGFX_Process();
+		// printf("[Main] After TouchGFX_Process!\r\n");
     /* USER CODE BEGIN 3 */
+
+		// 【验证 HAL_GetTick 已关闭】
+		// static uint32_t last_tick = 0;
+		// static uint8_t tick_verify = 0;
+		// uint32_t now = HAL_GetTick();
+		// (void)now;  // 避免未使用警告
+
+		// 原：每秒验证一次 tick
+		/* ... */
+
+		// OneNet MQTT 非阻塞任务（每循环执行一次，不再阻塞主循环）
+		OneNet_Report_Task();
+
 		for(gTaskIndex = 0;gTaskIndex < OS_TASKLISTCNT;gTaskIndex++)
 		{
 			if((*g_OSTsakList[gTaskIndex]) != NULL)
 			{
 				g_OSTsakList[gTaskIndex]();
-				g_OSTsakList[gTaskIndex] = NULL;  
+				g_OSTsakList[gTaskIndex] = NULL;
 			}
 		}
-	
-  }
+
+		// HR state machine continuation: re-queue if more chunks pending
+		if (g_hr_continue_flag)
+		{
+			g_hr_continue_flag = 0;
+			g_OSTsakList[eUPDATE_HEART_RATE] = Update_HeartRateInfo;
+		}
+
+		// 触摸调试：每100次主循环打印一次计数器
+		// { ... }  // 调试已确认触摸OK，关闭
+
+	  }
   /* USER CODE END 3 */
 }
 
@@ -417,7 +456,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 	/***************************************************************************************/
 	//定时器17进行100ms任务中断
-	if (htim->Instance == htim17.Instance) 
+	if (htim->Instance == htim17.Instance)
 	{
 		p_Time17Cnt++;
 		if(!(p_Time17Cnt % 2))  //200ms进行一次下列代码
@@ -440,9 +479,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		{
 			if(gTaskEnMark.UPDATE_CHIPINFO_EN) g_OSTsakList[eUPDATE_CHIPINFO] = Update_ChipInfo; 	//系统信息更新
 		}
-		if(!(p_Time17Cnt % 30))  //3s进行一次下列代码
+		if(!(p_Time17Cnt % 30))  //3s进行一次下列代码（阻塞式采集）
 		{
-			if((gTaskEnMark.UPDATE_HEART_RATE_EN) && (!gTaskStateBit.Max30102)) g_OSTsakList[eUPDATE_HEART_RATE] = Update_HeartRateInfo; 	//获取健康信息
+			// 单次测量，测量完成后 gTaskStateBit.Max30102 置1，避免重复调度
+			if(gTaskEnMark.UPDATE_HEART_RATE_EN && !gTaskStateBit.Max30102)
+				g_OSTsakList[eUPDATE_HEART_RATE] = Update_HeartRateInfo;
 		}
 		if(!(p_Time17Cnt % 100))  //10s进行一次下列代码 
 		{
