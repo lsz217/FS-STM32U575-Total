@@ -14,6 +14,10 @@
 #include <touchgfx/containers/SwipeContainer.hpp>
 #include <touchgfx/containers/Container.hpp>
 #include <touchgfx/widgets/Image.hpp>
+#include <touchgfx/widgets/graph/GraphWrapAndClear.hpp>
+#include <touchgfx/widgets/graph/GraphLabels.hpp>
+#include <touchgfx/widgets/graph/GraphElements.hpp>
+#include <touchgfx/widgets/canvas/PainterRGB565.hpp>
 #include <touchgfx/widgets/ToggleButton.hpp>
 
 class HomePageViewBase : public touchgfx::View<HomePagePresenter>
@@ -56,6 +60,25 @@ protected:
     touchgfx::Container swipeContainer1Page2;
     touchgfx::Image image1_1;
     touchgfx::Container swipeContainer1Pe3;
+    touchgfx::Image image1_1_1;
+    touchgfx::GraphWrapAndClear<30> dynamicGraph1;
+    touchgfx::GraphLabelsY dynamicGraph1MinorYAxisLabel;
+    touchgfx::GraphLabelsY dynamicGraph1MajorYAxisLabel;
+    touchgfx::GraphElementLine dynamicGraph1Line1;
+    touchgfx::PainterRGB565 dynamicGraph1Line1Painter;
+    touchgfx::GraphElementBoxes dynamicGraph1Boxes1;
+    touchgfx::GraphElementHistogram dynamicGraph1Histogram1;
+    touchgfx::GraphElementDiamonds dynamicGraph1Diamonds1;
+    touchgfx::PainterRGB565 dynamicGraph1Diamonds1Painter;
+    touchgfx::GraphElementDots dynamicGraph1Dots1;
+    touchgfx::PainterRGB565 dynamicGraph1Dots1Painter;
+    touchgfx::GraphWrapAndClear<15> dynamicGraph2;
+    touchgfx::GraphLabelsY dynamicGraph2MajorYAxisLabel;
+    touchgfx::GraphElementLine dynamicGraph2Line1;
+    touchgfx::PainterRGB565 dynamicGraph2Line1Painter;
+    touchgfx::GraphElementDiamonds dynamicGraph2Diamonds1;
+    touchgfx::PainterRGB565 dynamicGraph2Diamonds1Painter;
+    touchgfx::GraphElementHistogram dynamicGraph2Histogram1;
     touchgfx::ToggleButton toggleButton1;
     touchgfx::ToggleButton toggleButton4;
     touchgfx::Button WirelessConnection;
@@ -83,6 +106,12 @@ protected:
     touchgfx::Unicode::UnicodeChar textWeekDayBuffer[TEXTWEEKDAY_SIZE];
 
 private:
+
+    /*
+     * Canvas Buffer Size
+     */
+    static const uint32_t CANVAS_BUFFER_SIZE = 9600;
+    uint8_t canvasBuffer[CANVAS_BUFFER_SIZE];
 
     /*
      * Callback Declarations

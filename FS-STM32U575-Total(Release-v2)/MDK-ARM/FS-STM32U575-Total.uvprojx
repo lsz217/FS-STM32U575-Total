@@ -414,6 +414,11 @@
               <FilePath>..\Core\Src\bsp_ospi_w25q128.c</FilePath>
             </File>
             <File>
+              <FileName>bsp_mq2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\bsp_mq2.c</FilePath>
+            </File>
+            <File>
               <FileName>bsp_ap3216c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Src\bsp_ap3216c.c</FilePath>
@@ -422,11 +427,6 @@
               <FileName>bsp_sht20.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Src\bsp_sht20.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_mq2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\bsp_mq2.c</FilePath>
             </File>
             <File>
               <FileName>bsp_mq3.c</FileName>
@@ -1167,16 +1167,6 @@
               <FilePath>../touchgfx/gui/src/applicationpage_screen/applicationpageview.cpp</FilePath>
             </File>
             <File>
-              <FileName>FiveKeyPagePresenter.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/gui/src/fivekeypage_screen/fivekeypagepresenter.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>FiveKeyPageView.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/gui/src/fivekeypage_screen/fivekeypageview.cpp</FilePath>
-            </File>
-            <File>
               <FileName>FrontendApplication.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/gui/src/common/frontendapplication.cpp</FilePath>
@@ -1272,9 +1262,14 @@
               <FilePath>../touchgfx/generated/fonts/src/cachedfont.cpp</FilePath>
             </File>
             <File>
-              <FileName>FiveKeyPageViewBase.cpp</FileName>
+              <FileName>CompressedFontCache.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/gui_generated/src/fivekeypage_screen/fivekeypageviewbase.cpp</FilePath>
+              <FilePath>../touchgfx/generated/fonts/src/compressedfontcache.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CompressedUnmappedFontCache.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/fonts/src/compressedunmappedfontcache.cpp</FilePath>
             </File>
             <File>
               <FileName>Font_cambriaz_40_4bpp_0.cpp</FileName>
@@ -2075,6 +2070,11 @@
               <FileName>UnmappedDataFont.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/fonts/src/unmappeddatafont.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>VectorFontRendererBuffers.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/fonts/src/vectorfontrendererbuffers.cpp</FilePath>
             </File>
           </Files>
         </Group>

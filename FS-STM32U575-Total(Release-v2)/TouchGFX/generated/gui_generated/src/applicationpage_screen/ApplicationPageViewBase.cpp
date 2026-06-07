@@ -93,7 +93,6 @@ ApplicationPageViewBase::ApplicationPageViewBase() :
 
     modalHeartRate.setBackground(touchgfx::BitmapId(BITMAP_MODALHEARTRATE_BACKGROUND_ID), 19, 20);
     modalHeartRate.setShadeColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
-    modalHeartRate.setShadeAlpha(150);
     modalHeartRate.hide();
     measureHeartRate.setXY(193, 113);
     measureHeartRate.setBitmaps(touchgfx::Bitmap(BITMAP_HEARTRATE_START_80X80_ID), touchgfx::Bitmap(BITMAP_HEARTRATE_END_80X80_ID));
@@ -133,7 +132,6 @@ ApplicationPageViewBase::ApplicationPageViewBase() :
 
     modalNixieTube.setBackground(touchgfx::BitmapId(BITMAP_MODALNIXIETUBE_BACKGROUND_ID), 19, 20);
     modalNixieTube.setShadeColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
-    modalNixieTube.setShadeAlpha(150);
     NixieTubeUnit.setXY(215, 54);
     NixieTubeUnit.setBitmaps(touchgfx::Bitmap(BITMAP_NIXIETUBE_0_54X76_ID), touchgfx::Bitmap(BITMAP_NIXIETUBE_CHECKED_0_54X76_ID));
     NixieTubeUnit.setAction(buttonCallback);

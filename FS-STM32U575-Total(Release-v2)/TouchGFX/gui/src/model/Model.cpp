@@ -68,6 +68,8 @@ void Model::tick()
 		if (tickCount == 1)
 			printf("[Model] First tick OK\r\n");
 		// MQ-2/MQ-3 调试：读GPIO寄存器，每60 tick打印一次
+		// 【已关闭】取消注释以启用调试
+		/*
 		{
 			static uint16_t mqDbgCnt = 0;
 			if (++mqDbgCnt >= 60) {
@@ -88,6 +90,7 @@ void Model::tick()
 					pb9_mode, pb9_pupd, a_hal);
 			}
 		}
+		*/
 		// 马达震动计时：每 tick 减少计数，到 0 时关闭马达
 		if (hapticCounter > 0)
 		{
@@ -159,12 +162,15 @@ void Model::tick()
 					lastAlcohol = alcoholVal;
 				}
 				// 串口调试：每秒打印MQ-2/MQ-3状态
+				// 【已关闭】
+				/*
 				if (++mqPrintCnt >= 60) {
 					mqPrintCnt = 0;
 					printf("[MQ] Smoke(PB8)=%s  Alcohol(PB9)=%s\r\n",
 						smokeVal ? "HIGH(Normal)" : "LOW(Alarm!)",
 						alcoholVal ? "HIGH(Normal)" : "LOW(Alarm!)");
 				}
+				*/
 			}
 		}
 		//健康监测信息上传
@@ -173,7 +179,10 @@ void Model::tick()
 			//send samples and calculation result to terminal program through UART
 			if(ch_hr_valid || ch_spo2_valid)
 			{
-				modelListener->updateHeartRateInfo(n_heart_rate/4, n_sp02);
+				// n_heart_rate=0表示10秒超时复位，传0xFFFFFFFF让View还原初始文本
+				modelListener->updateHeartRateInfo(
+					(n_heart_rate > 0) ? (uint32_t)(n_heart_rate / 4) : 0xFFFFFFFF,
+					(n_sp02 > 0)     ? (uint32_t)n_sp02             : 0xFFFFFFFF);
 			}
 			//
 			if(gTaskStateBit.Max30102)	//单次测量完成，清除标志
@@ -181,12 +190,12 @@ void Model::tick()
 				ch_hr_valid =0;
 				ch_spo2_valid=0;
 				gTaskStateBit.Max30102 = 0;
-				gTaskEnMark.UPDATE_HEART_RATE_EN = 0;
+				// gTaskEnMark.UPDATE_HEART_RATE_EN = 0;  // 注释掉：持续模式下不禁能心率任务
 			}
 		}
 
 	#endif
-//	    if (!isSleeping)
+//	    if (!isSleeping) 
 //    {
 //        idleTimer++;
 //        // 1800 帧大约是 30 秒 (60fps * 30s)
@@ -248,20 +257,14 @@ void Model::tick()
 	void Model::HomePageViewTask(bool enable)
 	{
 		#if defined LINK_HARDWARE
-		if(enable == true)
+		if(enable == true) {
 			gTaskEnMark.UPDATE_TIME_EN = 1;	//任务使能
-		else
+			gTaskEnMark.UPDATE_APP_TASK_EN = 1;	//使能传感器数据用于折线图
+			gTaskEnMark.UPDATE_HEART_RATE_EN = 1;	//使能心率检测（页面返回后重新使能）
+		} else {
 			gTaskEnMark.UPDATE_TIME_EN = 0;	//任务清除
-	#endif
-	}
-	//FiveKeyPageView的任务的状态
-	void Model::FiveKeyPageViewTask(bool enable)
-	{
-		#if defined LINK_HARDWARE
-		if(enable == true)
-			gTaskEnMark.UPDATE_FIVEKEY_EN = 1;	//任务使能
-		else
-			gTaskEnMark.UPDATE_FIVEKEY_EN = 0;	//任务清除
+			gTaskEnMark.UPDATE_APP_TASK_EN = 0;
+		}
 	#endif
 	}
 	//设置健康监测任务
@@ -271,7 +274,7 @@ void Model::tick()
 		if(newStatus == true)
 			gTaskEnMark.UPDATE_HEART_RATE_EN = 1;	//任务使能
 		else
-			gTaskEnMark.UPDATE_HEART_RATE_EN = 0;	//任务清除
+			gTaskEnMark.UPDATE_HEART_RATE_EN = 0;  //任务清除
 	#endif
 	}
 	//SettingPageView的任务的状态

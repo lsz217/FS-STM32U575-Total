@@ -140,7 +140,7 @@ bool maxim_max30102_init(void)
     return false;
   if(!maxim_max30102_write_reg(REG_FIFO_RD_PTR,0x00))  //FIFO_RD_PTR[4:0]
     return false;
-  if(!maxim_max30102_write_reg(REG_FIFO_CONFIG,0x4f))  //sample avg = 4, fifo rollover=false, fifo almost full = 17
+  if(!maxim_max30102_write_reg(REG_FIFO_CONFIG,0x5f))  //sample avg = 4, fifo rollover=TRUE, fifo almost full = 17
     return false;
   if(!maxim_max30102_write_reg(REG_MODE_CONFIG,0x03))   //0x02 for Red only, 0x03 for SpO2 mode 0x07 multimode LED
     return false;
@@ -185,9 +185,9 @@ bool maxim_max30102_read_fifo(uint32_t *pun_red_led, uint32_t *pun_ir_led)
 	//
   ach_i2c_data[0]=REG_FIFO_DATA;
 	//
-  if(HAL_I2C_Master_Transmit(&hi2c1,I2C_WRITE_ADDR,ach_i2c_data,1,10)!=0)
+  if(HAL_I2C_Master_Transmit(&hi2c1,I2C_WRITE_ADDR,ach_i2c_data,1,50)!=0)  // 增加到50ms超时
     return false;
-  if(HAL_I2C_Master_Receive(&hi2c1,I2C_READ_ADDR,ach_i2c_data,6,10)!=0)
+  if(HAL_I2C_Master_Receive(&hi2c1,I2C_READ_ADDR,ach_i2c_data,6,50)!=0)    // 增加到50ms超时
   {
     return false;
   }

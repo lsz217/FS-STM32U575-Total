@@ -64,6 +64,15 @@
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_OVA5" Alignment="Right" TypographyId="Default">
+        <Translation Language="GB">&lt;&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_RNZ7" Alignment="Right" TypographyId="Default">
+        <Translation Language="GB">&lt;&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_R9A1" Alignment="Right" TypographyId="Default">
+        <Translation Language="GB">&lt;&gt;</Translation>
+      </Text>
       <Text Id="__SingleUse_XG6P" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">&lt;Hum&gt;</Translation>
       </Text>
@@ -163,12 +172,6 @@
       <Text Id="__SingleUse_LSCF" Alignment="Left" TypographyId="Large">
         <Translation Language="GB">+180.0</Translation>
       </Text>
-      <Text Id="__SingleUse_KXPN" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">0000</Translation>
-      </Text>
-      <Text Id="__SingleUse_IOJ7" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">0</Translation>
-      </Text>
       <Text Id="__SingleUse_ADBO" Alignment="Left" TypographyId="Large">
         <Translation Language="GB">00</Translation>
       </Text>
@@ -181,13 +184,13 @@
     </TextGroup>
   </Texts>
   <Typographies>
-    <Typography Id="Default" Font="simkai.ttf" Size="20" Bpp="4" Direction="LTR" IsVector="no" WildcardCharacters="识别成功请刷NFC" WildcardCharacterRanges="!-~" />
-    <Typography Id="Large" Font="cambriaz.ttf" Size="40" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9,a-z,A-Z" />
-    <Typography Id="Small" Font="SIMYOU.TTF" Size="10" Bpp="4" Direction="LTR" FallbackCharacter="?" />
-    <Typography Id="Chinese" Font="simkai.ttf" Size="20" Bpp="4" Direction="LTR" WildcardCharacters="0123456789+- :()=" WildcardCharacterRanges="0-9,A-Z,a-z" />
-    <Typography Id="Clock_Time" Font="consolaz.ttf" Size="40" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
-    <Typography Id="Clock_Second" Font="consolaz.ttf" Size="20" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
-    <Typography Id="ChineseWeek" Font="constanz.ttf" Size="20" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
-    <Typography Id="Clock_Date" Font="verdana.ttf" Size="16" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
+    <Typography Id="Default" Font="simkai.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" WildcardCharacters="识别成功请刷NFC" WidgetWildcardCharacters="-., 0123456789" WildcardCharacterRanges="!-~" />
+    <Typography Id="Large" Font="cambriaz.ttf" Size="40" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9,a-z,A-Z" />
+    <Typography Id="Small" Font="SIMYOU.TTF" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Chinese" Font="simkai.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" WildcardCharacters="0123456789+- :()=" WildcardCharacterRanges="0-9,A-Z,a-z" />
+    <Typography Id="Clock_Time" Font="consolaz.ttf" Size="40" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
+    <Typography Id="Clock_Second" Font="consolaz.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
+    <Typography Id="ChineseWeek" Font="constanz.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
+    <Typography Id="Clock_Date" Font="verdana.ttf" Size="16" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
   </Typographies>
 </TextDatabase>

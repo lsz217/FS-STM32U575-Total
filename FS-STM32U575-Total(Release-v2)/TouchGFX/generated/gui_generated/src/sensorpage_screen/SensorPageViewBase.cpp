@@ -13,9 +13,6 @@ SensorPageViewBase::SensorPageViewBase() :
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     add(__background);
 
-    __background.setPosition(0, 0, 320, 240);
-    __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    add(__background);
 
     backgroundImage.setXY(0, 0);
     backgroundImage.setBitmap(touchgfx::Bitmap(BITMAP_IMG_20260515_192616_ID));
@@ -77,7 +74,6 @@ SensorPageViewBase::SensorPageViewBase() :
 
     modalWindow1.setBackground(touchgfx::BitmapId(BITMAP_MODAL_TEMP_BG_ID), 0, 0);
     modalWindow1.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow1.setShadeAlpha(150);
     modalWindow1.hide();
     textArea1.setXY(105, 136);
     textArea1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
@@ -90,7 +86,6 @@ SensorPageViewBase::SensorPageViewBase() :
 
     modalWindow2.setBackground(touchgfx::BitmapId(BITMAP_MODAL_HUM_BG_ID), 0, 0);
     modalWindow2.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow2.setShadeAlpha(150);
     modalWindow2.hide();
     textArea2.setXY(93, 109);
     textArea2.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
@@ -103,7 +98,6 @@ SensorPageViewBase::SensorPageViewBase() :
 
     modalWindow3.setBackground(touchgfx::BitmapId(BITMAP_MODAL_CO2_BG_ID), 0, 0);
     modalWindow3.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow3.setShadeAlpha(150);
     modalWindow3.hide();
     textArea3.setXY(15, 175);
     textArea3.setColor(touchgfx::Color::getColorFromRGB(254, 255, 255));
@@ -116,7 +110,6 @@ SensorPageViewBase::SensorPageViewBase() :
 
     modalWindow4.setBackground(touchgfx::BitmapId(BITMAP_MODAL_HEART_BG_ID), 0, 0);
     modalWindow4.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow4.setShadeAlpha(150);
     modalWindow4.hide();
     textArea4.setXY(5, 186);
     textArea4.setColor(touchgfx::Color::getColorFromRGB(237, 237, 237));
@@ -129,7 +122,6 @@ SensorPageViewBase::SensorPageViewBase() :
 
     modalWindow5.setBackground(touchgfx::BitmapId(BITMAP_JINGGAO_ID), 0, 0);
     modalWindow5.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow5.setShadeAlpha(150);
     modalWindow5.hide();
     textArea5.setXY(150, 175);
     textArea5.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
@@ -141,7 +133,6 @@ SensorPageViewBase::SensorPageViewBase() :
 
     modalWindow6.setBackground(touchgfx::BitmapId(BITMAP_JIUJING3_ID), 0, 0);
     modalWindow6.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow6.setShadeAlpha(150);
     modalWindow6.hide();
     textArea6.setXY(10, 186);
     textArea6.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
@@ -153,7 +144,6 @@ SensorPageViewBase::SensorPageViewBase() :
 
     modalWindow7.setBackground(touchgfx::BitmapId(BITMAP_YANWU2_ID), 0, 0);
     modalWindow7.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow7.setShadeAlpha(150);
     modalWindow7.hide();
     textArea7.setXY(15, 175);
     textArea7.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));

@@ -16,8 +16,6 @@
 #include <gui/startuppage_screen/startuppagePresenter.hpp>
 #include <gui/homepage_screen/HomePageView.hpp>
 #include <gui/homepage_screen/HomePagePresenter.hpp>
-#include <gui/fivekeypage_screen/FiveKeyPageView.hpp>
-#include <gui/fivekeypage_screen/FiveKeyPagePresenter.hpp>
 #include <gui/sixaxispage_screen/SixAxisPageView.hpp>
 #include <gui/sixaxispage_screen/SixAxisPagePresenter.hpp>
 #include <gui/applicationpage_screen/ApplicationPageView.hpp>
@@ -52,13 +50,12 @@ public:
      */
     typedef touchgfx::meta::TypeList< startuppageView,
             touchgfx::meta::TypeList< HomePageView,
-            touchgfx::meta::TypeList< FiveKeyPageView,
             touchgfx::meta::TypeList< SixAxisPageView,
             touchgfx::meta::TypeList< ApplicationPageView,
             touchgfx::meta::TypeList< SettingPageView,
             touchgfx::meta::TypeList< Screen1View,
             touchgfx::meta::TypeList< SensorPageView,
-            touchgfx::meta::Nil > > > > > > >
+            touchgfx::meta::Nil > > > > > >
             > GeneratedViewTypes;
 
     /**
@@ -72,13 +69,12 @@ public:
      */
     typedef touchgfx::meta::TypeList< startuppagePresenter,
             touchgfx::meta::TypeList< HomePagePresenter,
-            touchgfx::meta::TypeList< FiveKeyPagePresenter,
             touchgfx::meta::TypeList< SixAxisPagePresenter,
             touchgfx::meta::TypeList< ApplicationPagePresenter,
             touchgfx::meta::TypeList< SettingPagePresenter,
             touchgfx::meta::TypeList< Screen1Presenter,
             touchgfx::meta::TypeList< SensorPagePresenter,
-            touchgfx::meta::Nil > > > > > > >
+            touchgfx::meta::Nil > > > > > >
             > GeneratedPresenterTypes;
 
     /**

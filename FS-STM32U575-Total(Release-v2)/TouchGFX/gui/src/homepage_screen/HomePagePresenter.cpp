@@ -9,12 +9,12 @@ HomePagePresenter::HomePagePresenter(HomePageView& v)
 
 void HomePagePresenter::activate()
 {
-		HomePagePresenterState(true);	
+	HomePagePresenterState(true);
 }
 
 void HomePagePresenter::deactivate()
 {
-		HomePagePresenterState(false);	
+	HomePagePresenterState(false);
 }
 
 
@@ -51,6 +51,14 @@ void HomePagePresenter::updateWiFiRSSI(uint8_t (&pWiFiInfo)[40], uint16_t newRSS
 {
     view.updateWiFiRSSI(pWiFiInfo, newRSSI);
 }
+
+void HomePagePresenter::updateSensorInfo(float temperature, float humidity, uint16_t co2, uint32_t heartRate, uint32_t spo2)
+{
+    view.addTempPoint(temperature);
+    if (heartRate != 0xFFFFFFFF)
+        view.addHRPoint((int)heartRate);
+}
+
 void HomePagePresenter::ChangeScreen()
 {
     view.ChangeScreen();

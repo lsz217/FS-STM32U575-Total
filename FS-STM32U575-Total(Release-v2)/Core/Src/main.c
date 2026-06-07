@@ -219,8 +219,8 @@ int main(void)
 		BSP_MQ2_Init();
 		BSP_MQ3_Init();
 		BSP_MOTOR_Init();
-		// BSP_MAX30102_Init();  // MAX30102 心率血氧传感器初始化  ← 注释掉，init已在状态机INIT_SENSOR中完成
-		// printf("[INIT] BSP_MAX30102_Init done\r\n");
+		BSP_MAX30102_Init();  // MAX30102 心率血氧传感器初始化
+		printf("[INIT] BSP_MAX30102_Init done\r\n");
 
 		// 默认使能心率测量任务
 		gTaskEnMark.UPDATE_HEART_RATE_EN = 1;

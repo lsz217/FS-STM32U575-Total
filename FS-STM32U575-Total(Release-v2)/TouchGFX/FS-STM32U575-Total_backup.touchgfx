@@ -80,7 +80,7 @@
                 "Name": "textArea2",
                 "X": 103,
                 "Y": 103,
-                "Width": 70,
+                "Width": 80,
                 "Height": 23,
                 "Visible": false,
                 "TextId": "TEXT_SUCCESS",
@@ -155,6 +155,7 @@
       },
       {
         "Name": "HomePage",
+        "CanvasBufferSize": 4800,
         "Components": [
           {
             "Type": "ModalWindow",
@@ -224,7 +225,7 @@
             "IndicatorImageNormal": "__generated\\alternate_theme_images_widgets_swipecontainer_medium_off_normal.png",
             "IndicatorImageHighlight": "__generated\\alternate_theme_images_widgets_swipecontainer_medium_on_active.png",
             "EndSwipeElasticWidth": 50,
-            "SelectedPage": "swipeContainer1Page1",
+            "SelectedPage": "swipeContainer1Pe3",
             "Preset": "alternate_theme\\presets\\swipecontainer\\medium_active.json",
             "Components": [
               {
@@ -265,7 +266,7 @@
                     "X": 9,
                     "Y": 18,
                     "Width": 110,
-                    "Height": 47,
+                    "Height": 41,
                     "TextId": "systemClock",
                     "TextRotation": "0",
                     "Color": {
@@ -291,7 +292,7 @@
                     "X": 138,
                     "Y": 42,
                     "Width": 22,
-                    "Height": 24,
+                    "Height": 21,
                     "TextId": "ClockSecond",
                     "TextRotation": "0",
                     "Color": {
@@ -386,7 +387,170 @@
                 "Name": "swipeContainer1Pe3",
                 "Width": 320,
                 "Height": 238,
-                "Components": []
+                "Components": [
+                  {
+                    "Type": "Image",
+                    "Name": "image1_1_1",
+                    "Width": 320,
+                    "Height": 240,
+                    "RelativeFilename": "zhujiemian.png"
+                  },
+                  {
+                    "Type": "DynamicGraph",
+                    "Name": "dynamicGraph1",
+                    "X": 69,
+                    "Width": 251,
+                    "Height": 90,
+                    "DataSeed": -1487787691,
+                    "NumberOfValues": 30,
+                    "MaxY": 45.0,
+                    "MinY": 15.0,
+                    "Precision": "1",
+                    "LastIndex": 29,
+                    "XAxisScale": 1.0,
+                    "InsertRandomValues": true,
+                    "LabelSizeLeft": 35,
+                    "GraphType": "GraphWrapClear",
+                    "GraphDrawers": [
+                      {
+                        "Type": "DotsDrawer",
+                        "DotWidth": 4,
+                        "FileNameImage": "",
+                        "Color": {
+                          "Red": 196,
+                          "Green": 22,
+                          "Blue": 48
+                        }
+                      },
+                      {
+                        "Type": "DiamondsDrawer",
+                        "DiamondWidth": 4,
+                        "FileNameImage": "",
+                        "Color": {
+                          "Red": 196,
+                          "Green": 22,
+                          "Blue": 57
+                        }
+                      },
+                      {
+                        "Type": "HistogramDrawer",
+                        "BarWidth": 4,
+                        "Color": {
+                          "Red": 22,
+                          "Green": 89,
+                          "Blue": 196
+                        }
+                      },
+                      {
+                        "Type": "BoxesDrawer",
+                        "BoxWidth": 4,
+                        "Color": {
+                          "Red": 196,
+                          "Green": 22,
+                          "Blue": 27
+                        }
+                      },
+                      {
+                        "Type": "LineDrawer",
+                        "LineWidth": 2,
+                        "FileNameImage": "",
+                        "Color": {
+                          "Red": 20,
+                          "Green": 151,
+                          "Blue": 197
+                        }
+                      }
+                    ],
+                    "YAxisLabel": {
+                      "Type": "GraphLabel",
+                      "Interval": 10.0,
+                      "DecimalSeparator": "Point",
+                      "TextColor": {
+                        "Red": 196,
+                        "Green": 182,
+                        "Blue": 22
+                      },
+                      "TextId": "__SingleUse_R9A1",
+                      "TextRotation": "0",
+                      "Position": "Left"
+                    },
+                    "MinorYAxisLabel": {
+                      "Type": "GraphLabel",
+                      "Interval": 5.0,
+                      "DecimalSeparator": "Point",
+                      "TextColor": {
+                        "Red": 20,
+                        "Green": 151,
+                        "Blue": 197
+                      },
+                      "TextId": "__SingleUse_OVA5",
+                      "TextRotation": "0",
+                      "Position": "Left"
+                    }
+                  },
+                  {
+                    "Type": "DynamicGraph",
+                    "Name": "dynamicGraph2",
+                    "X": 69,
+                    "Y": 147,
+                    "Width": 251,
+                    "Height": 91,
+                    "DataSeed": 1999097251,
+                    "NumberOfValues": 15,
+                    "MaxY": 120.0,
+                    "MinY": 40.0,
+                    "Precision": "1",
+                    "LastIndex": 14,
+                    "XAxisScale": 1.0,
+                    "InsertRandomValues": true,
+                    "LabelSizeLeft": 35,
+                    "GraphType": "GraphWrapClear",
+                    "GraphDrawers": [
+                      {
+                        "Type": "HistogramDrawer",
+                        "BarWidth": 4,
+                        "Color": {
+                          "Red": 196,
+                          "Green": 22,
+                          "Blue": 54
+                        }
+                      },
+                      {
+                        "Type": "DiamondsDrawer",
+                        "DiamondWidth": 4,
+                        "FileNameImage": "",
+                        "Color": {
+                          "Red": 54,
+                          "Green": 196,
+                          "Blue": 22
+                        }
+                      },
+                      {
+                        "Type": "LineDrawer",
+                        "LineWidth": 2,
+                        "FileNameImage": "",
+                        "Color": {
+                          "Red": 20,
+                          "Green": 151,
+                          "Blue": 197
+                        }
+                      }
+                    ],
+                    "YAxisLabel": {
+                      "Type": "GraphLabel",
+                      "Interval": 20.0,
+                      "DecimalSeparator": "Point",
+                      "TextColor": {
+                        "Red": 194,
+                        "Green": 23,
+                        "Blue": 43
+                      },
+                      "TextId": "__SingleUse_RNZ7",
+                      "TextRotation": "0",
+                      "Position": "Left"
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -397,6 +561,7 @@
             "Y": 184,
             "Width": 54,
             "Height": 54,
+            "Visible": false,
             "Pressed": "Controls\\Setting-54x54_pressed.png",
             "Released": "Controls\\Setting-54x54.png"
           },
@@ -407,6 +572,7 @@
             "Y": 186,
             "Width": 54,
             "Height": 54,
+            "Visible": false,
             "Pressed": "Controls\\Application_pressed-54x54.png",
             "Released": "Controls\\Application-54x54.png"
           },
@@ -417,6 +583,7 @@
             "Y": 186,
             "Width": 54,
             "Height": 54,
+            "Visible": false,
             "Pressed": "Controls\\wifiLink_pressed-54x54.png",
             "Released": "Controls\\wifiLink-54x54.png"
           }
@@ -441,8 +608,7 @@
             },
             "Action": {
               "Type": "ActionGotoScreen",
-              "ScreenTransitionType": "ScreenTransitionNone",
-              "ActionComponent": "FiveKeyPage"
+              "ScreenTransitionType": "ScreenTransitionNone"
             }
           },
           {
@@ -500,75 +666,6 @@
             "Action": {
               "Type": "ActionCustom",
               "FunctionName": "connectWiFi"
-            }
-          }
-        ]
-      },
-      {
-        "Name": "FiveKeyPage",
-        "Components": [
-          {
-            "Type": "Image",
-            "Name": "FiveKeyBackground",
-            "Width": 320,
-            "Height": 240,
-            "RelativeFilename": "FiveKeyPage\\FiveKeyPage_background-240x320.png"
-          },
-          {
-            "Type": "ToggleButton",
-            "Name": "toggleButton1",
-            "X": 261,
-            "Y": 186,
-            "Width": 54,
-            "Height": 54,
-            "Pressed": "Controls\\menu_icon_pressed.png",
-            "Released": "Controls\\menu_icon.png"
-          },
-          {
-            "Type": "Image",
-            "Name": "FiveKeyImage",
-            "X": 60,
-            "Y": 28,
-            "Width": 200,
-            "Height": 200,
-            "RelativeFilename": "FiveKeyPage\\Five_KeyNoPpress-200x200.png"
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textFiveKeyVal",
-            "X": 126,
-            "Y": 5,
-            "Width": 70,
-            "Height": 23,
-            "TextId": "fiveKeyVal",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 255
-            },
-            "AutoSize": true,
-            "Wildcard1": {
-              "TextId": "__SingleUse_IOJ7",
-              "UseBuffer": true,
-              "BufferSize": 2
-            },
-            "Wildcard2": {
-              "TextId": "__SingleUse_KXPN",
-              "UseBuffer": true,
-              "BufferSize": 5
-            }
-          }
-        ],
-        "Interactions": [
-          {
-            "InteractionName": "Interaction1",
-            "Trigger": {
-              "Type": "TriggerClicked",
-              "TriggerComponent": "toggleButton1"
-            },
-            "Action": {
-              "Type": "ActionGotoScreen",
-              "ScreenTransitionType": "ScreenTransitionNone",
-              "ActionComponent": "HomePage"
             }
           }
         ]
@@ -2034,5 +2131,5 @@
     "OptionalComponents": [],
     "AdditionalFeatures": []
   },
-  "Version": "4.21.2"
+  "Version": "4.26.0"
 }

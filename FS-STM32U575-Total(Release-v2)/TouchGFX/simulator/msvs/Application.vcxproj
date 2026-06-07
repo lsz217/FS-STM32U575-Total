@@ -24,9 +24,6 @@
     <ClCompile Include="..\..\gui\src\homepage_screen\HomePagePresenter.cpp"/>
     <ClCompile Include="..\..\gui\src\homepage_screen\HomePageView.cpp"/>
     <ClCompile Include="..\..\generated\gui_generated\src\homepage_screen\HomePageViewBase.cpp"/>
-    <ClCompile Include="..\..\gui\src\fivekeypage_screen\FiveKeyPagePresenter.cpp"/>
-    <ClCompile Include="..\..\gui\src\fivekeypage_screen\FiveKeyPageView.cpp"/>
-    <ClCompile Include="..\..\generated\gui_generated\src\fivekeypage_screen\FiveKeyPageViewBase.cpp"/>
     <ClCompile Include="..\..\gui\src\applicationpage_screen\ApplicationPagePresenter.cpp"/>
     <ClCompile Include="..\..\gui\src\applicationpage_screen\ApplicationPageView.cpp"/>
     <ClCompile Include="..\..\generated\gui_generated\src\applicationpage_screen\ApplicationPageViewBase.cpp"/>
@@ -198,9 +195,6 @@
     <ClInclude Include="..\..\gui\include\gui\homepage_screen\HomePagePresenter.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\homepage_screen\HomePageView.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\homepage_screen\HomePageViewBase.hpp"/>
-    <ClInclude Include="..\..\gui\include\gui\fivekeypage_screen\FiveKeyPagePresenter.hpp"/>
-    <ClInclude Include="..\..\gui\include\gui\fivekeypage_screen\FiveKeyPageView.hpp"/>
-    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\fivekeypage_screen\FiveKeyPageViewBase.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\applicationpage_screen\ApplicationPagePresenter.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\applicationpage_screen\ApplicationPageView.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\applicationpage_screen\ApplicationPageViewBase.hpp"/>

@@ -184,18 +184,6 @@
     <Filter Include="Source Files\generated\gui_generated\homepage_screen">
       <UniqueIdentifier>45C6A81E-F9E5-AC73-7FF9-AB399A085909</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\gui\fivekeypage_screen">
-      <UniqueIdentifier>BA3B1AB1-14BE-744A-3E0F-346BA75798A4</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\gui\fivekeypage_screen">
-      <UniqueIdentifier>B2991F6E-1B83-2769-3902-9732318D2482</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\generated\gui_generated\fivekeypage_screen">
-      <UniqueIdentifier>47ED8F50-D115-BD1E-BAE6-D8FFD2D3073E</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\generated\gui_generated\fivekeypage_screen">
-      <UniqueIdentifier>26937070-3CC1-F66E-C42B-05B5FED6965A</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\gui\sixaxispage_screen">
       <UniqueIdentifier>CDFA364C-6F53-A396-C61B-4513CCFA940D</UniqueIdentifier>
     </Filter>
@@ -308,15 +296,6 @@
     </ClCompile>
     <ClCompile Include="..\..\generated\gui_generated\src\homepage_screen\HomePageViewBase.cpp">
       <Filter>Source Files\generated\gui_generated\homepage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\gui\src\fivekeypage_screen\FiveKeyPagePresenter.cpp">
-      <Filter>Source Files\gui\fivekeypage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\gui\src\fivekeypage_screen\FiveKeyPageView.cpp">
-      <Filter>Source Files\gui\fivekeypage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\generated\gui_generated\src\fivekeypage_screen\FiveKeyPageViewBase.cpp">
-      <Filter>Source Files\generated\gui_generated\fivekeypage_screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\gui\src\applicationpage_screen\ApplicationPagePresenter.cpp">
       <Filter>Source Files\gui\applicationpage_screen</Filter>
@@ -822,15 +801,6 @@
     </ClInclude>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\homepage_screen\HomePageViewBase.hpp">
       <Filter>Header Files\generated\gui_generated\homepage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\fivekeypage_screen\FiveKeyPagePresenter.hpp">
-      <Filter>Header Files\gui\fivekeypage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\fivekeypage_screen\FiveKeyPageView.hpp">
-      <Filter>Header Files\gui\fivekeypage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\fivekeypage_screen\FiveKeyPageViewBase.hpp">
-      <Filter>Header Files\generated\gui_generated\fivekeypage_screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\gui\include\gui\applicationpage_screen\ApplicationPagePresenter.hpp">
       <Filter>Header Files\gui\applicationpage_screen</Filter>

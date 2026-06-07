@@ -245,6 +245,31 @@ else:
     print(f"[SKIP]  Texts.cpp: file not found")
 
 # =============================================================================
+# Fix 8 — HomePageViewBase: Canvas buffer too small
+# Designer sets CANVAS_BUFFER_SIZE = 4800 which overflows when DynamicGraph
+# has grid lines + Y-axis labels, causing black screen on hardware.
+# 9600 is enough for 2 graphs (each 251px wide) with anti-aliased elements.
+# =============================================================================
+home_hpp = os.path.join(GEN, "include", "gui_generated", "homepage_screen", "HomePageViewBase.hpp")
+
+if os.path.exists(home_hpp):
+    with open(home_hpp, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    old_buf = "CANVAS_BUFFER_SIZE = 4800"
+    new_buf = "CANVAS_BUFFER_SIZE = 9600"
+
+    if old_buf in content:
+        content = content.replace(old_buf, new_buf)
+        write_file(home_hpp, content)
+        print(f"[FIXED] HomePageViewBase.hpp: CANVAS_BUFFER_SIZE 4800 -> 9600")
+        fixed_count += 1
+    else:
+        print(f"[OK]    HomePageViewBase.hpp: CANVAS_BUFFER_SIZE already correct")
+else:
+    print(f"[SKIP]  HomePageViewBase.hpp: file not found")
+
+# =============================================================================
 # Add future fixes below this line
 # =============================================================================
 

@@ -23,9 +23,6 @@ public:
     // HomePage
     void gotoHomePageScreenNoTransition();
 
-    // FiveKeyPage
-    void gotoFiveKeyPageScreenNoTransition();
-
     // SixAxisPage
     void gotoSixAxisPageScreenNoTransition();
 
@@ -45,9 +42,6 @@ protected:
 
     // HomePage
     void gotoHomePageScreenNoTransitionImpl();
-
-    // FiveKeyPage
-    void gotoFiveKeyPageScreenNoTransitionImpl();
 
     // SixAxisPage
     void gotoSixAxisPageScreenNoTransitionImpl();

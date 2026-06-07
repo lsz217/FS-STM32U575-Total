@@ -24,8 +24,6 @@ public:
     void setBacklightValue(uint8_t value);	//设置背光值
 			//HomePageView的任务的状态
 			void HomePageViewTask(bool enable);
-			//FiveKeyPageView的任务的状态
-			void FiveKeyPageViewTask(bool enable);
 			//SettingPageView的任务的状态
 			void SettingPageViewTask(bool enable);
 			//SixAxisPageView的任务的状态

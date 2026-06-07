@@ -165,11 +165,27 @@ void ApplicationPageView::updateAppPageInfo(uint16_t CurrentVal, uint16_t Voltag
 //健康监测信息上传
 void ApplicationPageView::updateHeartRateInfo(uint32_t newHeartRate, uint32_t newSPO2)
 {
-		//更新脉搏
-		Unicode::snprintf(textPulseBuffer, TEXTPULSE_SIZE, "%d",newHeartRate);
+		// 0xFFFFFFFF表示10秒超时复位，还原为初始文本
+		if (newHeartRate == 0xFFFFFFFF)
+		{
+			Unicode::snprintf(textPulseBuffer, TEXTPULSE_SIZE, "%s",
+				touchgfx::TypedText(T___SINGLEUSE_XI1E).getText());
+		}
+		else
+		{
+			Unicode::snprintf(textPulseBuffer, TEXTPULSE_SIZE, "%d",newHeartRate);
+		}
 	  textPulse.invalidate();
-		//更新血氧饱和度
-		Unicode::snprintf(textSPOZBuffer, TEXTSPOZ_SIZE, "%d",newSPO2);
+
+		if (newSPO2 == 0xFFFFFFFF)
+		{
+			Unicode::snprintf(textSPOZBuffer, TEXTSPOZ_SIZE, "%s",
+				touchgfx::TypedText(T___SINGLEUSE_DJZG).getText());
+		}
+		else
+		{
+			Unicode::snprintf(textSPOZBuffer, TEXTSPOZ_SIZE, "%d",newSPO2);
+		}
 	  textSPOZ.invalidate();
 		//测量提示-重新测量
 		textInfo.setTypedText(TypedText(T_TEXTINFO1));

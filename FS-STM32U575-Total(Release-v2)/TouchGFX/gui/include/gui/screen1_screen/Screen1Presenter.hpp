@@ -25,6 +25,8 @@ public:
      */
     virtual void deactivate();
 
+    virtual void updateSensorInfo(float temperature, float humidity, uint16_t co2, uint32_t heartRate, uint32_t spo2) override;
+
     virtual ~Screen1Presenter() {};
 
 private:

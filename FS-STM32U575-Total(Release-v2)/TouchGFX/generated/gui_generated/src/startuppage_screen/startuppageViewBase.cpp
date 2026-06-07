@@ -31,7 +31,6 @@ startuppageViewBase::startuppageViewBase() :
 
     modalWindow1.setBackground(touchgfx::BitmapId(BITMAP_ALTERNATE_THEME_IMAGES_BACKGROUNDS_320X240_PUZZLE_ID), 0, 0);
     modalWindow1.setShadeColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    modalWindow1.setShadeAlpha(150);
     modalWindow1.hide();
     textArea1.setXY(112, 109);
     textArea1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));

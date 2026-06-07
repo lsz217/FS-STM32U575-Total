@@ -378,10 +378,23 @@ int ESP8266_NB_AT_Poll(void)
     // 检查响应缓冲区（ESP8266 响应以 \r\n 结尾，由空闲中断标记帧完成）
     ESP8266_Fram_Record_Struct.Data_RX_BUF[ESP8266_Fram_Record_Struct.InfBit.FramLength] = '\0';
 
-    bool has_ack1 = (nb_at_ack1[0] == 0) || (strstr((const char*)ESP8266_Fram_Record_Struct.Data_RX_BUF, nb_at_ack1) != NULL);
-    bool has_ack2 = (nb_at_ack2[0] == 0) || (strstr((const char*)ESP8266_Fram_Record_Struct.Data_RX_BUF, nb_at_ack2) != NULL);
+    bool ack1_needed = (nb_at_ack1[0] != 0);
+    bool ack2_needed = (nb_at_ack2[0] != 0);
 
-    if (has_ack1 && has_ack2) {
+    // 两个 ack 都不需要 → 不等响应，直接成功
+    if (!ack1_needed && !ack2_needed) {
+        nb_at_state = 0;
+        return 1;
+    }
+
+    // 检查需要的 ack：任一匹配即成功（OR 逻辑，与阻塞版 ESP8266_Send_AT_Cmd 一致）
+    bool matched = false;
+    if (ack1_needed && strstr((const char*)ESP8266_Fram_Record_Struct.Data_RX_BUF, nb_at_ack1) != NULL)
+        matched = true;
+    if (ack2_needed && strstr((const char*)ESP8266_Fram_Record_Struct.Data_RX_BUF, nb_at_ack2) != NULL)
+        matched = true;
+
+    if (matched) {
         nb_at_state = 0;
         return 1;
     }
@@ -649,6 +662,7 @@ typedef enum {
     OS_WAIT_MODE,
     OS_SEND_WIFI,
     OS_WAIT_WIFI,
+    OS_WAIT_IP,
     OS_SEND_CLEAN,
     OS_WAIT_CLEAN,
     OS_SEND_CFG,
@@ -724,12 +738,31 @@ void OneNet_Report_Task(void)
         r = ESP8266_NB_AT_Poll();
         if (r == 0) return;
         if (r == 1) {
-            printf("[ON] WiFi OK\r\n");
+            printf("[ON] WiFi OK, waiting for IP...\r\n");
+            os = OS_WAIT_IP;
+            ESP8266_Fram_Record_Struct.InfBit.FramLength = 0;
+            memset(ESP8266_Fram_Record_Struct.Data_RX_BUF, 0, RX_BUF_MAX_LEN);
+            nb_at_deadline = HAL_GetTick() + 15000;
+            strncpy(nb_at_ack1, "WIFI GOT IP", sizeof(nb_at_ack1) - 1);
+            nb_at_ack2[0] = 0;
+            nb_at_state = 1;
+        } else {
+            printf("[ON] WiFi FAIL\r\n");
+            os = OS_SEND_WIFI;
+        }
+        return;
+
+    // ===== INIT: Wait for DHCP IP =====
+    case OS_WAIT_IP:
+        r = ESP8266_NB_AT_Poll();
+        if (r == 0) return;
+        if (r == 1) {
+            printf("[ON] IP OK\r\n");
             os = OS_SEND_CLEAN;
             os_retry = 0;
         } else {
-            printf("[ON] WiFi FAIL\r\n");
-            os = OS_SEND_WIFI; // 重试
+            printf("[ON] IP timeout, proceed anyway\r\n");
+            os = OS_SEND_CLEAN;
         }
         return;
 
@@ -742,7 +775,13 @@ void OneNet_Report_Task(void)
     case OS_WAIT_CLEAN:
         r = ESP8266_NB_AT_Poll();
         if (r == 0) return;
-        os = (r == 1) ? OS_SEND_CFG : OS_SEND_CLEAN;
+        if (r == 1) {
+            os = OS_SEND_CFG;
+        } else {
+            printf("[ON] MQTTCLEAN failed, skip\r\n");
+            os = OS_SEND_CFG;
+            os_retry = 0;
+        }
         return;
 
     // ===== INIT: MQTT CONFIG =====
