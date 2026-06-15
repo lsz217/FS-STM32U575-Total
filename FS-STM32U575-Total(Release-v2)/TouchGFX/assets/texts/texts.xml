@@ -64,13 +64,10 @@
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted">
-      <Text Id="__SingleUse_OVA5" Alignment="Right" TypographyId="Default">
+      <Text Id="__SingleUse_R9A1" Alignment="Right" TypographyId="Default">
         <Translation Language="GB">&lt;&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_RNZ7" Alignment="Right" TypographyId="Default">
-        <Translation Language="GB">&lt;&gt;</Translation>
-      </Text>
-      <Text Id="__SingleUse_R9A1" Alignment="Right" TypographyId="Default">
         <Translation Language="GB">&lt;&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_XG6P" Alignment="Left" TypographyId="Default">
@@ -109,45 +106,6 @@
       <Text Id="__SingleUse_57H3" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">SSID:HQYJ-YF WPA:STM32G070 </Translation>
       </Text>
-      <Text Id="__SingleUse_DJZG" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">100</Translation>
-      </Text>
-      <Text Id="__SingleUse_XI1E" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">100</Translation>
-      </Text>
-      <Text Id="__SingleUse_8KMQ" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">16</Translation>
-      </Text>
-      <Text Id="__SingleUse_NKAO" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">3</Translation>
-      </Text>
-      <Text Id="__SingleUse_71NJ" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">25</Translation>
-      </Text>
-      <Text Id="__SingleUse_7TKU" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">1</Translation>
-      </Text>
-      <Text Id="__SingleUse_H89Z" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">38</Translation>
-      </Text>
-      <Text Id="__SingleUse_JHQ3" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">12000</Translation>
-      </Text>
-      <Text Id="__SingleUse_QQSX" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">30.6</Translation>
-      </Text>
-      <Text Id="__SingleUse_8OBD" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">66.3</Translation>
-      </Text>
-      <Text Id="__SingleUse_GCSD" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">0.001</Translation>
-      </Text>
-      <Text Id="__SingleUse_IBLE" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">1</Translation>
-      </Text>
-      <Text Id="__SingleUse_7EKT" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">W:&lt;WeekDay&gt;</Translation>
-      </Text>
       <Text Id="__SingleUse_DIBA" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">01</Translation>
       </Text>
@@ -159,18 +117,6 @@
       </Text>
       <Text Id="__SingleUse_BGCO" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">2023</Translation>
-      </Text>
-      <Text Id="__SingleUse_M1OD" Alignment="Left" TypographyId="Chinese">
-        <Translation Language="GB">50</Translation>
-      </Text>
-      <Text Id="__SingleUse_BLZX" Alignment="Left" TypographyId="Large">
-        <Translation Language="GB">+180.0</Translation>
-      </Text>
-      <Text Id="__SingleUse_25AA" Alignment="Left" TypographyId="Large">
-        <Translation Language="GB">+180.0</Translation>
-      </Text>
-      <Text Id="__SingleUse_LSCF" Alignment="Left" TypographyId="Large">
-        <Translation Language="GB">+180.0</Translation>
       </Text>
       <Text Id="__SingleUse_ADBO" Alignment="Left" TypographyId="Large">
         <Translation Language="GB">00</Translation>

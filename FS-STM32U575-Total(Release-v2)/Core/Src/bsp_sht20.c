@@ -22,13 +22,10 @@ uint16_t BSP_SHT20_Read(uint8_t sht20_cmd)
 {
 	uint16_t sht20_reg_val = 0;
 	uint8_t  sht20_reg_buff[3] = {0x00, 0x00, 0x00};
-	//发送控制指令
+	// 发送控制指令（Hold Master 模式，传感器通过时钟拉伸控制时序）
 	HAL_I2C_Master_Transmit(&hi2c1,SHT20_ADDR_WRITE,&sht20_cmd,1,100);
-	//适当增加延时，等待设置完成
-	HAL_Delay(10);
-	//读取坐标数据，两个字节
-	HAL_I2C_Master_Receive(&hi2c1,SHT20_ADDR_READ,sht20_reg_buff,3,100);	  
-	HAL_Delay(10);
+	// 读取3字节数据（传感器在 Hold Master 模式下会拉伸 SCL 直到测量完成）
+	HAL_I2C_Master_Receive(&hi2c1,SHT20_ADDR_READ,sht20_reg_buff,3,100);
 	sht20_reg_val = (sht20_reg_buff[0] << 8) | sht20_reg_buff[1];
 	//
 	return (sht20_reg_val);

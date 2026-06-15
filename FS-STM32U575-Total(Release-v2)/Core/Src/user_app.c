@@ -586,45 +586,45 @@ void Update_NixieDisplay()
 	
 	switch(pDig4CS)
 	{
-		case 0:	
-			pDig4Data[0] = 0x10;	
-			pDig4Data[1] = DigitTable[(gNixieShowData & 0x000F)];	
-			HAL_SPI_Transmit(&hspi2,pDig4Data,2, 1);		
-			
+		case 0:
+			pDig4Data[0] = 0x10;
+			pDig4Data[1] = DigitTable[(gNixieShowData & 0x000F)];
+			HAL_SPI_Transmit(&hspi2,pDig4Data,2, 1);
+
 			HAL_GPIO_WritePin(HC595_RCLK_GPIO_Port, HC595_RCLK_Pin, GPIO_PIN_SET);
-			HAL_Delay(1);
+			__NOP(); __NOP(); __NOP(); __NOP(); // minimal pulse width for 74HC595 latch (~25ns @160MHz)
 			HAL_GPIO_WritePin(HC595_RCLK_GPIO_Port, HC595_RCLK_Pin, GPIO_PIN_RESET);
-			pDig4CS++;	
+			pDig4CS++;
 		break;
-		case 1:	
-			pDig4Data[0] = 0x08;	
-			pDig4Data[1] = DigitTable[((gNixieShowData >> 4) & 0x000F)];	
-			HAL_SPI_Transmit(&hspi2,pDig4Data,2, 1);		 		
-			
+		case 1:
+			pDig4Data[0] = 0x08;
+			pDig4Data[1] = DigitTable[((gNixieShowData >> 4) & 0x000F)];
+			HAL_SPI_Transmit(&hspi2,pDig4Data,2, 1);
+
 			HAL_GPIO_WritePin(HC595_RCLK_GPIO_Port, HC595_RCLK_Pin, GPIO_PIN_SET);
-			HAL_Delay(1);
+			__NOP(); __NOP(); __NOP(); __NOP();
 			HAL_GPIO_WritePin(HC595_RCLK_GPIO_Port, HC595_RCLK_Pin, GPIO_PIN_RESET);
-			pDig4CS++;	
+			pDig4CS++;
 		break;
-		case 2:	
-			pDig4Data[0] = 0x04;	
-			pDig4Data[1] = DigitTable[((gNixieShowData >> 8) & 0x000F)];	
-			HAL_SPI_Transmit(&hspi2,pDig4Data,2, 1);			
-			
+		case 2:
+			pDig4Data[0] = 0x04;
+			pDig4Data[1] = DigitTable[((gNixieShowData >> 8) & 0x000F)];
+			HAL_SPI_Transmit(&hspi2,pDig4Data,2, 1);
+
 			HAL_GPIO_WritePin(HC595_RCLK_GPIO_Port, HC595_RCLK_Pin, GPIO_PIN_SET);
-			HAL_Delay(1);
+			__NOP(); __NOP(); __NOP(); __NOP();
 			HAL_GPIO_WritePin(HC595_RCLK_GPIO_Port, HC595_RCLK_Pin, GPIO_PIN_RESET);
-			pDig4CS++;	
+			pDig4CS++;
 		break;
 		case 3:
-			pDig4Data[0] = 0x02;	
-			pDig4Data[1] = DigitTable[((gNixieShowData >> 12) & 0x000F)];	
-			HAL_SPI_Transmit(&hspi2,pDig4Data,2, 1);		
-			
+			pDig4Data[0] = 0x02;
+			pDig4Data[1] = DigitTable[((gNixieShowData >> 12) & 0x000F)];
+			HAL_SPI_Transmit(&hspi2,pDig4Data,2, 1);
+
 			HAL_GPIO_WritePin(HC595_RCLK_GPIO_Port, HC595_RCLK_Pin, GPIO_PIN_SET);
-			HAL_Delay(1);
+			__NOP(); __NOP(); __NOP(); __NOP();
 			HAL_GPIO_WritePin(HC595_RCLK_GPIO_Port, HC595_RCLK_Pin, GPIO_PIN_RESET);
-			pDig4CS = 0;		
+			pDig4CS = 0;
 		break;
 	}
 }
@@ -718,12 +718,15 @@ void Update_AppPageInfo(void)
 	SCD41_GetData();
 }
 #ifdef MAX30102_ENABLE
-// ── Heart rate state machine (non-blocking, chunked reads) ──
+// ── Heart rate state machine (non-blocking, single-sample yield per iteration) ──
+//
+//  Each call processes exactly one FIFO read and yields via g_hr_continue_flag,
+//  so MX_TouchGFX_Process() runs every loop iteration — no more screen freeze.
+//
 
 #define FINGER_PRESENT_THRESHOLD  50000
 #define FINGER_CHECK_SAMPLES      3
 #define FIFO_WAIT_TIMEOUT_MS      100
-#define HR_CHUNK_SIZE             2
 
 static uint32_t g_last_valid_hr_time = 0;
 static uint8_t  g_sensor_inited = 0;
@@ -742,52 +745,76 @@ static uint16_t hr_sample_idx = 0;
 static uint8_t  hr_first_measurement = 1;
 uint8_t g_hr_continue_flag = 0;
 
+// Non-blocking FIFO wait helpers
+static uint32_t hr_fifo_wait_start = 0;   // tick at start of current FIFO wait
+static uint32_t hr_finger_ir_sum  = 0;    // accumulated IR sum during finger check
+static uint8_t  hr_finger_samples  = 0;   // samples collected in finger check
+static uint32_t hr_finger_red = 0;        // placeholder for read_fifo in finger check
+
+// Returns 0 = no finger, 1 = finger detected, 2 = still working (call again)
 static uint8_t max30102_check_finger(void)
 {
-    uint32_t ir_sum = 0;
-    uint32_t red, ir;
-    uint8_t  sample_count = 0;
-
-    uint8_t dummy = 0;
-    maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
-    maxim_max30102_read_reg(REG_INTR_STATUS_2, &dummy);
-
-    for (int i = 0; i < FINGER_CHECK_SAMPLES; i++)
+    if (hr_finger_samples == 0)
     {
-        dummy = 0;
-        uint32_t t_start = HAL_GetTick();
-        while (((dummy & 0xC0) == 0x00) && (HAL_GetTick() - t_start < FIFO_WAIT_TIMEOUT_MS))
-        {
-            maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
-        }
-        if (HAL_GetTick() - t_start >= FIFO_WAIT_TIMEOUT_MS)
-            break;
-
-        maxim_max30102_read_fifo(&red, &ir);
-        ir_sum += ir;
-        sample_count++;
+        // First call — clear status registers
+        uint8_t dummy = 0;
+        maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
+        maxim_max30102_read_reg(REG_INTR_STATUS_2, &dummy);
+        hr_finger_ir_sum   = 0;
+        hr_finger_samples  = 0;
+        hr_fifo_wait_start = 0;
     }
 
-    if (sample_count < 3)
-        return 0;
+    if (hr_finger_samples >= FINGER_CHECK_SAMPLES)
+    {
+        // All samples collected — evaluate
+        uint32_t ir_avg = hr_finger_ir_sum / FINGER_CHECK_SAMPLES;
+        printf("[FINGER] samples=%d, avg_IR=%u, threshold=%u\r\n",
+            FINGER_CHECK_SAMPLES, ir_avg, (uint32_t)FINGER_PRESENT_THRESHOLD);
+        hr_finger_samples = 0;
+        return (ir_avg > FINGER_PRESENT_THRESHOLD) ? 1 : 0;
+    }
 
-    uint32_t ir_avg = ir_sum / sample_count;
-    printf("[FINGER] samples=%d, avg_IR=%u, threshold=%u\r\n",
-        sample_count, ir_avg, (uint32_t)FINGER_PRESENT_THRESHOLD);
-    return (ir_avg > FINGER_PRESENT_THRESHOLD) ? 1 : 0;
+    // Try to read one sample from FIFO
+    uint8_t dummy = 0;
+    maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
+    if ((dummy & 0xC0) == 0x00)
+    {
+        if (hr_fifo_wait_start == 0)
+            hr_fifo_wait_start = HAL_GetTick();
+        if (HAL_GetTick() - hr_fifo_wait_start < FIFO_WAIT_TIMEOUT_MS)
+            return 2;           // still waiting — yield to main loop
+        // Timeout — finger not present
+        printf("[FINGER] timeout, samples=%d\r\n", hr_finger_samples);
+        hr_finger_samples = 0;
+        return 0;
+    }
+
+    hr_fifo_wait_start = 0;
+    uint32_t red, ir;
+    maxim_max30102_read_fifo(&red, &ir);
+    hr_finger_ir_sum += ir;
+    hr_finger_samples++;
+    (void)red;
+    return 2;   // got a sample, need more — yield to main loop
 }
 
 void Update_HeartRateInfo(void)
 {
-    uint32_t t_start;
     uint8_t dummy;
-    uint16_t end_idx;
-    uint16_t i;
 
     switch (hr_state) {
 
-    case HR_STATE_FINGER_CHECK:
-        if (!max30102_check_finger())
+    case HR_STATE_FINGER_CHECK: {
+        uint8_t result = max30102_check_finger();
+        if (result == 2)
+        {
+            // Still working — yield to main loop
+            g_hr_continue_flag = 1;
+            break;
+        }
+
+        if (result == 0)
         {
             ch_hr_valid   = 0;
             ch_spo2_valid = 0;
@@ -803,13 +830,15 @@ void Update_HeartRateInfo(void)
                 printf("[HR] 10s timeout, force UI update\r\n");
             }
             hr_state = HR_STATE_DONE;
+            g_hr_continue_flag = 1;
         }
-        else
+        else  // result == 1, finger detected
         {
             hr_state = HR_STATE_INIT_SENSOR;
+            g_hr_continue_flag = 1;
         }
-        g_hr_continue_flag = 1;
         break;
+    }
 
     case HR_STATE_INIT_SENSOR:
         if (!g_sensor_inited)
@@ -819,41 +848,51 @@ void Update_HeartRateInfo(void)
         }
         n_ir_buffer_length = MAX30102_BUFF_LENGTH;
         hr_sample_idx = 0;
+        hr_fifo_wait_start = 0;
         hr_state = HR_STATE_COLLECT_200;
         g_hr_continue_flag = 1;
         break;
 
     case HR_STATE_COLLECT_200:
-        end_idx = hr_sample_idx + HR_CHUNK_SIZE;
-        if (end_idx > (uint16_t)MAX30102_BUFF_LENGTH)
-            end_idx = MAX30102_BUFF_LENGTH;
-
-        for (i = hr_sample_idx; i < end_idx; i++)
+        if (hr_sample_idx >= MAX30102_BUFF_LENGTH)
         {
-            dummy = 0;
-            t_start = HAL_GetTick();
-            while (((dummy & 0xC0) == 0x00) && (HAL_GetTick() - t_start < FIFO_WAIT_TIMEOUT_MS))
-            {
-                maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
-            }
-            if (HAL_GetTick() - t_start >= FIFO_WAIT_TIMEOUT_MS)
-            {
-                printf("[HR] FIFO timeout at init sample %d\r\n", i);
-                break;
-            }
-            maxim_max30102_read_fifo((aun_red_buffer + i), (aun_ir_buffer + i));
-#ifdef DEBUG_MODE
-            printf("%i,%i\n\r", aun_red_buffer[i], aun_ir_buffer[i]);
-#endif
+            hr_state = HR_STATE_CALCULATE;
+            g_hr_continue_flag = 1;
+            break;
         }
 
-        hr_sample_idx = end_idx;
-        if (hr_sample_idx >= MAX30102_BUFF_LENGTH)
-            hr_state = HR_STATE_CALCULATE;
+        // Single-sample non-blocking read
+        dummy = 0;
+        maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
+        if ((dummy & 0xC0) == 0x00)
+        {
+            if (hr_fifo_wait_start == 0)
+                hr_fifo_wait_start = HAL_GetTick();
+            if (HAL_GetTick() - hr_fifo_wait_start < FIFO_WAIT_TIMEOUT_MS)
+            {
+                g_hr_continue_flag = 1;   // yield to main loop
+                break;
+            }
+            printf("[HR] FIFO timeout at init sample %d\r\n", hr_sample_idx);
+            hr_state = HR_STATE_CALCULATE; // proceed with what we have
+            g_hr_continue_flag = 1;
+            break;
+        }
+
+        hr_fifo_wait_start = 0;
+        maxim_max30102_read_fifo((aun_red_buffer + hr_sample_idx),
+                                 (aun_ir_buffer + hr_sample_idx));
+#ifdef DEBUG_MODE
+        printf("%i,%i\n\r", aun_red_buffer[hr_sample_idx], aun_ir_buffer[hr_sample_idx]);
+#endif
+        hr_sample_idx++;
         g_hr_continue_flag = 1;
         break;
 
     case HR_STATE_CALCULATE:
+        // Use actual collected count, not MAX30102_BUFF_LENGTH
+        // (hr_sample_idx may be less than 200 if FIFO timed out)
+        n_ir_buffer_length = hr_sample_idx;
         maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length,
             aun_red_buffer, &n_sp02, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);
 
@@ -870,8 +909,8 @@ void Update_HeartRateInfo(void)
             n_sp02 = 0;
         }
 
-        printf("[HR] Calculated: HR=%d, SpO2=%d, valid=%d/%d\r\n",
-            n_heart_rate / 4, n_sp02, ch_hr_valid, ch_spo2_valid);
+        printf("[HR] Calculated: HR=%d, SpO2=%d, valid=%d/%d (samples=%d)\r\n",
+            n_heart_rate / 4, n_sp02, ch_hr_valid, ch_spo2_valid, n_ir_buffer_length);
 
         if (ch_hr_valid || ch_spo2_valid)
             g_last_valid_hr_time = HAL_GetTick();
@@ -890,47 +929,54 @@ void Update_HeartRateInfo(void)
         g_hr_continue_flag = 1;
         break;
 
-    case HR_STATE_ROLLING_SHIFT:
+    case HR_STATE_ROLLING_SHIFT: {
+        uint16_t i;
         for (i = 100; i < MAX30102_BUFF_LENGTH; i++)
         {
             aun_red_buffer[i - 100] = aun_red_buffer[i];
             aun_ir_buffer[i - 100] = aun_ir_buffer[i];
         }
         hr_sample_idx = 100;
+        hr_fifo_wait_start = 0;
         hr_state = HR_STATE_ROLLING_READ;
         g_hr_continue_flag = 1;
         break;
+    }
 
     case HR_STATE_ROLLING_READ:
-        end_idx = hr_sample_idx + HR_CHUNK_SIZE;
-        if (end_idx > (uint16_t)MAX30102_BUFF_LENGTH)
-            end_idx = MAX30102_BUFF_LENGTH;
-
-        for (i = hr_sample_idx; i < end_idx; i++)
-        {
-            dummy = 0;
-            t_start = HAL_GetTick();
-            while (((dummy & 0xC0) == 0x00) && (HAL_GetTick() - t_start < FIFO_WAIT_TIMEOUT_MS))
-            {
-                maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
-            }
-            if (HAL_GetTick() - t_start >= FIFO_WAIT_TIMEOUT_MS)
-            {
-                printf("[HR] Roll FIFO timeout at sample %d\r\n", i);
-                break;
-            }
-            maxim_max30102_read_fifo((aun_red_buffer + i), (aun_ir_buffer + i));
-#ifdef DEBUG_MODE
-            printf("%i,%i\n\r", aun_red_buffer[i], aun_ir_buffer[i]);
-#endif
-        }
-
-        hr_sample_idx = end_idx;
         if (hr_sample_idx >= MAX30102_BUFF_LENGTH)
         {
             printf("[HR] Rolling read done\r\n");
             hr_state = HR_STATE_RESET_FIFO;
+            g_hr_continue_flag = 1;
+            break;
         }
+
+        // Single-sample non-blocking read
+        dummy = 0;
+        maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
+        if ((dummy & 0xC0) == 0x00)
+        {
+            if (hr_fifo_wait_start == 0)
+                hr_fifo_wait_start = HAL_GetTick();
+            if (HAL_GetTick() - hr_fifo_wait_start < FIFO_WAIT_TIMEOUT_MS)
+            {
+                g_hr_continue_flag = 1;   // yield to main loop
+                break;
+            }
+            printf("[HR] Roll FIFO timeout at sample %d\r\n", hr_sample_idx);
+            hr_state = HR_STATE_RESET_FIFO; // proceed
+            g_hr_continue_flag = 1;
+            break;
+        }
+
+        hr_fifo_wait_start = 0;
+        maxim_max30102_read_fifo((aun_red_buffer + hr_sample_idx),
+                                 (aun_ir_buffer + hr_sample_idx));
+#ifdef DEBUG_MODE
+        printf("%i,%i\n\r", aun_red_buffer[hr_sample_idx], aun_ir_buffer[hr_sample_idx]);
+#endif
+        hr_sample_idx++;
         g_hr_continue_flag = 1;
         break;
 

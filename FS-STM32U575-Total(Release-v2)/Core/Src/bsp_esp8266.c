@@ -9,6 +9,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include "usart.h"
+#include "rtc.h"
 #include "bsp_sht20.h"
 #include "bsp_scd41.h"
 #include "bsp_mq2.h"
@@ -542,9 +543,8 @@ void simulate_sensor_data(void)
 {
     uint32_t now = HAL_GetTick();  // 获取当前时间
 
-    // 读取 SHT20
+    // 读取 SHT20（I2C 同步读取，数据立即可用）
     BSP_SHT20_GetData();
-    HAL_Delay(20);
 
     if(gTemRH_Val.Tem > 0.1f && gTemRH_Val.Tem < 100.0f)
     {
@@ -662,13 +662,20 @@ typedef enum {
     OS_WAIT_MODE,
     OS_SEND_WIFI,
     OS_WAIT_WIFI,
-    OS_WAIT_IP,
+    // MQTT init
     OS_SEND_CLEAN,
     OS_WAIT_CLEAN,
     OS_SEND_CFG,
     OS_WAIT_CFG,
     OS_SEND_CONN,
     OS_WAIT_CONN,
+    // NTP time sync (after MQTT connected)
+    OS_WAIT_PRE_SNTP,   // 1s wait for ESP stability
+    OS_SEND_SNTP_CFG,
+    OS_WAIT_SNTP_CFG,
+    OS_WAIT_SNTP_SYNC,   // wait for ESP to sync with NTP server
+    OS_SEND_SNTP_QUERY,
+    OS_WAIT_SNTP_QUERY,
     OS_CONNECTED,
     // publish sub-states
     OS_PUB_SEND_CMD,
@@ -738,33 +745,14 @@ void OneNet_Report_Task(void)
         r = ESP8266_NB_AT_Poll();
         if (r == 0) return;
         if (r == 1) {
-            printf("[ON] WiFi OK, waiting for IP...\r\n");
-            os = OS_WAIT_IP;
-            ESP8266_Fram_Record_Struct.InfBit.FramLength = 0;
-            memset(ESP8266_Fram_Record_Struct.Data_RX_BUF, 0, RX_BUF_MAX_LEN);
-            nb_at_deadline = HAL_GetTick() + 15000;
-            strncpy(nb_at_ack1, "WIFI GOT IP", sizeof(nb_at_ack1) - 1);
-            nb_at_ack2[0] = 0;
-            nb_at_state = 1;
+            printf("[ON] WiFi OK, starting MQTT...\r\n");
+            os = OS_SEND_CLEAN;
+            return;
         } else {
             printf("[ON] WiFi FAIL\r\n");
             os = OS_SEND_WIFI;
+            return;
         }
-        return;
-
-    // ===== INIT: Wait for DHCP IP =====
-    case OS_WAIT_IP:
-        r = ESP8266_NB_AT_Poll();
-        if (r == 0) return;
-        if (r == 1) {
-            printf("[ON] IP OK\r\n");
-            os = OS_SEND_CLEAN;
-            os_retry = 0;
-        } else {
-            printf("[ON] IP timeout, proceed anyway\r\n");
-            os = OS_SEND_CLEAN;
-        }
-        return;
 
     // ===== INIT: MQTT CLEAN =====
     case OS_SEND_CLEAN:
@@ -805,36 +793,129 @@ void OneNet_Report_Task(void)
         char cCmd[128];
         sprintf(cCmd, "AT+MQTTCONN=0,\"%s\",%d,1", ONENET_SERVER_IP, ONENET_SERVER_PORT);
         printf("[ON] S5: CONN>\r\n");
-        // 先发个 AT 确认模块正常
-        ESP8266_NB_AT_Start("AT", "OK", NULL, 200);
+        ESP8266_NB_AT_Start(cCmd, "OK", "+MQTTCONNECTED:0,1", 8000);
         os = OS_WAIT_CONN;
-        os_retry = 0; // 用 os_retry 记子状态: 0=等AT OK, 1=发CONN, 2=等CONN OK
         return;
     }
-    case OS_WAIT_CONN: {
+    case OS_WAIT_CONN:
         r = ESP8266_NB_AT_Poll();
         if (r == 0) return;
-
-        if (os_retry == 0) {
-            // AT OK, 现在发 CONN
-            char cCmd[128];
-            sprintf(cCmd, "AT+MQTTCONN=0,\"%s\",%d,1", ONENET_SERVER_IP, ONENET_SERVER_PORT);
-            ESP8266_NB_AT_Start(cCmd, "OK", "ALREADY CONNECTED", 8000);
-            os_retry = 1;
-            return;
-        }
-
-        // CONN 完成
         if (r == 1) {
             printf("[ON] === CONNECTED! ===\r\n");
             gOneNet_Connected = 1;
             gOneNet_InitStage = 100;
-            os = OS_CONNECTED;
-            os_last_report = 0; // 立即上报第一次
+            nb_at_deadline = HAL_GetTick() + 1000;
+            os = OS_WAIT_PRE_SNTP;
+            os_last_report = 0;
         } else {
             printf("[ON] Connect failed, retry...\r\n");
-            os = OS_SEND_CLEAN; // 回退重试
+            os = OS_SEND_CLEAN;
         }
+        return;
+
+    // ===== WAIT: 1s stability before SNTP =====
+    case OS_WAIT_PRE_SNTP:
+        if (HAL_GetTick() < nb_at_deadline) return;
+        printf("[ON] SNTP: configuring 203.107.6.88...\r\n");
+        os = OS_SEND_SNTP_CFG;
+        return;
+
+    // ===== INIT: SNTP time sync (after MQTT connected) =====
+    case OS_SEND_SNTP_CFG:
+        printf("[ON] SNTP: configuring 203.107.6.88...\r\n");
+        ESP8266_NB_AT_Start("AT+CIPSNTPCFG=1,8,\"203.107.6.88\"", "OK", NULL, 3000);
+        os = OS_WAIT_SNTP_CFG;
+        return;
+    case OS_WAIT_SNTP_CFG:
+        r = ESP8266_NB_AT_Poll();
+        if (r == 0) return;
+        if (r == 1) {
+            printf("[ON] SNTP configured, waiting sync...\r\n");
+            nb_at_deadline = HAL_GetTick() + 3000; // 3 秒等待同步
+            os = OS_WAIT_SNTP_SYNC;
+        } else {
+            printf("[ON] SNTP cfg failed, skip time sync\r\n");
+            os = OS_CONNECTED;
+            os_last_report = HAL_GetTick();
+        }
+        return;
+
+    case OS_WAIT_SNTP_SYNC:
+        if (HAL_GetTick() < nb_at_deadline) return;
+        printf("[ON] SNTP sync wait done, querying time...\r\n");
+        os = OS_SEND_SNTP_QUERY;
+        return;
+
+    case OS_SEND_SNTP_QUERY:
+        ESP8266_NB_AT_Start("AT+CIPSNTPTIME?", "+CIPSNTPTIME:", NULL, 15000);
+        os = OS_WAIT_SNTP_QUERY;
+        return;
+    case OS_WAIT_SNTP_QUERY: {
+        r = ESP8266_NB_AT_Poll();
+        if (r == 0) return;
+        if (r == 1) {
+            char *buf = (char*)ESP8266_Fram_Record_Struct.Data_RX_BUF;
+            printf("[ON] SNTP raw: [%s]\r\n", buf);
+            // Find time string after "+CIPSNTPTIME:"
+            char *p = strstr(buf, "+CIPSNTPTIME:");
+            if (p) {
+                p += 13; // skip "+CIPSNTPTIME:" (13 chars)
+                while (*p == ' ') p++;
+                // If first word is not a digit, skip it (weekday)
+                if (!(*p >= '0' && *p <= '9')) {
+                    while (*p && *p != ' ') p++;
+                    while (*p == ' ') p++;
+                }
+                // Now p should point to month like "Jun 14 21:08:28 2026"
+                printf("[ON] SNTP after skip: [%s]\r\n", p);
+                // Month lookup by first char to avoid strncmp issues
+                int m = 0;
+                if      (p[0]=='J' && p[1]=='a' && p[2]=='n') m=1;
+                else if (p[0]=='F' && p[1]=='e' && p[2]=='b') m=2;
+                else if (p[0]=='M' && p[1]=='a' && p[2]=='r') m=3;
+                else if (p[0]=='A' && p[1]=='p' && p[2]=='r') m=4;
+                else if (p[0]=='M' && p[1]=='a' && p[2]=='y') m=5;
+                else if (p[0]=='J' && p[1]=='u' && p[2]=='n') m=6;
+                else if (p[0]=='J' && p[1]=='u' && p[2]=='l') m=7;
+                else if (p[0]=='A' && p[1]=='u' && p[2]=='g') m=8;
+                else if (p[0]=='S' && p[1]=='e' && p[2]=='p') m=9;
+                else if (p[0]=='O' && p[1]=='c' && p[2]=='t') m=10;
+                else if (p[0]=='N' && p[1]=='o' && p[2]=='v') m=11;
+                else if (p[0]=='D' && p[1]=='e' && p[2]=='c') m=12;
+                if (m > 0) {
+                    p += 3; while (*p == ' ') p++;
+                    char *e;
+                    int day  = (int)strtol(p, &e, 10); p = e; while (*p == ' ') p++;
+                    int hour = (int)strtol(p, &e, 10); p = (*e == ':') ? e + 1 : e;
+                    int min  = (int)strtol(p, &e, 10); p = (*e == ':') ? e + 1 : e;
+                    int sec  = (int)strtol(p, &e, 10); p = e; while (*p == ' ') p++;
+                    int year = (int)strtol(p, NULL, 10);
+                    printf("[ON] SNTP: m=%d d=%d %02d:%02d:%02d y=%d\r\n",
+                           m, day, hour, min, sec, year);
+                    if (year >= 1970 && day >= 1 && day <= 31) {
+                        RTC_TimeTypeDef sTime = {0};
+                        RTC_DateTypeDef sDate = {0};
+                        sTime.Hours = hour; sTime.Minutes = min; sTime.Seconds = sec;
+                        sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+                        sTime.StoreOperation = RTC_STOREOPERATION_SET;
+                        sDate.WeekDay = 1; sDate.Month = m;
+                        sDate.Date = day; sDate.Year = (uint8_t)(year - 2000);
+                        HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+                        HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
+                        printf("[ON] RTC set OK: %02d/%02d/%04d %02d:%02d:%02d\r\n",
+                               m, day, year, hour, min, sec);
+                    }
+                } else {
+                    printf("[ON] SNTP no month found\r\n");
+                }
+            } else {
+                printf("[ON] SNTP no +CIPSNTPTIME in buf\r\n");
+            }
+        } else {
+            printf("[ON] SNTP query failed\r\n");
+        }
+        os = OS_CONNECTED;
+        os_last_report = HAL_GetTick();
         return;
     }
 
@@ -857,7 +938,7 @@ void OneNet_Report_Task(void)
         char cCmd[512];
         sprintf(cCmd, "AT+MQTTPUBRAW=0,\"%s\",%d,1,0", os_topic, os_payload_len);
         printf("[ON] PUB CMD: %s\r\n", cCmd);
-        ESP8266_NB_AT_Start(cCmd, ">", NULL, 2000);
+        ESP8266_NB_AT_Start(cCmd, ">", NULL, 5000);
         os = OS_PUB_WAIT_PROMPT;
         return;
     }
@@ -881,7 +962,7 @@ void OneNet_Report_Task(void)
         memset(ESP8266_Fram_Record_Struct.Data_RX_BUF, 0, RX_BUF_MAX_LEN);
         ESP8266_USART("%s", os_payload);
         // 手动设 nb 等待状态，不调 NB_AT_Start（避免多发 \r\n）
-        nb_at_deadline = HAL_GetTick() + 2000;
+        nb_at_deadline = HAL_GetTick() + 5000;
         strncpy(nb_at_ack1, "SEND OK", sizeof(nb_at_ack1) - 1);
         strncpy(nb_at_ack2, "MQTTPUB:OK", sizeof(nb_at_ack2) - 1);
         nb_at_ack1[sizeof(nb_at_ack1)-1] = 0;

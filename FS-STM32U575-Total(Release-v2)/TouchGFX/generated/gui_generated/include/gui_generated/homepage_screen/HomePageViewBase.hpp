@@ -56,13 +56,11 @@ protected:
     touchgfx::TextAreaWithOneWildcard textClockSecond;
     touchgfx::TextAreaWithOneWildcard textSystemYear;
     touchgfx::TextAreaWithTwoWildcards textSystemDate;
-    touchgfx::TextAreaWithOneWildcard textWeekDay;
     touchgfx::Container swipeContainer1Page2;
     touchgfx::Image image1_1;
     touchgfx::Container swipeContainer1Pe3;
     touchgfx::Image image1_1_1;
     touchgfx::GraphWrapAndClear<30> dynamicGraph1;
-    touchgfx::GraphLabelsY dynamicGraph1MinorYAxisLabel;
     touchgfx::GraphLabelsY dynamicGraph1MajorYAxisLabel;
     touchgfx::GraphElementLine dynamicGraph1Line1;
     touchgfx::PainterRGB565 dynamicGraph1Line1Painter;
@@ -79,9 +77,7 @@ protected:
     touchgfx::GraphElementDiamonds dynamicGraph2Diamonds1;
     touchgfx::PainterRGB565 dynamicGraph2Diamonds1Painter;
     touchgfx::GraphElementHistogram dynamicGraph2Histogram1;
-    touchgfx::ToggleButton toggleButton1;
     touchgfx::ToggleButton toggleButton4;
-    touchgfx::Button WirelessConnection;
 
     /*
      * Wildcard Buffers
@@ -102,8 +98,6 @@ protected:
     touchgfx::Unicode::UnicodeChar textSystemDateBuffer1[TEXTSYSTEMDATEBUFFER1_SIZE];
     static const uint16_t TEXTSYSTEMDATEBUFFER2_SIZE = 3;
     touchgfx::Unicode::UnicodeChar textSystemDateBuffer2[TEXTSYSTEMDATEBUFFER2_SIZE];
-    static const uint16_t TEXTWEEKDAY_SIZE = 2;
-    touchgfx::Unicode::UnicodeChar textWeekDayBuffer[TEXTWEEKDAY_SIZE];
 
 private:
 

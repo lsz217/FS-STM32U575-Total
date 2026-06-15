@@ -60,7 +60,7 @@ swipeContainer1.setXY(0, 0);
     image1.setBitmap(touchgfx::Bitmap(BITMAP_ZHUJIEMIAN_ID));
     swipeContainer1Page1.add(image1);
 
-    textSystemClock.setXY(9, 18);
+    textSystemClock.setXY(7, 13);
     textSystemClock.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     textSystemClock.setLinespacing(0);
     touchgfx::Unicode::snprintf(textSystemClockBuffer1, TEXTSYSTEMCLOCKBUFFER1_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_RWJA).getText());
@@ -71,8 +71,8 @@ swipeContainer1.setXY(0, 0);
     textSystemClock.setTypedText(touchgfx::TypedText(T_SYSTEMCLOCK));
     swipeContainer1Page1.add(textSystemClock);
 
-    textClockSecond.setXY(138, 42);
-    textClockSecond.setColor(touchgfx::Color::getColorFromRGB(247, 0, 0));
+    textClockSecond.setXY(130, 43);
+    textClockSecond.setColor(touchgfx::Color::getColorFromRGB(245, 0, 8));
     textClockSecond.setLinespacing(0);
     Unicode::snprintf(textClockSecondBuffer, TEXTCLOCKSECOND_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_ADBO).getText());
     textClockSecond.setWildcard(textClockSecondBuffer);
@@ -80,8 +80,8 @@ swipeContainer1.setXY(0, 0);
     textClockSecond.setTypedText(touchgfx::TypedText(T_CLOCKSECOND));
     swipeContainer1Page1.add(textClockSecond);
 
-    textSystemYear.setXY(4, 0);
-    textSystemYear.setColor(touchgfx::Color::getColorFromRGB(255, 0, 0));
+    textSystemYear.setXY(240, 10);
+    textSystemYear.setColor(touchgfx::Color::getColorFromRGB(240, 14, 29));
     textSystemYear.setLinespacing(0);
     Unicode::snprintf(textSystemYearBuffer, TEXTSYSTEMYEAR_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_BGCO).getText());
     textSystemYear.setWildcard(textSystemYearBuffer);
@@ -89,7 +89,7 @@ swipeContainer1.setXY(0, 0);
     textSystemYear.setTypedText(touchgfx::TypedText(T_SYSTEMYEAR));
     swipeContainer1Page1.add(textSystemYear);
 
-    textSystemDate.setXY(69, 0);
+    textSystemDate.setXY(240, 43);
     textSystemDate.setColor(touchgfx::Color::getColorFromRGB(255, 0, 0));
     textSystemDate.setLinespacing(0);
     touchgfx::Unicode::snprintf(textSystemDateBuffer1, TEXTSYSTEMDATEBUFFER1_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_469A).getText());
@@ -99,15 +99,6 @@ swipeContainer1.setXY(0, 0);
     textSystemDate.resizeToCurrentText();
     textSystemDate.setTypedText(touchgfx::TypedText(T___SINGLEUSE_X915));
     swipeContainer1Page1.add(textSystemDate);
-
-    textWeekDay.setXY(166, 0);
-    textWeekDay.setColor(touchgfx::Color::getColorFromRGB(255, 110, 0));
-    textWeekDay.setLinespacing(0);
-    Unicode::snprintf(textWeekDayBuffer, TEXTWEEKDAY_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_IBLE).getText());
-    textWeekDay.setWildcard(textWeekDayBuffer);
-    textWeekDay.resizeToCurrentText();
-    textWeekDay.setTypedText(touchgfx::TypedText(T___SINGLEUSE_7EKT));
-    swipeContainer1Page1.add(textWeekDay);
 
     swipeContainer1.add(swipeContainer1Page1);
 
@@ -130,13 +121,6 @@ swipeContainer1.setXY(0, 0);
     dynamicGraph1.setGraphAreaMargin(0, 35, 0, 0);
     dynamicGraph1.setGraphAreaPadding(0, 0, 0, 0);
     dynamicGraph1.setGraphRangeY(15, 45);
-    dynamicGraph1MinorYAxisLabel.setInterval(5);
-    dynamicGraph1MinorYAxisLabel.setLabelTypedText(touchgfx::TypedText(T___SINGLEUSE_OVA5));
-    dynamicGraph1MinorYAxisLabel.setColor(touchgfx::Color::getColorFromRGB(20, 151, 197));
-    dynamicGraph1MinorYAxisLabel.setScale(1);
-    dynamicGraph1MinorYAxisLabel.setMajorLabel(dynamicGraph1MajorYAxisLabel);
-    dynamicGraph1.addLeftElement(dynamicGraph1MinorYAxisLabel);
-
     dynamicGraph1MajorYAxisLabel.setInterval(10);
     dynamicGraph1MajorYAxisLabel.setLabelTypedText(touchgfx::TypedText(T___SINGLEUSE_R9A1));
     dynamicGraph1MajorYAxisLabel.setColor(touchgfx::Color::getColorFromRGB(196, 182, 22));
@@ -168,39 +152,39 @@ swipeContainer1.setXY(0, 0);
     dynamicGraph1.addGraphElement(dynamicGraph1Dots1);
 
 
-    dynamicGraph1.addDataPoint(29.45567f);
-    dynamicGraph1.addDataPoint(42.2275f);
-    dynamicGraph1.addDataPoint(41.41649f);
-    dynamicGraph1.addDataPoint(26.30549f);
-    dynamicGraph1.addDataPoint(22.92501f);
-    dynamicGraph1.addDataPoint(30.0425f);
-    dynamicGraph1.addDataPoint(25.56357f);
-    dynamicGraph1.addDataPoint(17.73277f);
-    dynamicGraph1.addDataPoint(27.73875f);
-    dynamicGraph1.addDataPoint(41.55561f);
-    dynamicGraph1.addDataPoint(37.29623f);
-    dynamicGraph1.addDataPoint(29.58315f);
-    dynamicGraph1.addDataPoint(35.23945f);
-    dynamicGraph1.addDataPoint(36.456f);
-    dynamicGraph1.addDataPoint(22.13749f);
-    dynamicGraph1.addDataPoint(15.82685f);
-    dynamicGraph1.addDataPoint(27.46746f);
-    dynamicGraph1.addDataPoint(33.27686f);
-    dynamicGraph1.addDataPoint(27.12507f);
-    dynamicGraph1.addDataPoint(31.1414f);
-    dynamicGraph1.addDataPoint(43.51594f);
-    dynamicGraph1.addDataPoint(39.47188f);
-    dynamicGraph1.addDataPoint(24.55995f);
-    dynamicGraph1.addDataPoint(23.91241f);
-    dynamicGraph1.addDataPoint(30.39862f);
-    dynamicGraph1.addDataPoint(23.91264f);
-    dynamicGraph1.addDataPoint(17.95735f);
-    dynamicGraph1.addDataPoint(30.35798f);
-    dynamicGraph1.addDataPoint(42.15448f);
-    dynamicGraph1.addDataPoint(35.63349f);
+    dynamicGraph1.addDataPoint(23.5139f);
+    dynamicGraph1.addDataPoint(24.79037f);
+    dynamicGraph1.addDataPoint(30.41382f);
+    dynamicGraph1.addDataPoint(22.66368f);
+    dynamicGraph1.addDataPoint(18.46547f);
+    dynamicGraph1.addDataPoint(32.32446f);
+    dynamicGraph1.addDataPoint(42.26636f);
+    dynamicGraph1.addDataPoint(34.39702f);
+    dynamicGraph1.addDataPoint(29.97075f);
+    dynamicGraph1.addDataPoint(37.09582f);
+    dynamicGraph1.addDataPoint(33.64723f);
+    dynamicGraph1.addDataPoint(18.54054f);
+    dynamicGraph1.addDataPoint(17.80904f);
+    dynamicGraph1.addDataPoint(30.58166f);
+    dynamicGraph1.addDataPoint(32.05137f);
+    dynamicGraph1.addDataPoint(26.4752f);
+    dynamicGraph1.addDataPoint(34.64302f);
+    dynamicGraph1.addDataPoint(44.64772f);
+    dynamicGraph1.addDataPoint(35.41301f);
+    dynamicGraph1.addDataPoint(22.51764f);
+    dynamicGraph1.addDataPoint(26.05034f);
+    dynamicGraph1.addDataPoint(30.08538f);
+    dynamicGraph1.addDataPoint(21.08755f);
+    dynamicGraph1.addDataPoint(19.58337f);
+    dynamicGraph1.addDataPoint(34.83219f);
+    dynamicGraph1.addDataPoint(41.9813f);
+    dynamicGraph1.addDataPoint(32.86189f);
+    dynamicGraph1.addDataPoint(30.67969f);
+    dynamicGraph1.addDataPoint(37.78152f);
+    dynamicGraph1.addDataPoint(31.55523f);
     swipeContainer1Pe3.add(dynamicGraph1);
 
-    dynamicGraph2.setPosition(69, 147, 251, 91);
+    dynamicGraph2.setPosition(71, 147, 251, 91);
     dynamicGraph2.setScale(1);
     dynamicGraph2.setGraphAreaMargin(0, 35, 0, 0);
     dynamicGraph2.setGraphAreaPadding(0, 0, 0, 0);
@@ -246,28 +230,13 @@ swipeContainer1.setXY(0, 0);
 
     swipeContainer1.add(swipeContainer1Pe3);
 
-    swipeContainer1.setSelectedPage(2);
+    swipeContainer1.setSelectedPage(1);
     add(swipeContainer1);
 
-    toggleButton1.setXY(266, 184);
-    toggleButton1.setBitmaps(touchgfx::Bitmap(BITMAP_SETTING_54X54_ID), touchgfx::Bitmap(BITMAP_SETTING_54X54_PRESSED_ID));
-    toggleButton1.setVisible(false);
-    toggleButton1.setAction(buttonCallback);
-    add(toggleButton1);
-
     toggleButton4.setXY(69, 186);
-    toggleButton4.setBitmaps(touchgfx::Bitmap(BITMAP_APPLICATION_54X54_ID), touchgfx::Bitmap(BITMAP_APPLICATION_PRESSED_54X54_ID));
+    toggleButton4.setBitmaps(touchgfx::Bitmap(BITMAP_APPLICATION3_ID), touchgfx::Bitmap(BITMAP_APPLICATION4_ID));
     toggleButton4.setVisible(false);
-    toggleButton4.setAction(buttonCallback);
     add(toggleButton4);
-
-    WirelessConnection.setXY(6, 186);
-    WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFILINK_54X54_ID), touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
-    WirelessConnection.setVisible(false);
-    WirelessConnection.setAction(buttonCallback);
-    add(WirelessConnection);
-
-    add(WiFiModalLink);
 }
 
 HomePageViewBase::~HomePageViewBase()
@@ -282,28 +251,6 @@ void HomePageViewBase::setupScreen()
 
 void HomePageViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& src)
 {
-    if (&src == &toggleButton1)
-    {
-        //Interaction1
-        //When toggleButton1 clicked change screen to SettingPage
-        //Go to SettingPage with no screen transition
-        application().gotoSettingPageScreenNoTransition();
-    }
-    if (&src == &toggleButton4)
-    {
-        //Interaction4
-        //When toggleButton4 clicked change screen to ApplicationPage
-        //Go to ApplicationPage with no screen transition
-        application().gotoSensorPageScreenNoTransition();
-    }
-    if (&src == &WirelessConnection)
-    {
-        //openModalWiFi
-        //When WirelessConnection clicked show WiFiModalLink
-        //Show WiFiModalLink
-        WiFiModalLink.setVisible(true);
-        WiFiModalLink.invalidate();
-    }
     if (&src == &CloseWiFiModal)
     {
         //closeModalWiFi

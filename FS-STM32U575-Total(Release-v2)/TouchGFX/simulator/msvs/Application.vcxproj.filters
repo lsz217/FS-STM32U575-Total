@@ -184,42 +184,6 @@
     <Filter Include="Source Files\generated\gui_generated\homepage_screen">
       <UniqueIdentifier>45C6A81E-F9E5-AC73-7FF9-AB399A085909</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\gui\sixaxispage_screen">
-      <UniqueIdentifier>CDFA364C-6F53-A396-C61B-4513CCFA940D</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\gui\sixaxispage_screen">
-      <UniqueIdentifier>8D8FE767-FEC8-E1F0-3CFE-C5F350554020</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\gui\applicationpage_screen">
-      <UniqueIdentifier>660098FE-5BC3-3E14-15DA-759CB9D88683</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\gui\applicationpage_screen">
-      <UniqueIdentifier>068DFF57-31A6-CD05-92E2-B67E89E90440</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\generated\gui_generated\applicationpage_screen">
-      <UniqueIdentifier>2031AB1A-5790-C879-93F3-68B4AC3BE5A5</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\generated\gui_generated\sixaxispage_screen">
-      <UniqueIdentifier>8154252C-6ABB-0859-D525-DDA12877DCB1</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\generated\gui_generated\applicationpage_screen">
-      <UniqueIdentifier>97F87759-1E32-3BE8-2828-CA6E48A100C1</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\generated\gui_generated\sixaxispage_screen">
-      <UniqueIdentifier>4DA1372B-F75B-766E-79DA-E4FB02A6DFFF</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\gui\settingpage_screen">
-      <UniqueIdentifier>7F71B50B-0793-D672-141F-FAF1775776DD</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\gui\settingpage_screen">
-      <UniqueIdentifier>B776C348-13A7-F339-0F9D-CFE61ED253A8</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\generated\gui_generated\settingpage_screen">
-      <UniqueIdentifier>6B6AB57C-790F-F9A8-0869-E529848D855D</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\generated\gui_generated\settingpage_screen">
-      <UniqueIdentifier>E9EBCF6F-4AFE-6FF1-3BD8-E2A905E56EA7</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\gui\startuppage_screen">
       <UniqueIdentifier>0691D6B9-B72C-28BF-D841-5901F77A9E5A</UniqueIdentifier>
     </Filter>
@@ -231,18 +195,6 @@
     </Filter>
     <Filter Include="Header Files\generated\gui_generated\startuppage_screen">
       <UniqueIdentifier>38F964E6-B9F3-65A4-813F-52B21DF98092</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\gui\screen1_screen">
-      <UniqueIdentifier>AECB0897-6A3E-E01A-85C3-CDC7449CF5F2</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\gui\screen1_screen">
-      <UniqueIdentifier>CB9F1057-E7D5-01CA-09E7-BE2BCFBDF2BD</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\generated\gui_generated\screen1_screen">
-      <UniqueIdentifier>261980C4-BD9F-B010-C8E0-27AC1655E13D</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\generated\gui_generated\screen1_screen">
-      <UniqueIdentifier>268C11B9-B887-444C-DAF8-035065D975C8</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\gui\sensorpage_screen">
       <UniqueIdentifier>62611552-9BD4-4176-BC2D-9EB847B5E6B8</UniqueIdentifier>
@@ -297,33 +249,6 @@
     <ClCompile Include="..\..\generated\gui_generated\src\homepage_screen\HomePageViewBase.cpp">
       <Filter>Source Files\generated\gui_generated\homepage_screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gui\src\applicationpage_screen\ApplicationPagePresenter.cpp">
-      <Filter>Source Files\gui\applicationpage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\gui\src\applicationpage_screen\ApplicationPageView.cpp">
-      <Filter>Source Files\gui\applicationpage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\generated\gui_generated\src\applicationpage_screen\ApplicationPageViewBase.cpp">
-      <Filter>Source Files\generated\gui_generated\applicationpage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\gui\src\sixaxispage_screen\SixAxisPagePresenter.cpp">
-      <Filter>Source Files\gui\sixaxispage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\gui\src\sixaxispage_screen\SixAxisPageView.cpp">
-      <Filter>Source Files\gui\sixaxispage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\generated\gui_generated\src\sixaxispage_screen\SixAxisPageViewBase.cpp">
-      <Filter>Source Files\generated\gui_generated\sixaxispage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\gui\src\settingpage_screen\SettingPagePresenter.cpp">
-      <Filter>Source Files\gui\settingpage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\gui\src\settingpage_screen\SettingPageView.cpp">
-      <Filter>Source Files\gui\settingpage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\generated\gui_generated\src\settingpage_screen\SettingPageViewBase.cpp">
-      <Filter>Source Files\generated\gui_generated\settingpage_screen</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\gui\src\startuppage_screen\startuppagePresenter.cpp">
       <Filter>Source Files\gui\startuppage_screen</Filter>
     </ClCompile>
@@ -332,15 +257,6 @@
     </ClCompile>
     <ClCompile Include="..\..\generated\gui_generated\src\startuppage_screen\startuppageViewBase.cpp">
       <Filter>Source Files\generated\gui_generated\startuppage_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\gui\src\screen1_screen\Screen1Presenter.cpp">
-      <Filter>Source Files\gui\screen1_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\gui\src\screen1_screen\Screen1View.cpp">
-      <Filter>Source Files\gui\screen1_screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\generated\gui_generated\src\screen1_screen\Screen1ViewBase.cpp">
-      <Filter>Source Files\generated\gui_generated\screen1_screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\gui\src\sensorpage_screen\SensorPagePresenter.cpp">
       <Filter>Source Files\gui\sensorpage_screen</Filter>
@@ -802,33 +718,6 @@
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\homepage_screen\HomePageViewBase.hpp">
       <Filter>Header Files\generated\gui_generated\homepage_screen</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\applicationpage_screen\ApplicationPagePresenter.hpp">
-      <Filter>Header Files\gui\applicationpage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\applicationpage_screen\ApplicationPageView.hpp">
-      <Filter>Header Files\gui\applicationpage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\applicationpage_screen\ApplicationPageViewBase.hpp">
-      <Filter>Header Files\generated\gui_generated\applicationpage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\sixaxispage_screen\SixAxisPagePresenter.hpp">
-      <Filter>Header Files\gui\sixaxispage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\sixaxispage_screen\SixAxisPageView.hpp">
-      <Filter>Header Files\gui\sixaxispage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\sixaxispage_screen\SixAxisPageViewBase.hpp">
-      <Filter>Header Files\generated\gui_generated\sixaxispage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\settingpage_screen\SettingPagePresenter.hpp">
-      <Filter>Header Files\gui\settingpage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\settingpage_screen\SettingPageView.hpp">
-      <Filter>Header Files\gui\settingpage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\settingpage_screen\SettingPageViewBase.hpp">
-      <Filter>Header Files\generated\gui_generated\settingpage_screen</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\gui\include\gui\startuppage_screen\startuppagePresenter.hpp">
       <Filter>Header Files\gui\startuppage_screen</Filter>
     </ClInclude>
@@ -837,15 +726,6 @@
     </ClInclude>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\startuppage_screen\startuppageViewBase.hpp">
       <Filter>Header Files\generated\gui_generated\startuppage_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\screen1_screen\Screen1Presenter.hpp">
-      <Filter>Header Files\gui\screen1_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\screen1_screen\Screen1View.hpp">
-      <Filter>Header Files\gui\screen1_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\screen1_screen\Screen1ViewBase.hpp">
-      <Filter>Header Files\generated\gui_generated\screen1_screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\gui\include\gui\sensorpage_screen\SensorPagePresenter.hpp">
       <Filter>Header Files\gui\sensorpage_screen</Filter>

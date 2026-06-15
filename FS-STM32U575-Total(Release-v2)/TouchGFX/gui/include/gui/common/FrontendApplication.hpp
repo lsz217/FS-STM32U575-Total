@@ -21,10 +21,13 @@ public:
 
     // SensorPage transition — permanent in user code (Designer may drop from base)
     void gotoSensorPageScreenNoTransition();
+    void gotoHomePageScreenNoTransition();
 
 private:
     touchgfx::Callback<FrontendApplication> sensorPageTransitionCallback;
+    touchgfx::Callback<FrontendApplication> homePageTransitionCallback;
     void gotoSensorPageScreenNoTransitionImpl();
+    void gotoHomePageScreenNoTransitionImpl();
 };
 
 #endif // FRONTENDAPPLICATION_HPP

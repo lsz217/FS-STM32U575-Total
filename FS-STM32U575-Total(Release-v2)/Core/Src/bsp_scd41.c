@@ -44,8 +44,6 @@ uint8_t SCD41_ReadWords(uint16_t cmd, uint8_t *buf, uint8_t wordCount)
 	if (!SCD41_SendCmd(cmd))
 		return 0;
 
-	HAL_Delay(1);
-
 	if (HAL_I2C_Master_Receive(&hi2c1, SCD41_ADDR_READ, buf, wordCount * 3, 200) != HAL_OK)
 		return 0;
 

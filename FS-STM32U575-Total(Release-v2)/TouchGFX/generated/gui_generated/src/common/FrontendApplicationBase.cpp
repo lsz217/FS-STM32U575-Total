@@ -13,14 +13,6 @@
 #include <gui/startuppage_screen/startuppagePresenter.hpp>
 #include <gui/homepage_screen/HomePageView.hpp>
 #include <gui/homepage_screen/HomePagePresenter.hpp>
-#include <gui/sixaxispage_screen/SixAxisPageView.hpp>
-#include <gui/sixaxispage_screen/SixAxisPagePresenter.hpp>
-#include <gui/applicationpage_screen/ApplicationPageView.hpp>
-#include <gui/applicationpage_screen/ApplicationPagePresenter.hpp>
-#include <gui/settingpage_screen/SettingPageView.hpp>
-#include <gui/settingpage_screen/SettingPagePresenter.hpp>
-#include <gui/screen1_screen/Screen1View.hpp>
-#include <gui/screen1_screen/Screen1Presenter.hpp>
 #include <gui/sensorpage_screen/SensorPageView.hpp>
 #include <gui/sensorpage_screen/SensorPagePresenter.hpp>
 
@@ -42,58 +34,6 @@ FrontendApplicationBase::FrontendApplicationBase(Model& m, FrontendHeap& heap)
 /*
  * Screen Transition Declarations
  */
-
-// HomePage
-
-void FrontendApplicationBase::gotoHomePageScreenNoTransition()
-{
-    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplicationBase::gotoHomePageScreenNoTransitionImpl);
-    pendingScreenTransitionCallback = &transitionCallback;
-}
-
-void FrontendApplicationBase::gotoHomePageScreenNoTransitionImpl()
-{
-    touchgfx::makeTransition<HomePageView, HomePagePresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
-}
-
-// SixAxisPage
-
-void FrontendApplicationBase::gotoSixAxisPageScreenNoTransition()
-{
-    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplicationBase::gotoSixAxisPageScreenNoTransitionImpl);
-    pendingScreenTransitionCallback = &transitionCallback;
-}
-
-void FrontendApplicationBase::gotoSixAxisPageScreenNoTransitionImpl()
-{
-    touchgfx::makeTransition<SixAxisPageView, SixAxisPagePresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
-}
-
-// ApplicationPage
-
-void FrontendApplicationBase::gotoApplicationPageScreenNoTransition()
-{
-    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplicationBase::gotoApplicationPageScreenNoTransitionImpl);
-    pendingScreenTransitionCallback = &transitionCallback;
-}
-
-void FrontendApplicationBase::gotoApplicationPageScreenNoTransitionImpl()
-{
-    touchgfx::makeTransition<ApplicationPageView, ApplicationPagePresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
-}
-
-// SettingPage
-
-void FrontendApplicationBase::gotoSettingPageScreenNoTransition()
-{
-    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplicationBase::gotoSettingPageScreenNoTransitionImpl);
-    pendingScreenTransitionCallback = &transitionCallback;
-}
-
-void FrontendApplicationBase::gotoSettingPageScreenNoTransitionImpl()
-{
-    touchgfx::makeTransition<SettingPageView, SettingPagePresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
-}
 
 // SensorPage
 

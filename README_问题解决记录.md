@@ -241,13 +241,123 @@ else if((now - hr_last_valid_time) > HR_SPO2_TIMEOUT_MS)
 
 ---
 
+## 问题 9：ESP8266 SNTP 时间解析失败（多次迭代）
+
+**现象**：ESP8266 通过 `AT+CIPSNTPTIME?` 成功获取 NTP 时间（串口可见 `Sun Jun 14 21:08:28 2026`），但解析器持续输出 `mon= day=0 00:00:00 year=0`，时间未能写入 RTC，HomePage 时间显示不更新。
+
+**根因（多个）**：
+
+1. **`p += 13` 正确但被误改为 `p += 14`**：`"+CIPSNTPTIME:"` 是 13 个字符（+ C I P S N T P T I M E :），不是 14。
+2. **Keil MicroLib 不支持 `sscanf`**：MicroLib 仅提供 printf/sprintf 等输出函数，`sscanf` 不可用，调用后变量保持为 0。
+3. **`strncmp` 在 MicroLib 中行为不可靠**：逐字符直接比较 `p[0]=='J' && p[1]=='u' && p[2]=='n'` 更稳定。
+4. **星期几跳过逻辑错误**：代码假设第一个词总是星期几（如 `Sun`），但 ESP8266 响应有时不含星期几（`Jun 14 20:49:51 2026`），导致月份被当作星期几跳过。
+
+**原始响应格式**（两种都有）：
+
+```
++CIPSNTPTIME:Sun Jun 14 21:08:28 2026    ← 含星期几
++CIPSNTPTIME:Jun 14 20:49:51 2026        ← 不含星期几
+```
+
+AT 命令回显 `AT+CIPSNTPTIME?` 也在接收缓冲区中，但 `strstr` 不会误匹配（回显以 `?` 结尾，搜索串以 `:` 结尾）。
+
+**解决**：
+
+1. 使用 `p += 13` 正确跳过前缀
+2. 用 `*p >= '0' && *p <= '9'` 判断第一个词是否是数字，不是数字则跳过（星期几）
+3. 用直接字符比较识别月份（`p[0]=='J' && p[1]=='a' && p[2]=='n'` ...）
+4. 用 `strtol` 手动解析数字（MicroLib 支持）
+5. 添加调试打印 `printf("[ON] SNTP raw: [%s]\r\n", buf)` 查看原始缓冲区
+
+**文件**：[bsp_esp8266.c:856-910](FS-STM32U575-Total(Release-v2)/Core/Src/bsp_esp8266.c#L856-L910)
+
+**最终解析代码**：
+
+```c
+case OS_WAIT_SNTP_QUERY: {
+    r = ESP8266_NB_AT_Poll();
+    if (r == 0) return;
+    if (r == 1) {
+        char *buf = (char*)ESP8266_Fram_Record_Struct.Data_RX_BUF;
+        printf("[ON] SNTP raw: [%s]\r\n", buf);
+        char *p = strstr(buf, "+CIPSNTPTIME:");
+        if (p) {
+            p += 13; // skip "+CIPSNTPTIME:" (13 chars)
+            while (*p == ' ') p++;
+            // 如果第一个词不是数字，跳过（星期几）
+            if (!(*p >= '0' && *p <= '9')) {
+                while (*p && *p != ' ') p++;
+                while (*p == ' ') p++;
+            }
+            // 直接字符比较识别月份
+            int m = 0;
+            if      (p[0]=='J' && p[1]=='a' && p[2]=='n') m=1;
+            else if (p[0]=='F' && p[1]=='e' && p[2]=='b') m=2;
+            else if (p[0]=='M' && p[1]=='a' && p[2]=='r') m=3;
+            else if (p[0]=='A' && p[1]=='p' && p[2]=='r') m=4;
+            else if (p[0]=='M' && p[1]=='a' && p[2]=='y') m=5;
+            else if (p[0]=='J' && p[1]=='u' && p[2]=='n') m=6;
+            else if (p[0]=='J' && p[1]=='u' && p[2]=='l') m=7;
+            else if (p[0]=='A' && p[1]=='u' && p[2]=='g') m=8;
+            else if (p[0]=='S' && p[1]=='e' && p[2]=='p') m=9;
+            else if (p[0]=='O' && p[1]=='c' && p[2]=='t') m=10;
+            else if (p[0]=='N' && p[1]=='o' && p[2]=='v') m=11;
+            else if (p[0]=='D' && p[1]=='e' && p[2]=='c') m=12;
+            if (m > 0) {
+                p += 3; while (*p == ' ') p++;
+                char *e;
+                int day  = (int)strtol(p, &e, 10); p = e; while (*p == ' ') p++;
+                int hour = (int)strtol(p, &e, 10); p = (*e == ':') ? e + 1 : e;
+                int min  = (int)strtol(p, &e, 10); p = (*e == ':') ? e + 1 : e;
+                int sec  = (int)strtol(p, &e, 10); p = e; while (*p == ' ') p++;
+                int year = (int)strtol(p, NULL, 10);
+                if (year >= 1970 && day >= 1 && day <= 31) {
+                    RTC_TimeTypeDef sTime = {0};
+                    RTC_DateTypeDef sDate = {0};
+                    sTime.Hours = hour; sTime.Minutes = min; sTime.Seconds = sec;
+                    sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+                    sTime.StoreOperation = RTC_STOREOPERATION_SET;
+                    sDate.WeekDay = 1; sDate.Month = m;
+                    sDate.Date = day; sDate.Year = (uint8_t)(year - 2000);
+                    HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+                    HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
+                    printf("[ON] RTC set OK: %02d/%02d/%04d %02d:%02d:%02d\r\n",
+                           m, day, year, hour, min, sec);
+                }
+            }
+        }
+    }
+    os = OS_CONNECTED;
+    os_last_report = HAL_GetTick();
+    return;
+}
+```
+
+---
+
+## 时间显示流程（ESP8266 → RTC → HomePage）
+
+```
+ESP8266 SNTP 时间串
+  → 解析器提取 month/day/hour/min/sec/year
+  → HAL_RTC_SetTime / HAL_RTC_SetDate 写入硬件 RTC
+  → Update_System_Time() (user_app.c, 每1秒) 读 RTC → gSystemTime / gSystemDate
+  → Model::tick() (Model.cpp) 检测秒变化 → modelListener->updateTime/updateDate
+  → HomePagePresenter → HomePageView
+  → textSystemClock (时:分) / textClockSecond (秒) / textSystemYear (年) / textSystemDate (月/日)
+```
+
+**关键点**：SNTP 在 init 流程中（MQTT CONNECT 成功之后），只执行一次。RTC 设置后由硬件自动走时，无需反复查询 ESP8266。
+
+---
+
 ## 修改文件清单
 
 | 文件 | 修改内容 |
 |------|---------|
 | `Drivers/MAX30102_Maxim/max30102.c` | FIFO 翻转使能 (`0x4f` → `0x5f`) |
 | `Core/Src/user_app.c` | 时间基准超时、温度遮蔽修复、无效值清零、首次测量跳过滚动读取 |
-| `Core/Src/bsp_esp8266.c` | 移除 40 下限钳位、添加 HR/SpO2 死区过滤 |
+| `Core/Src/bsp_esp8266.c` | 移除 40 下限钳位、添加 HR/SpO2 死区过滤、**SNTP 时间解析器重写** |
 | `TouchGFX/gui/src/model/Model.cpp` | 无效值传递 `0xFFFFFFFF` 信号 |
 | `TouchGFX/gui/src/applicationpage_screen/ApplicationPageView.cpp` | 接收 `0xFFFFFFFF` 后恢复 wildcard 文本 |
 

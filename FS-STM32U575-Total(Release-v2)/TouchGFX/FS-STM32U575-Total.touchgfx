@@ -388,7 +388,7 @@
                     "X": 69,
                     "Width": 251,
                     "Height": 90,
-                    "DataSeed": 1154436731,
+                    "DataSeed": -1487787691,
                     "NumberOfValues": 30,
                     "MaxY": 45.0,
                     "MinY": 15.0,
@@ -460,12 +460,25 @@
                       "TextId": "__SingleUse_R9A1",
                       "TextRotation": "0",
                       "Position": "Left"
+                    },
+                    "MinorYAxisLabel": {
+                      "Type": "GraphLabel",
+                      "Interval": 5.0,
+                      "DecimalSeparator": "Point",
+                      "TextColor": {
+                        "Red": 20,
+                        "Green": 151,
+                        "Blue": 197
+                      },
+                      "TextId": "__SingleUse_OVA5",
+                      "TextRotation": "0",
+                      "Position": "Left"
                     }
                   },
                   {
                     "Type": "DynamicGraph",
                     "Name": "dynamicGraph2",
-                    "X": 71,
+                    "X": 69,
                     "Y": 147,
                     "Width": 251,
                     "Height": 91,

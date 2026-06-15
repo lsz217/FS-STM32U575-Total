@@ -68,10 +68,12 @@ void MX_RTC_Init(void)
   }
 
   /* USER CODE BEGIN Check_RTC_BKUP */
-
+  // 检查备份寄存器：如果已写入魔数，说明 RTC 已配置过，跳过时间设置
+  if (HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0) != 0x5754) // "WT" = Write Time
+  {
   /* USER CODE END Check_RTC_BKUP */
 
-  /** Initialize RTC and set the Time and Date
+  /** Initialize RTC and set the Time and Date (仅首次/掉电后执行)
   */
   sTime.Hours = 15;
   sTime.Minutes = 36;
@@ -90,6 +92,8 @@ void MX_RTC_Init(void)
   if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BIN) != HAL_OK)
   {
     Error_Handler();
+  }
+    HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, 0x5754); // 写入魔数，标记已配置
   }
   /* USER CODE BEGIN RTC_Init 2 */
 

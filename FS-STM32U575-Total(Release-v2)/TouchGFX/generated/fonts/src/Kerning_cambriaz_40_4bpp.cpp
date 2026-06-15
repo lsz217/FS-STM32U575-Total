@@ -2,16 +2,6 @@
 
 FONT_KERNING_LOCATION_FLASH_PRAGMA
 KEEP extern const touchgfx::KerningNode kerning_cambriaz_40_4bpp[] FONT_KERNING_LOCATION_FLASH_ATTRIBUTE = {
-    { 0x0044, -1 },  // (First char = [0x0044, D], Second char = [0x002E, .], Kerning dist = -1)
-    { 0x0046, -4 },  // (First char = [0x0046, F], Second char = [0x002E, .], Kerning dist = -4)
-    { 0x004E, -1 },  // (First char = [0x004E, N], Second char = [0x002E, .], Kerning dist = -1)
-    { 0x004F, -1 },  // (First char = [0x004F, O], Second char = [0x002E, .], Kerning dist = -1)
-    { 0x0050, -5 },  // (First char = [0x0050, P], Second char = [0x002E, .], Kerning dist = -5)
-    { 0x0051, -1 },  // (First char = [0x0051, Q], Second char = [0x002E, .], Kerning dist = -1)
-    { 0x0054, -4 },  // (First char = [0x0054, T], Second char = [0x002E, .], Kerning dist = -4)
-    { 0x0055, -1 },  // (First char = [0x0055, U], Second char = [0x002E, .], Kerning dist = -1)
-    { 0x0056, -4 },  // (First char = [0x0056, V], Second char = [0x002E, .], Kerning dist = -4)
-    { 0x0057, -4 },  // (First char = [0x0057, W], Second char = [0x002E, .], Kerning dist = -4)
     { 0x0044, -1 },  // (First char = [0x0044, D], Second char = [0x0041, A], Kerning dist = -1)
     { 0x0046, -2 },  // (First char = [0x0046, F], Second char = [0x0041, A], Kerning dist = -2)
     { 0x004A, -1 },  // (First char = [0x004A, J], Second char = [0x0041, A], Kerning dist = -1)

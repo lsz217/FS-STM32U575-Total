@@ -33,17 +33,15 @@ void STM32TouchController::init()
 }
 extern "C"
 {
-	#include "bsp_ft6336.h"
+#include "bsp_ft6336.h"
 }
 extern "C" FT6336_TouchPointType tp;
 extern volatile uint32_t ft6336_on_touch_count;
 //
 bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
 {
-    // 调试：每次调用递增（在C代码中打印）
     g_sample_touch_calls++;
 
-    uint16_t xDiff = 0,yDiff = 0;
     static uint16_t pI_Touch_X = 0, pI_Touch_Y = 0;
 
     if (ft6336_on_touch_count)
@@ -51,8 +49,7 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
         uint8_t id1, touch_count;
         uint16_t tx, ty;
 
-        // 优先尝试批量读取（5字节一次），失败则回退逐字节读取
-        uint8_t buf[5];
+        uint8_t buf[5] = {0};
         if (FT6336_readBytes(0x02, buf, 5))
         {
             touch_count = buf[0] & 0x0F;
@@ -63,8 +60,7 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
         }
         else
         {
-            // 回退：逐字节读取（兼容模式）
-            id1 = FT6336_read_touch1_id();
+            id1 = FT6336_read_touch1_id() & 0x01;
             tx  = FT6336_read_touch1_x();
             ty  = FT6336_read_touch1_y();
         }
@@ -72,12 +68,12 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
         tp.tp[id1].status = (tp.tp[id1].status == release) ? touch : stream;
         tp.tp[id1].x = tx;
         tp.tp[id1].y = ty;
-        tp.tp[~id1 & 0x01].status = release;
+        tp.tp[id1 ^ 1].status = release;
 
         if (tp.tp[0].status != release)
         {
-            xDiff = tp.tp[0].x > pI_Touch_X ? (tp.tp[0].x - pI_Touch_X): (pI_Touch_X - tp.tp[0].x);
-            yDiff = tp.tp[0].y > pI_Touch_Y ? (tp.tp[0].y - pI_Touch_Y): (pI_Touch_Y - tp.tp[0].y);
+            uint16_t xDiff = tp.tp[0].x > pI_Touch_X ? (tp.tp[0].x - pI_Touch_X) : (pI_Touch_X - tp.tp[0].x);
+            uint16_t yDiff = tp.tp[0].y > pI_Touch_Y ? (tp.tp[0].y - pI_Touch_Y) : (pI_Touch_Y - tp.tp[0].y);
             if ((xDiff + yDiff) > 5)
             {
                 pI_Touch_X = tp.tp[0].x;

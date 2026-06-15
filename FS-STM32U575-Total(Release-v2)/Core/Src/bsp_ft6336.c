@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file   bsp_ft6336.c
   * @brief  2.8寸屏ft6336驱动文件,i2c接口
-  * 
+  *
   ******************************************************************************
   */
 #include "bsp_ft6336.h"
@@ -18,21 +18,21 @@ FT6336_TouchPointType tp;
 
 /*
 **********************************************************************
-* @fun     :FT6336_readByte 
+* @fun     :FT6336_readByte
 * @brief   :读取从机数据
 * @param   :addr:寄存器地址
-* @return  :data:返回的数据
+* @return  :data:返回的数据（失败时返回0）
 **********************************************************************
 */
 uint8_t FT6336_readByte(uint8_t addr)
 {
-    uint8_t data;
-		//发送控制指令
-		HAL_I2C_Master_Transmit(&hi2c1,FT6336_ADDR_WRITE,&addr,1,100);
-		//适当增加延时，等待设置完成
-		HAL_Delay(1);
-		//读取坐标数据，一个字节
-		HAL_I2C_Master_Receive(&hi2c1,FT6336_ADDR_READ,&data,1,100);	  
+    uint8_t data = 0;
+    //发送控制指令
+    HAL_I2C_Master_Transmit(&hi2c1, FT6336_ADDR_WRITE, &addr, 1, 100);
+    //适当增加延时，等待设置完成
+    HAL_Delay(1);
+    //读取坐标数据，一个字节
+    HAL_I2C_Master_Receive(&hi2c1, FT6336_ADDR_READ, &data, 1, 100);
     return data;
 }
 /*
@@ -45,7 +45,6 @@ uint8_t FT6336_readByte(uint8_t addr)
 */
 bool FT6336_readBytes(uint8_t addr, uint8_t *data, uint8_t len)
 {
-    // 兼容性更好的方式：Transmit寄存器地址 + Receive数据（不用重复START）
     if (HAL_I2C_Master_Transmit(&hi2c1, FT6336_ADDR_WRITE, &addr, 1, 100) != HAL_OK)
         return false;
     if (HAL_I2C_Master_Receive(&hi2c1, FT6336_ADDR_READ, data, len, 100) != HAL_OK)
@@ -55,22 +54,23 @@ bool FT6336_readBytes(uint8_t addr, uint8_t *data, uint8_t len)
 
 /*
 **********************************************************************
-* @fun     :FT6336_writeByte 
+* @fun     :FT6336_writeByte
 * @brief   :对从机写数据
 * @param   :addr:寄存器地址，data:写入的数据
-* @return  :None 
+* @return  :None
 **********************************************************************
 */
 void FT6336_writeByte(uint8_t addr, uint8_t data)
 {
-		HAL_I2C_Master_Transmit(&hi2c1,FT6336_ADDR_WRITE,&data,1,100);
+    uint8_t buf[2] = {addr, data};
+    HAL_I2C_Master_Transmit(&hi2c1, FT6336_ADDR_WRITE, buf, 2, 100);
 }
 /*
 **********************************************************************
-* @fun     :FT6336_irq_fuc 
+* @fun     :FT6336_irq_fuc
 * @brief   :中断函数调用，生产按压事件
 * @param   :None
-* @return  :None 
+* @return  :None
 **********************************************************************
 */
 void FT6336_irq_fuc(void)
@@ -80,10 +80,10 @@ void FT6336_irq_fuc(void)
 }
 /*
 **********************************************************************
-* @fun     :FT6336_scan_task 
+* @fun     :FT6336_scan_task
 * @brief   :触摸事件，扫描触摸点
 * @param   :None
-* @return  :None 
+* @return  :None
 **********************************************************************
 */
 void FT6336_scan_task(void)
@@ -93,26 +93,29 @@ void FT6336_scan_task(void)
         tp = FT6336_scan();
         if (tp.tp[0].status == 1)
         {                                  //最多支持两个触点
-					printf("touch down x %d  y %d\r\n", tp.tp[0].x, tp.tp[0].y);
+            printf("touch down x %d  y %d\r\n", tp.tp[0].x, tp.tp[0].y);
         }
         ft6336_on_touch_count = 0;
     }
 }
 /*
 **********************************************************************
-* @fun     :FT6336_init 
+* @fun     :FT6336_init
 * @brief   :FT6336初始化函数
 * @param   :None
-* @return  :None 
+* @return  :None
 **********************************************************************
 */
 void FT6336_init(void)
 {
-    // Int Pin Configuration
-		HAL_GPIO_WritePin(TP_RST_GPIO_Port, TP_RST_Pin, GPIO_PIN_RESET);
-		HAL_Delay(10);
-		HAL_GPIO_WritePin(TP_RST_GPIO_Port, TP_RST_Pin, GPIO_PIN_SET);
-		HAL_Delay(100);
+    // Hardware reset — chip runs on factory defaults (same as original working code)
+    HAL_GPIO_WritePin(TP_RST_GPIO_Port, TP_RST_Pin, GPIO_PIN_RESET);
+    HAL_Delay(10);
+    HAL_GPIO_WritePin(TP_RST_GPIO_Port, TP_RST_Pin, GPIO_PIN_SET);
+    HAL_Delay(300);
+
+    uint8_t chip_id = FT6336_read_chip_id();
+    printf("[FT6336] Chip ID: 0x%02X\r\n", chip_id);
 }
 /*
 **********************************************************************
@@ -145,10 +148,10 @@ uint8_t FT6336_read_touch_number(void)
 }
 /*
 **********************************************************************
-* @fun     :FT6336_read_touch1_x 
+* @fun     :FT6336_read_touch1_x
 * @brief   :读取touch1的数据
 * @param   :None
-* @return  :None 
+* @return  :None
 **********************************************************************
 */
 uint16_t FT6336_read_touch1_x(void)
@@ -188,10 +191,10 @@ uint8_t FT6336_read_touch1_misc(void)
 }
 /*
 **********************************************************************
-* @fun     :FT6336_read_touch2_x 
+* @fun     :FT6336_read_touch2_x
 * @brief   :读取touch2的数据
 * @param   :None
-* @return  :None 
+* @return  :None
 **********************************************************************
 */
 uint16_t FT6336_read_touch2_x(void)
@@ -386,7 +389,7 @@ uint8_t FT6336_read_state(void)
 }
 /*
 **********************************************************************
-* @fun     :FT6336_scan 
+* @fun     :FT6336_scan
 * @brief   :FT6336触摸点读取
 * @param   :None
 * @return  :触摸点信息
@@ -395,20 +398,20 @@ uint8_t FT6336_read_state(void)
 FT6336_TouchPointType FT6336_scan(void)
 {
     FT6336_TouchPointType touchPoint;
-		//
+    //
     touchPoint.touch_count = FT6336_read_td_status();
-		//
+    //
     if (touchPoint.touch_count == 0)
     {
         touchPoint.tp[0].status = release;
         touchPoint.tp[1].status = release;
     }
-		//
+    //
     uint8_t id1 = FT6336_read_touch1_id(); // id1 = 0 or 1
     touchPoint.tp[id1].status = (touchPoint.tp[id1].status == release) ? touch : stream;
     touchPoint.tp[id1].x = FT6336_read_touch1_x();
     touchPoint.tp[id1].y = FT6336_read_touch1_y();
     touchPoint.tp[~id1 & 0x01].status = release;
-		//
+    //
     return touchPoint;
 }

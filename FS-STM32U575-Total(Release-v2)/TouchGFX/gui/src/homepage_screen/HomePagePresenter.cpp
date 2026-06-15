@@ -57,6 +57,12 @@ void HomePagePresenter::updateSensorInfo(float temperature, float humidity, uint
     view.addTempPoint(temperature);
     if (heartRate != 0xFFFFFFFF)
         view.addHRPoint((int)heartRate);
+    view.updateSensorTexts(temperature, humidity, co2, heartRate, spo2);
+}
+
+void HomePagePresenter::updateAppPageInfo(uint16_t, uint16_t, float, float, uint16_t newALS)
+{
+    view.updateALS(newALS);
 }
 
 void HomePagePresenter::ChangeScreen()

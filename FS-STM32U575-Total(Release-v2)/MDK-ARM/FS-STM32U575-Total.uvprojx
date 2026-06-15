@@ -81,7 +81,7 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>1</RunUserProg2>
+            <RunUserProg2>0</RunUserProg2>
             <UserProg1Name></UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
@@ -370,7 +370,7 @@
             <TextAddressRange></TextAddressRange>
             <DataAddressRange></DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>.\FS-STM32U575-Total\My_Fixed_Layout.sct</ScatterFile>
+            <ScatterFile>.\FS-STM32U575-Total\FS-STM32U575-Total.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -1157,16 +1157,6 @@
           <GroupName>gui</GroupName>
           <Files>
             <File>
-              <FileName>ApplicationPagePresenter.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/gui/src/applicationpage_screen/applicationpagepresenter.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>ApplicationPageView.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/gui/src/applicationpage_screen/applicationpageview.cpp</FilePath>
-            </File>
-            <File>
               <FileName>FrontendApplication.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/gui/src/common/frontendapplication.cpp</FilePath>
@@ -1187,16 +1177,6 @@
               <FilePath>../touchgfx/gui/src/model/model.cpp</FilePath>
             </File>
             <File>
-              <FileName>Screen1Presenter.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/gui/src/screen1_screen/screen1presenter.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Screen1View.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/gui/src/screen1_screen/screen1view.cpp</FilePath>
-            </File>
-            <File>
               <FileName>SensorPagePresenter.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/gui/src/sensorpage_screen/sensorpagepresenter.cpp</FilePath>
@@ -1205,26 +1185,6 @@
               <FileName>SensorPageView.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/gui/src/sensorpage_screen/sensorpageview.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SettingPagePresenter.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/gui/src/settingpage_screen/settingpagepresenter.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SettingPageView.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/gui/src/settingpage_screen/settingpageview.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SixAxisPagePresenter.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/gui/src/sixaxispage_screen/sixaxispagepresenter.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SixAxisPageView.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/gui/src/sixaxispage_screen/sixaxispageview.cpp</FilePath>
             </File>
             <File>
               <FileName>startuppagePresenter.cpp</FileName>
@@ -1245,11 +1205,6 @@
               <FileName>ApplicationFontProvider.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/fonts/src/applicationfontprovider.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>ApplicationPageViewBase.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/gui_generated/src/applicationpage_screen/applicationpageviewbase.cpp</FilePath>
             </File>
             <File>
               <FileName>BitmapDatabase.cpp</FileName>
@@ -1407,36 +1362,6 @@
               <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_backgrounds_320x240_puzzle.cpp</FilePath>
             </File>
             <File>
-              <FileName>image_alternate_theme_images_widgets_button_regular_height_50_medium_rounded_normal.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_button_regular_height_50_medium_rounded_normal.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>image_alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>image_alternate_theme_images_widgets_radiobutton_radio_medium_rounded_off.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_radiobutton_radio_medium_rounded_off.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>image_alternate_theme_images_widgets_radiobutton_radio_medium_rounded_off_pressed.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_radiobutton_radio_medium_rounded_off_pressed.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>image_alternate_theme_images_widgets_radiobutton_radio_medium_rounded_on_dark.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_radiobutton_radio_medium_rounded_on_dark.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>image_alternate_theme_images_widgets_radiobutton_radio_medium_rounded_on_pressed.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_alternate_theme_images_widgets_radiobutton_radio_medium_rounded_on_pressed.cpp</FilePath>
-            </File>
-            <File>
               <FileName>image_alternate_theme_images_widgets_slider_horizontal_thin_filler_small.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/settingpage/image_alternate_theme_images_widgets_slider_horizontal_thin_filler_small.cpp</FilePath>
@@ -1465,6 +1390,26 @@
               <FileName>image_Application-54x54.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/controls/image_application-54x54.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_application.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/controls/image_application.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_application2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/controls/image_application2.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_application3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/controls/image_application3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>image_application4.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>../touchgfx/generated/images/src/controls/image_application4.cpp</FilePath>
             </File>
             <File>
               <FileName>image_Application_pressed-54x54.cpp</FileName>
@@ -1615,16 +1560,6 @@
               <FileName>image_humidity_1.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/images/src/image_humidity_1.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>image_icon_theme_images_action_backup_50_50_E8F6FB.svg.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_icon_theme_images_action_backup_50_50_e8f6fb.svg.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>image_icon_theme_images_action_done_50_50_E8F6FB.svg.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/images/src/__generated/image_icon_theme_images_action_done_50_50_e8f6fb.svg.cpp</FilePath>
             </File>
             <File>
               <FileName>image_image_menu_icon.cpp</FileName>
@@ -1992,24 +1927,9 @@
               <FilePath>../touchgfx/generated/texts/src/languagegb.cpp</FilePath>
             </File>
             <File>
-              <FileName>Screen1ViewBase.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/gui_generated/src/screen1_screen/screen1viewbase.cpp</FilePath>
-            </File>
-            <File>
               <FileName>SensorPageViewBase.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>../touchgfx/generated/gui_generated/src/sensorpage_screen/sensorpageviewbase.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SettingPageViewBase.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/gui_generated/src/settingpage_screen/settingpageviewbase.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SixAxisPageViewBase.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>../touchgfx/generated/gui_generated/src/sixaxispage_screen/sixaxispageviewbase.cpp</FilePath>
             </File>
             <File>
               <FileName>startuppageViewBase.cpp</FileName>

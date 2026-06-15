@@ -22,6 +22,9 @@ public:
     void expandButtonCallbackHandler(const touchgfx::AbstractButton& src);
     void addTempPoint(float temperature);
     void addHRPoint(int heartRate);
+    void updateSensorTexts(float temperature, float humidity, uint16_t co2,
+                           uint32_t heartRate, uint32_t spo2);
+    void updateALS(uint16_t als);
 protected:
     uint8_t textBuf[200];
     int lastPage;

@@ -30,6 +30,7 @@ public:
     virtual void updateDate(uint8_t newYear, uint8_t newMonth, uint8_t newDate, uint8_t newWeekDay);
     virtual void updateTime(uint8_t newHours, uint8_t newMinutes, uint8_t newSeconds);
     virtual void updateSensorInfo(float temperature, float humidity, uint16_t co2, uint32_t heartRate, uint32_t spo2);
+    virtual void updateAppPageInfo(uint16_t CurrentVal, uint16_t VoltageVal, float newHum, float newTem, uint16_t newALS);
     // HomePagePresenter 的状态
     void HomePagePresenterState(bool enable);
     virtual void ChangeScreen();

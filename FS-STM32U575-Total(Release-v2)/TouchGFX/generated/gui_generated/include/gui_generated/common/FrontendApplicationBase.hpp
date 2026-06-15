@@ -20,18 +20,6 @@ public:
         gotoSensorPageScreenNoTransition();
     }
 
-    // HomePage
-    void gotoHomePageScreenNoTransition();
-
-    // SixAxisPage
-    void gotoSixAxisPageScreenNoTransition();
-
-    // ApplicationPage
-    void gotoApplicationPageScreenNoTransition();
-
-    // SettingPage
-    void gotoSettingPageScreenNoTransition();
-
     // SensorPage
     void gotoSensorPageScreenNoTransition();
 
@@ -39,18 +27,6 @@ protected:
     touchgfx::Callback<FrontendApplicationBase> transitionCallback;
     FrontendHeap& frontendHeap;
     Model& model;
-
-    // HomePage
-    void gotoHomePageScreenNoTransitionImpl();
-
-    // SixAxisPage
-    void gotoSixAxisPageScreenNoTransitionImpl();
-
-    // ApplicationPage
-    void gotoApplicationPageScreenNoTransitionImpl();
-
-    // SettingPage
-    void gotoSettingPageScreenNoTransitionImpl();
 
     // SensorPage
     void gotoSensorPageScreenNoTransitionImpl();

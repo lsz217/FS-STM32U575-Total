@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file   bsp_ft6336.h
   * @brief  2.8寸屏ft6336驱动文件,i2c接口
-  * 
+  *
   ******************************************************************************
   */
 #ifndef __BSP_FT6336_H__
@@ -176,6 +176,7 @@ FT6336_TouchPointType FT6336_scan(void);
 void FT6336_irq_fuc(void);
 void FT6336_scan_task(void);
 // 调试计数器
-extern volatile uint32_t g_touch_irq_cnt;       // ISR触发次数
-extern volatile uint32_t g_sample_touch_calls;   // sampleTouch调用次数
+extern volatile uint32_t ft6336_on_touch_count;
+extern volatile uint32_t g_touch_irq_cnt;
+extern volatile uint32_t g_sample_touch_calls;
 #endif

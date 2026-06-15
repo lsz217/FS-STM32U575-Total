@@ -86,12 +86,8 @@ void HomePageView::handleTickEvent()
     {
         lastPage = page;
         bool show = (page == 0);
-        WirelessConnection.setVisible(show);
         toggleButton4.setVisible(show);
-        toggleButton1.setVisible(show);
-        WirelessConnection.invalidate();
         toggleButton4.invalidate();
-        toggleButton1.invalidate();
     }
 
     tickCounter++;
@@ -121,6 +117,22 @@ void HomePageView::addHRPoint(int heartRate)
     hrUpdated = true;
 }
 
+void HomePageView::updateSensorTexts(float temperature, float humidity, uint16_t co2,
+                                      uint32_t heartRate, uint32_t spo2)
+{
+    // TODO: Re-add TextArea widgets in TouchGFX Designer for sensor data display
+    // textArea1-6 were removed during Designer cleanup.
+    // Use the swipe container page 1 (swipeContainer1Page1) or page 2 (swipeContainer1Pe3)
+    // to hold temperature/humidity/CO2/heart rate/SpO2 text areas.
+    (void)temperature; (void)humidity; (void)co2; (void)heartRate; (void)spo2;
+}
+
+void HomePageView::updateALS(uint16_t als)
+{
+    // TODO: Re-add ALS text display widget
+    (void)als;
+}
+
 void HomePageView::updateTime(uint8_t newHours, uint8_t newMinutes, uint8_t newSeconds)
 {
     Unicode::snprintf(textSystemClockBuffer1, TEXTSYSTEMCLOCKBUFFER1_SIZE, "%02d", newHours);
@@ -140,8 +152,8 @@ void HomePageView::updateDate(uint8_t newYear, uint8_t newMonth, uint8_t newDate
     Unicode::snprintf(textSystemDateBuffer2, TEXTSYSTEMDATEBUFFER2_SIZE, "%02d", newDate);
     textSystemDate.invalidate();
 
-    Unicode::snprintf(textWeekDayBuffer, TEXTWEEKDAY_SIZE, "%d", newWeekDay);
-    textWeekDay.invalidate();
+    Unicode::snprintf(textWeekDay_1Buffer, TEXTWEEKDAY_1_SIZE, "%d", newWeekDay);
+    textWeekDay_1.invalidate();
 }
 
 void HomePageView::connectWiFi()
@@ -170,22 +182,8 @@ void HomePageView::TextAreaAddStr(uint8_t* str, uint32_t len, uint16_t newRSSI)
     textWiFiLinkInfo.setWideTextAction(WIDE_TEXT_CHARWRAP);
     textWiFiLinkInfo.invalidate();
 
-    if (newRSSI <= 40) {
-        WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_4_SIGNAL_ID), touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
-    }
-    else if (newRSSI > 40 && newRSSI <= 50) {
-        WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_3_SIGNAL_ID), touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
-    }
-    else if (newRSSI > 50 && newRSSI <= 60) {
-        WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_2_SIGNAL_ID), touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
-    }
-    else if (newRSSI > 70 && newRSSI <= 80) {
-        WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_1_SIGNAL_ID), touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
-    }
-    else if (newRSSI > 80) {
-        WirelessConnection.setBitmaps(touchgfx::Bitmap(BITMAP_WIFI_RSSI_NO_SIGNAL_ID), touchgfx::Bitmap(BITMAP_WIFILINK_PRESSED_54X54_ID));
-    }
-    WirelessConnection.invalidate();
+    // TODO: WiFi RSSI icon widget removed by Designer. Re-add a widget for signal display.
+    (void)newRSSI;
 }
 
 void HomePageView::expandButtonCallbackHandler(const touchgfx::AbstractButton& src)

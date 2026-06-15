@@ -177,7 +177,7 @@ void TouchGFXHAL::flushFrameBuffer(const touchgfx::Rect& rect)
 		if((rect.width == 320) && (rect.height ==240))  //采用横屏，整个屏幕刷新
 		{
 			//获取像素点地址
-			pixels = getClientFrameBuffer() + rect.x + (rect.y) * HAL::DISPLAY_WIDTH;	
+			pixels = getClientFrameBuffer() + rect.x + (rect.y) * HAL::DISPLAY_WIDTH;
 			//传输长度为62KB的像素点
 			for (pBuffCnt = 0; pBuffCnt < pFull; pBuffCnt++)
 			{
@@ -185,21 +185,32 @@ void TouchGFXHAL::flushFrameBuffer(const touchgfx::Rect& rect)
 				USER_SPI_Transmit_DMA((uint16_t *)pixels,63488);	//DMA单次传输最长0xFFFF
 				//
 				pixels = pixels + 31744;  //地址偏移
-				//等待DMA传输完成
-				while(HAL_DMA_GetState(&handle_GPDMA1_Channel0) != HAL_DMA_STATE_READY);	
-				//适当延时
-				HAL_Delay(0);
+				//等待DMA传输完成（带超时保护，防止DMA中断丢失导致死循环）
+				{
+					uint32_t dma_timeout = HAL_GetTick() + 200;
+					while(HAL_DMA_GetState(&handle_GPDMA1_Channel0) != HAL_DMA_STATE_READY)
+					{
+						if (HAL_GetTick() >= dma_timeout) break;
+					}
+				}
 				//阻塞模式下，终止正在的传输
 				HAL_SPI_Abort(&hspi1);
+				//确保SPI完全停止后再开始下一轮
+				__HAL_SPI_DISABLE(&hspi1);
 			}
 			//启动DMA传输
 			USER_SPI_Transmit_DMA((uint16_t *)pixels,pRemain);	//剩余数据传输
-			//等待DMA传输完成
-			while(HAL_DMA_GetState(&handle_GPDMA1_Channel0) != HAL_DMA_STATE_READY);	
-			//适当延时
-			HAL_Delay(0);
+			//等待DMA传输完成（带超时保护）
+			{
+				uint32_t dma_timeout = HAL_GetTick() + 200;
+				while(HAL_DMA_GetState(&handle_GPDMA1_Channel0) != HAL_DMA_STATE_READY)
+				{
+					if (HAL_GetTick() >= dma_timeout) break;
+				}
+			}
 			//阻塞模式下，终止正在的传输
 			HAL_SPI_Abort(&hspi1);
+			__HAL_SPI_DISABLE(&hspi1);
 		}
 		else	//屏幕区域刷新
 		{
@@ -216,12 +227,17 @@ void TouchGFXHAL::flushFrameBuffer(const touchgfx::Rect& rect)
 					{
 						//启动DMA传输
 						USER_SPI_Transmit_DMA((uint16_t *)flushAreaBuf,63488);
-						//等待DMA传输完成
-						while(HAL_DMA_GetState(&handle_GPDMA1_Channel0) != HAL_DMA_STATE_READY);	
-						//适当延时
-						HAL_Delay(0);
+						//等待DMA传输完成（带超时保护）
+						{
+							uint32_t dma_timeout = HAL_GetTick() + 200;
+							while(HAL_DMA_GetState(&handle_GPDMA1_Channel0) != HAL_DMA_STATE_READY)
+							{
+								if (HAL_GetTick() >= dma_timeout) break;
+							}
+						}
 						//阻塞模式下，终止正在的传输
 						HAL_SPI_Abort(&hspi1);
+						__HAL_SPI_DISABLE(&hspi1);
 						//复位计数值
 						pBuffCnt =0;
 					}
@@ -229,12 +245,17 @@ void TouchGFXHAL::flushFrameBuffer(const touchgfx::Rect& rect)
 			}
 			//启动DMA传输
 			USER_SPI_Transmit_DMA((uint16_t *)flushAreaBuf,pBuffCnt * 2);
-			//等待DMA传输完成
-			while(HAL_DMA_GetState(&handle_GPDMA1_Channel0) != HAL_DMA_STATE_READY);	
-			//适当延时
-			HAL_Delay(0);
+			//等待DMA传输完成（带超时保护）
+			{
+				uint32_t dma_timeout = HAL_GetTick() + 200;
+				while(HAL_DMA_GetState(&handle_GPDMA1_Channel0) != HAL_DMA_STATE_READY)
+				{
+					if (HAL_GetTick() >= dma_timeout) break;
+				}
+			}
 			//阻塞模式下，终止正在的传输
 			HAL_SPI_Abort(&hspi1);
+			__HAL_SPI_DISABLE(&hspi1);
 		}
 		//设置SPI数据格式为8位
 		hspi1.Instance->CFG1 &= (~0x1F);
