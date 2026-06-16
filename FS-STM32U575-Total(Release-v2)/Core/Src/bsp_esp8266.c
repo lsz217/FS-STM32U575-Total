@@ -651,6 +651,7 @@ uint8_t gOneNet_Connected = 0;
 uint32_t gOneNet_LastReportTime = 0;
 static uint8_t gOneNet_InitStage = 0;
 static uint32_t gOneNet_NextActionTime = 0;
+static uint8_t nb_sntp_retry = 0;
 
 // ==================== 非阻塞 OneNet 状态机 ====================
 
@@ -816,22 +817,32 @@ void OneNet_Report_Task(void)
     // ===== WAIT: 1s stability before SNTP =====
     case OS_WAIT_PRE_SNTP:
         if (HAL_GetTick() < nb_at_deadline) return;
-        printf("[ON] SNTP: configuring 203.107.6.88...\r\n");
+        nb_sntp_retry = 0;
         os = OS_SEND_SNTP_CFG;
         return;
 
     // ===== INIT: SNTP time sync (after MQTT connected) =====
-    case OS_SEND_SNTP_CFG:
-        printf("[ON] SNTP: configuring 203.107.6.88...\r\n");
-        ESP8266_NB_AT_Start("AT+CIPSNTPCFG=1,8,\"203.107.6.88\"", "OK", NULL, 3000);
+    case OS_SEND_SNTP_CFG: {
+        // Try different NTP servers on retry
+        static const char *ntp_servers[] = {
+            "pool.ntp.org",
+            "ntp.aliyun.com",
+            "cn.pool.ntp.org",
+        };
+        const char *srv = (nb_sntp_retry < 3) ? ntp_servers[nb_sntp_retry] : ntp_servers[0];
+        printf("[ON] SNTP: trying %s (retry %d)...\r\n", srv, nb_sntp_retry);
+        char cfg_cmd[128];
+        snprintf(cfg_cmd, sizeof(cfg_cmd), "AT+CIPSNTPCFG=1,8,\"%s\"", srv);
+        ESP8266_NB_AT_Start(cfg_cmd, "OK", NULL, 3000);
         os = OS_WAIT_SNTP_CFG;
         return;
+    }
     case OS_WAIT_SNTP_CFG:
         r = ESP8266_NB_AT_Poll();
         if (r == 0) return;
         if (r == 1) {
             printf("[ON] SNTP configured, waiting sync...\r\n");
-            nb_at_deadline = HAL_GetTick() + 3000; // 3 秒等待同步
+            nb_at_deadline = HAL_GetTick() + 5000; // 5 秒等待同步
             os = OS_WAIT_SNTP_SYNC;
         } else {
             printf("[ON] SNTP cfg failed, skip time sync\r\n");
@@ -853,6 +864,7 @@ void OneNet_Report_Task(void)
     case OS_WAIT_SNTP_QUERY: {
         r = ESP8266_NB_AT_Poll();
         if (r == 0) return;
+        bool time_ok = false;
         if (r == 1) {
             char *buf = (char*)ESP8266_Fram_Record_Struct.Data_RX_BUF;
             printf("[ON] SNTP raw: [%s]\r\n", buf);
@@ -892,7 +904,7 @@ void OneNet_Report_Task(void)
                     int year = (int)strtol(p, NULL, 10);
                     printf("[ON] SNTP: m=%d d=%d %02d:%02d:%02d y=%d\r\n",
                            m, day, hour, min, sec, year);
-                    if (year >= 1970 && day >= 1 && day <= 31) {
+                    if (year >= 2024 && day >= 1 && day <= 31) {
                         RTC_TimeTypeDef sTime = {0};
                         RTC_DateTypeDef sDate = {0};
                         sTime.Hours = hour; sTime.Minutes = min; sTime.Seconds = sec;
@@ -904,6 +916,7 @@ void OneNet_Report_Task(void)
                         HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
                         printf("[ON] RTC set OK: %02d/%02d/%04d %02d:%02d:%02d\r\n",
                                m, day, year, hour, min, sec);
+                        time_ok = true;
                     }
                 } else {
                     printf("[ON] SNTP no month found\r\n");
@@ -914,8 +927,21 @@ void OneNet_Report_Task(void)
         } else {
             printf("[ON] SNTP query failed\r\n");
         }
-        os = OS_CONNECTED;
-        os_last_report = HAL_GetTick();
+        // Retry with next NTP server if time not valid
+        if (time_ok) {
+            os = OS_CONNECTED;
+            os_last_report = HAL_GetTick();
+        } else {
+            nb_sntp_retry++;
+            if (nb_sntp_retry < 3) {
+                printf("[ON] SNTP retry %d/3...\r\n", nb_sntp_retry);
+                os = OS_SEND_SNTP_CFG;
+            } else {
+                printf("[ON] SNTP all retries failed, continue\r\n");
+                os = OS_CONNECTED;
+                os_last_report = HAL_GetTick();
+            }
+        }
         return;
     }
 

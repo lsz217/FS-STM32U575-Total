@@ -171,5 +171,7 @@ void Update_NixieDisplay(void);
 #define OS_TASKLISTCNT	8  
 extern void (* g_OSTsakList[OS_TASKLISTCNT])(void);
 extern uint8_t g_hr_continue_flag;
+extern volatile uint8_t g_power_sleep_ratio;
+extern volatile uint8_t g_low_power_mode;
 #endif /* __USER_APP_H__ */
 

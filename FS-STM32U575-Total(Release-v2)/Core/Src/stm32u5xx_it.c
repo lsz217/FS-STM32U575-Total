@@ -22,6 +22,7 @@
 #include "stm32u5xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "rtc.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -488,5 +489,8 @@ void TIM17_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-
+void RTC_IRQHandler(void)
+{
+    RTC_WakeUp_IRQ_Handler();
+}
 /* USER CODE END 1 */

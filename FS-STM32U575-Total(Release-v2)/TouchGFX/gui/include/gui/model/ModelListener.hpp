@@ -42,6 +42,11 @@ public:
 			virtual void updateFireStatus(bool newStatus) {}
 			//更新电压、电流、温湿度、光照度数据上传
 			virtual void updateAppPageInfo(uint16_t CurrentVal, uint16_t VoltageVal, float newHum, float newTem, uint16_t newALS) {}
+		//更新功耗信息(电流/电压/CPU休眠占比)
+		virtual void updatePowerInfo(uint16_t CurrentVal, uint16_t VoltageVal, uint8_t SleepRatio) {}
+		//低功耗模式切换页面
+		virtual void switchToPowerPage() {}
+		virtual void switchToHomePage() {}
 			//更新传感器数据到SensorPage
 			virtual void updateSensorInfo(float temperature, float humidity, uint16_t co2, uint32_t heartRate, uint32_t spo2) {}
 			//更新蜂鸣器/烟雾/酒精传感器

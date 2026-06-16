@@ -31,6 +31,9 @@ public:
     virtual void updateTime(uint8_t newHours, uint8_t newMinutes, uint8_t newSeconds);
     virtual void updateSensorInfo(float temperature, float humidity, uint16_t co2, uint32_t heartRate, uint32_t spo2);
     virtual void updateAppPageInfo(uint16_t CurrentVal, uint16_t VoltageVal, float newHum, float newTem, uint16_t newALS);
+    virtual void updatePowerInfo(uint16_t CurrentVal, uint16_t VoltageVal, uint8_t SleepRatio);
+    virtual void switchToPowerPage();
+    virtual void switchToHomePage();
     // HomePagePresenter 的状态
     void HomePagePresenterState(bool enable);
     virtual void ChangeScreen();

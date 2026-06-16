@@ -24,7 +24,9 @@
 		//
 		extern wifiRSSI ao_wifiRSSI;
 		extern volatile uint16_t gFiveKeyVal; //五向键原始值：0V/0.5V/1.0V/1.5V/2.0V
-		extern volatile uint16_t gCurrentVal;	//资源扩展板电流，通道IN8
+		extern volatile uint16_t gCurrentVal;
+	extern volatile uint8_t  g_power_sleep_ratio;	//CPU休眠占比	//资源扩展板电流，通道IN8
+	extern volatile uint8_t  g_low_power_mode;
 		extern volatile uint16_t gVoltageVal;	//资源扩展板电压，通道IN9
 		extern volatile uint16_t gChipTempVal;//内部参考电压，通道IN12
 		extern volatile uint16_t gVrefVal;		//内部参考电压，通道IN13
@@ -142,6 +144,11 @@ void Model::tick()
 			//电压、电流、温湿度、光照度数据上传
 			if(!(tickCount % 5))	//降低界面刷新负担
 				modelListener->updateAppPageInfo(gCurrentVal, gVoltageVal, gTemRH_Val.Hum, gTemRH_Val.Tem, gAP3216C_Val.ALS);
+					modelListener->updatePowerInfo(gCurrentVal, gVoltageVal, g_power_sleep_ratio);
+					{	static uint8_t _prev_lp = 0;
+						if (g_low_power_mode && !_prev_lp) modelListener->switchToPowerPage();
+						if (!g_low_power_mode && _prev_lp) modelListener->switchToHomePage();
+						_prev_lp = g_low_power_mode; }
 			//SensorPage传感器数据转发
 			modelListener->updateSensorInfo(gTemRH_Val.Tem, gTemRH_Val.Hum, gSCD41_Val.CO2,
 					ch_hr_valid   ? (uint32_t)(n_heart_rate / 4) : 0xFFFFFFFF,

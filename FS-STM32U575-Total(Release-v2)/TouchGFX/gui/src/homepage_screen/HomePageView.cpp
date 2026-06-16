@@ -72,6 +72,33 @@ void HomePageView::setupScreen()
     dynamicGraph2Line1Painter.setColor(touchgfx::Color::getColorFromRGB(40, 120, 220));
     dynamicGraph2.invalidate();
     swipeContainer1Pe3.add(dynamicGraph2);
+
+    // ========== 功耗监控显示 (swipe page 2) ==========
+    powerBg.setPosition(10, 5, 300, 85);
+    powerBg.setColor(touchgfx::Color::getColorFromRGB(10, 15, 40));
+    powerBg.setAlpha(190);
+    swipeContainer1Page2.add(powerBg);
+
+    textPowerCurrent.setPosition(20, 10, 280, 22);
+    textPowerCurrent.setColor(touchgfx::Color::getColorFromRGB(200, 220, 255));
+    textPowerCurrent.setTypedText(touchgfx::TypedText(T_WIFILINKINFO));
+    textPowerCurrent.setWildcard(textPowerCurrentBuffer);
+    Unicode::strncpy(textPowerCurrentBuffer, "Current: --- mA", TEXT_POWER_CURRENT_SIZE);
+    swipeContainer1Page2.add(textPowerCurrent);
+
+    textPowerVoltage.setPosition(20, 35, 280, 22);
+    textPowerVoltage.setColor(touchgfx::Color::getColorFromRGB(200, 220, 255));
+    textPowerVoltage.setTypedText(touchgfx::TypedText(T_WIFILINKINFO));
+    textPowerVoltage.setWildcard(textPowerVoltageBuffer);
+    Unicode::strncpy(textPowerVoltageBuffer, "Voltage: -.-- V", TEXT_POWER_VOLTAGE_SIZE);
+    swipeContainer1Page2.add(textPowerVoltage);
+
+    textPowerCPU.setPosition(20, 60, 280, 22);
+    textPowerCPU.setColor(touchgfx::Color::getColorFromRGB(0, 255, 0));
+    textPowerCPU.setTypedText(touchgfx::TypedText(T_WIFILINKINFO));
+    textPowerCPU.setWildcard(textPowerCPUBuffer);
+    Unicode::strncpy(textPowerCPUBuffer, "CPU: ----", TEXT_POWER_CPU_SIZE);
+    swipeContainer1Page2.add(textPowerCPU);
 }
 
 void HomePageView::tearDownScreen()
@@ -196,4 +223,42 @@ void HomePageView::ChangeScreen()
 #if defined LINK_HARDWARE
     if (KeyChangeScreen == 1) { handleKeyEvent(1); }
 #endif
+}
+void HomePageView::updatePowerInfo(uint16_t currentVal, uint16_t voltageVal, uint8_t sleepRatio)
+{
+    float current_mA = currentVal * 100.0f * 3.3f / 4095.0f;
+    float voltage_V  = voltageVal * 3.3f / 4095.0f;
+
+    Unicode::snprintfFloat(textPowerCurrentBuffer, TEXT_POWER_CURRENT_SIZE,
+                           "Current: %.1f mA", current_mA);
+    textPowerCurrent.invalidate();
+
+    Unicode::snprintfFloat(textPowerVoltageBuffer, TEXT_POWER_VOLTAGE_SIZE,
+                           "Voltage: %.2f V", voltage_V);
+    textPowerVoltage.invalidate();
+
+    if (sleepRatio >= 80) {
+        Unicode::snprintf(textPowerCPUBuffer, TEXT_POWER_CPU_SIZE,
+                          "CPU: SLEEP %u%%", sleepRatio);
+        textPowerCPU.setColor(touchgfx::Color::getColorFromRGB(0, 220, 0));
+    } else if (sleepRatio >= 30) {
+        Unicode::snprintf(textPowerCPUBuffer, TEXT_POWER_CPU_SIZE,
+                          "CPU: BUSY %u%%", sleepRatio);
+        textPowerCPU.setColor(touchgfx::Color::getColorFromRGB(255, 200, 0));
+    } else {
+        Unicode::snprintf(textPowerCPUBuffer, TEXT_POWER_CPU_SIZE,
+                          "CPU: RUN  %u%%", sleepRatio);
+        textPowerCPU.setColor(touchgfx::Color::getColorFromRGB(255, 60, 0));
+    }
+    textPowerCPU.invalidate();
+}
+
+void HomePageView::switchToPowerPage()
+{
+    swipeContainer1.setSelectedPage(1);
+}
+
+void HomePageView::switchToHomePage()
+{
+    swipeContainer1.setSelectedPage(0);
 }

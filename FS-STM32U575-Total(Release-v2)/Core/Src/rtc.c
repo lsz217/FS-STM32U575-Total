@@ -147,5 +147,23 @@ void HAL_RTC_MspDeInit(RTC_HandleTypeDef* rtcHandle)
 }
 
 /* USER CODE BEGIN 1 */
+// RTC_WAKEUPCLOCK_RTCCLK_DIV16: RTCCLK/16, LSI=32000Hz -> 2000Hz
+// 100ms = 200 ticks,  500ms = 1000 ticks,  1s = 2000 ticks
+#define RTC_WAKEUP_100MS  200
 
+void RTC_WakeUp_Config(uint32_t ticks)
+{
+    if (ticks == 0) ticks = RTC_WAKEUP_100MS;
+    HAL_RTCEx_SetWakeUpTimer_IT(&hrtc, ticks, RTC_WAKEUPCLOCK_RTCCLK_DIV16, 0);
+}
+
+void RTC_WakeUp_Deactivate(void)
+{
+    HAL_RTCEx_DeactivateWakeUpTimer(&hrtc);
+}
+
+void RTC_WakeUp_IRQ_Handler(void)
+{
+    HAL_RTCEx_WakeUpTimerIRQHandler(&hrtc);
+}
 /* USER CODE END 1 */

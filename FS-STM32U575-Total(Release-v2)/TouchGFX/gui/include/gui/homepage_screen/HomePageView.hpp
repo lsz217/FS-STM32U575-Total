@@ -4,6 +4,7 @@
 #include <gui_generated/homepage_screen/HomePageViewBase.hpp>
 #include <gui/homepage_screen/HomePagePresenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
+#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 
 class HomePageView : public HomePageViewBase
 {
@@ -25,6 +26,9 @@ public:
     void updateSensorTexts(float temperature, float humidity, uint16_t co2,
                            uint32_t heartRate, uint32_t spo2);
     void updateALS(uint16_t als);
+    void updatePowerInfo(uint16_t currentVal, uint16_t voltageVal, uint8_t sleepRatio);
+    void switchToPowerPage();
+    void switchToHomePage();
 protected:
     uint8_t textBuf[200];
     int lastPage;
@@ -45,6 +49,19 @@ private:
     touchgfx::Box graphBorderLeft2;
     touchgfx::Box graphBorderTop1;
     touchgfx::Box graphBorderTop2;
+
+    // 功耗监控显示 (swipe page 2)
+    touchgfx::Box powerBg;
+    touchgfx::TextAreaWithOneWildcard textPowerCurrent;
+    touchgfx::TextAreaWithOneWildcard textPowerVoltage;
+    touchgfx::TextAreaWithOneWildcard textPowerCPU;
+
+    static const uint16_t TEXT_POWER_CURRENT_SIZE = 30;
+    touchgfx::Unicode::UnicodeChar textPowerCurrentBuffer[TEXT_POWER_CURRENT_SIZE];
+    static const uint16_t TEXT_POWER_VOLTAGE_SIZE = 30;
+    touchgfx::Unicode::UnicodeChar textPowerVoltageBuffer[TEXT_POWER_VOLTAGE_SIZE];
+    static const uint16_t TEXT_POWER_CPU_SIZE = 30;
+    touchgfx::Unicode::UnicodeChar textPowerCPUBuffer[TEXT_POWER_CPU_SIZE];
 };
 
 #endif // HOMEPAGEVIEW_HPP

@@ -64,6 +64,8 @@
 uint8_t gChatCount = 10;  //全局按键按压计数
 volatile uint8_t gBuzzerModalActive = 0; // TouchGFX蜂鸣器弹窗占用标志，1=占用中，main循环不重置
 uint8_t KeyChangeScreen=0;
+volatile uint8_t g_power_sleep_ratio = 0;
+volatile uint8_t g_low_power_mode = 0;
 static uint8_t gTaskIndex = 0x00;  //系统任务索引变量
 ADC_ValTypeDef gStruADC={0,0,0,0,0,0}; //A/D通道实时采集的数据
 uint16_t ADC_KEY=0;
@@ -281,6 +283,9 @@ __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
     Error_Handler();
   }
   printf("[INIT] ADC Calibration done\r\n");
+  HAL_NVIC_SetPriority(RTC_IRQn, 15, 0);
+  HAL_NVIC_EnableIRQ(RTC_IRQn);
+  DBGMCU->CR |= DBGMCU_CR_DBG_STOP;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -293,6 +298,7 @@ __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
   if (HAL_ADC_Start_DMA(&hadc1,(uint32_t *)&gStruADC,ADC_CONVERTED_DATA_BUFFER_SIZE) != HAL_OK)	{Error_Handler();}
 
 	printf("[INIT] All init done, entering main loop\r\n");
+		g_low_power_mode = 0;  // 防止 GPIO 初始化时的虚假 EXTI 误触发
 									//主循环
   while (1)
   {
@@ -312,28 +318,100 @@ __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
 		// 原：每秒验证一次 tick
 		/* ... */
 
-		// OneNet MQTT 非阻塞任务（每循环执行一次，不再阻塞主循环）
-		OneNet_Report_Task();
+		uint8_t had_work = 0;
 
-		for(gTaskIndex = 0;gTaskIndex < OS_TASKLISTCNT;gTaskIndex++)
-		{
-			if((*g_OSTsakList[gTaskIndex]) != NULL)
+		if (!g_low_power_mode) {
+			// OneNet MQTT 非阻塞任务（每循环执行一次，不再阻塞主循环）
+			OneNet_Report_Task();
+
+			for(gTaskIndex = 0;gTaskIndex < OS_TASKLISTCNT;gTaskIndex++)
 			{
-				g_OSTsakList[gTaskIndex]();
-				g_OSTsakList[gTaskIndex] = NULL;
+				if((*g_OSTsakList[gTaskIndex]) != NULL)
+				{
+					g_OSTsakList[gTaskIndex]();
+					g_OSTsakList[gTaskIndex] = NULL;
+					had_work = 1;
+				}
+			}
+
+			// HR state machine continuation: re-queue if more chunks pending
+			if (g_hr_continue_flag)
+			{
+				g_hr_continue_flag = 0;
+				g_OSTsakList[eUPDATE_HEART_RATE] = Update_HeartRateInfo;
+				had_work = 1;
 			}
 		}
-
-		// HR state machine continuation: re-queue if more chunks pending
-		if (g_hr_continue_flag)
-		{
-			g_hr_continue_flag = 0;
-			g_OSTsakList[eUPDATE_HEART_RATE] = Update_HeartRateInfo;
-		}
+		// Low power mode: skip all tasks, had_work=0 -> enters Stop 0 immediately
 
 		// 触摸调试：每100次主循环打印一次计数器
-		// { ... }  // 调试已确认触摸OK，关闭
-
+		// Sleep/Stop: WFI (normal) / Stop 0 (when g_low_power_mode=1)
+		{
+			static uint32_t s_sleep_cnt = 0, s_total = 0, s_tick = 0;
+			static uint8_t  s_was_low_power = 0;
+			static uint8_t  s_lp_entry_delay = 0;
+			s_total++;
+			if (!had_work) {
+				s_sleep_cnt++;
+				if (g_low_power_mode) {
+					if (!s_was_low_power) {
+						s_was_low_power = 1;
+						s_lp_entry_delay = 1;  // delay one frame for TouchGFX page render
+					}
+					if (s_lp_entry_delay) {
+						s_lp_entry_delay = 0;
+						__WFI();  // brief sleep, let next MX_TouchGFX_Process render page
+					} else {
+						// ---- Stop 0: sleep until EXTI wakes (no RTC periodic wakeup) ----
+						HAL_TIM_Base_Stop_IT(&htim16);
+						HAL_TIM_Base_Stop_IT(&htim17);
+						HAL_ADC_Stop_DMA(&hadc1);
+						RTC_WakeUp_Deactivate();
+						HAL_PWR_EnterSTOPMode(PWR_MAINREGULATOR_ON, PWR_STOPENTRY_WFI);
+						// restore after wakeup
+						for (volatile uint32_t _ti = 0; _ti < 100; _ti++) { HAL_IncTick(); }
+						HAL_ICACHE_Enable();
+						SystemClock_Config();
+						HAL_TIM_Base_Start_IT(&htim16);
+						HAL_TIM_Base_Start_IT(&htim17);
+						HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&gStruADC, ADC_CONVERTED_DATA_BUFFER_SIZE);
+						Update_Backlight(gBacklightVal);
+						if (!g_low_power_mode) {
+							// Exited low power mode via USER_KEY
+							s_was_low_power = 0;
+							s_lp_entry_delay = 0;
+							HAL_ADC_Stop_DMA(&hadc1);
+							HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&gStruADC, ADC_CONVERTED_DATA_BUFFER_SIZE);
+							MX_I2C1_Init();
+						}
+						// If still in low power, loop back to Stop 0 above
+					}
+				} else {
+					if (s_was_low_power && !g_low_power_mode) {
+						s_was_low_power = 0;
+						s_lp_entry_delay = 0;
+						RTC_WakeUp_Deactivate();
+						HAL_ADC_Stop_DMA(&hadc1);
+						HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&gStruADC, ADC_CONVERTED_DATA_BUFFER_SIZE);
+						MX_I2C1_Init();
+					}
+					__WFI();
+				}
+			} else {
+				if (s_lp_entry_delay) s_lp_entry_delay = 0;
+				if (s_was_low_power && !g_low_power_mode) {
+					s_was_low_power = 0;
+					RTC_WakeUp_Deactivate();
+					HAL_ADC_Stop_DMA(&hadc1);
+					HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&gStruADC, ADC_CONVERTED_DATA_BUFFER_SIZE);
+					MX_I2C1_Init();
+				}
+			}
+			if (HAL_GetTick() - s_tick >= 1000) {
+				g_power_sleep_ratio = (uint8_t)(s_sleep_cnt * 100 / s_total);
+				s_sleep_cnt = 0; s_total = 0; s_tick = HAL_GetTick();
+			}
+		}
 	  }
   /* USER CODE END 3 */
 }
@@ -512,12 +590,10 @@ void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
 	{
 		gTaskStateBit.TouchPress = 1;
 	}
-	if(!HAL_GPIO_ReadPin(USER_KEY_GPIO_Port,USER_KEY_Pin))
+	if((GPIO_Pin == USER_KEY_Pin) && !HAL_GPIO_ReadPin(USER_KEY_GPIO_Port,USER_KEY_Pin))
 	{
-		gChatCount = gChatCount + 10;
-		if(gChatCount>=100) gChatCount=10;
-	}
-		//火焰状态读取，释放状态为低电平，上报TouchGFX显示
+		g_low_power_mode = g_low_power_mode ? 0 : 1;
+		}
 	if((!HAL_GPIO_ReadPin(EXT_FIRE_GPIO_Port,EXT_FIRE_Pin)) && (GPIO_Pin == EXT_FIRE_Pin))
 	{
 		gTaskStateBit.ExtFIRE = 0; 

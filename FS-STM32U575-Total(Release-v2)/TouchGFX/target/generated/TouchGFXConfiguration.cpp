@@ -54,7 +54,7 @@ void touchgfx_init()
 
     /*
      * Initialize TouchGFX
-     */
+     */ 
     hal.initialize();
 }
 

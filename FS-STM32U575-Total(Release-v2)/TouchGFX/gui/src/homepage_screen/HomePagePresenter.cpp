@@ -65,6 +65,11 @@ void HomePagePresenter::updateAppPageInfo(uint16_t, uint16_t, float, float, uint
     view.updateALS(newALS);
 }
 
+void HomePagePresenter::updatePowerInfo(uint16_t CurrentVal, uint16_t VoltageVal, uint8_t SleepRatio)
+{
+    view.updatePowerInfo(CurrentVal, VoltageVal, SleepRatio);
+}
+
 void HomePagePresenter::ChangeScreen()
 {
     view.ChangeScreen();
@@ -73,4 +78,14 @@ void HomePagePresenter::ChangeScreen()
 void HomePagePresenter::setBacklightValue(uint8_t value)
 {
     model->setBacklightValue(value);
+}
+
+void HomePagePresenter::switchToPowerPage()
+{
+    view.switchToPowerPage();
+}
+
+void HomePagePresenter::switchToHomePage()
+{
+    view.switchToHomePage();
 }
